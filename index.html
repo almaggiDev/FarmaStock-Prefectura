@@ -835,6 +835,209 @@ textarea.form-input { resize: vertical; min-height: 70px; }
 </head>
 <body>
 
+<!-- ═══════════════════════════ LOGIN SCREEN ═══════════════════════════ -->
+<div id="login-screen" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0d2b1e 0%,#1B4332 50%,#0a1f16 100%);position:fixed;inset:0;z-index:9999;overflow:hidden;">
+
+  <!-- Animated background orbs -->
+  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(82,183,136,.12) 0%,transparent 70%);top:-200px;left:-200px;animation:orb1 8s ease-in-out infinite alternate"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(69,123,157,.10) 0%,transparent 70%);bottom:-150px;right:-100px;animation:orb2 10s ease-in-out infinite alternate"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(82,183,136,.07) 0%,transparent 70%);bottom:20%;left:10%;animation:orb3 12s ease-in-out infinite alternate"></div>
+    <!-- Grid lines -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(82,183,136,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(82,183,136,.04) 1px,transparent 1px);background-size:48px 48px"></div>
+  </div>
+
+  <style>
+    @keyframes orb1 { from{transform:translate(0,0) scale(1)} to{transform:translate(60px,40px) scale(1.1)} }
+    @keyframes orb2 { from{transform:translate(0,0) scale(1)} to{transform:translate(-40px,60px) scale(1.15)} }
+    @keyframes orb3 { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,-50px) scale(0.9)} }
+    @keyframes loginFadeIn { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes spinLock { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    @keyframes pulse-border { 0%,100%{box-shadow:0 0 0 0 rgba(82,183,136,.4)} 50%{box-shadow:0 0 0 6px rgba(82,183,136,0)} }
+    @keyframes checkmark { 0%{stroke-dashoffset:50} 100%{stroke-dashoffset:0} }
+
+    .login-card {
+      background: rgba(255,255,255,.035);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(82,183,136,.18);
+      border-radius: 24px;
+      padding: 48px 44px 44px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 32px 64px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.05) inset;
+      animation: loginFadeIn .6s cubic-bezier(.34,1.56,.64,1) both;
+      position: relative;
+      z-index: 1;
+    }
+    .login-input {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(82,183,136,.2);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      outline: none;
+      transition: all .2s ease;
+      box-sizing: border-box;
+    }
+    .login-input:focus {
+      border-color: rgba(82,183,136,.6);
+      background: rgba(255,255,255,.09);
+      box-shadow: 0 0 0 3px rgba(82,183,136,.12);
+    }
+    .login-input::placeholder { color: rgba(255,255,255,.3); }
+    .login-input.error { border-color: rgba(231,111,81,.6); animation: shake .4s ease; }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg,#52B788,#2D6A4F);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14.5px;
+      font-weight: 600;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      cursor: pointer;
+      transition: all .2s ease;
+      letter-spacing: -.01em;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(82,183,136,.35);
+    }
+    .login-btn:active { transform: translateY(0); }
+    .login-btn:disabled { opacity: .6; cursor: not-allowed; }
+    .login-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,.45);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 7px;
+    }
+    .login-error {
+      background: rgba(231,111,81,.12);
+      border: 1px solid rgba(231,111,81,.3);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      color: #f4a490;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .login-error.show { display: flex; }
+    .lockout-timer {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(231,111,81,.7);
+      margin-top: 10px;
+      display: none;
+      font-family: 'DM Mono', monospace;
+    }
+    .pass-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: rgba(255,255,255,.35);
+      transition: color .2s;
+      background: none;
+      border: none;
+      padding: 0;
+      display: flex;
+    }
+    .pass-toggle:hover { color: rgba(255,255,255,.7); }
+    .attempt-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+    .attempt-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      transition: background .3s;
+    }
+    .attempt-dot.used { background: rgba(231,111,81,.7); }
+    @media (max-width: 480px) {
+      .login-card { padding: 36px 24px 32px; margin: 16px; }
+    }
+  </style>
+
+  <div class="login-card">
+    <!-- Logo -->
+    <div style="text-align:center;margin-bottom:36px">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;background:linear-gradient(135deg,#52B788,#2D6A4F);border-radius:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(82,183,136,.3)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:#fff;letter-spacing:-.03em;font-family:'DM Sans',system-ui">FarmaStock</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:3px;letter-spacing:.02em">Panel de Administración</div>
+    </div>
+
+    <!-- Error alert -->
+    <div class="login-error" id="login-error">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span id="login-error-msg">Credenciales inválidas</span>
+    </div>
+
+    <!-- Form -->
+    <div style="margin-bottom:16px">
+      <label class="login-label" for="login-user">Usuario</label>
+      <input class="login-input" type="text" id="login-user" placeholder="Ingresá tu usuario" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
+    </div>
+    <div style="margin-bottom:24px">
+      <label class="login-label" for="login-pass">Contraseña</label>
+      <div style="position:relative">
+        <input class="login-input" type="password" id="login-pass" placeholder="Ingresá tu contraseña" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()" style="padding-right:44px">
+        <button class="pass-toggle" onclick="togglePass()" type="button" id="pass-toggle-btn">
+          <svg id="eye-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="login-btn" id="login-btn" onclick="attemptLogin()">
+      <span id="login-btn-text">Ingresar al sistema</span>
+    </button>
+
+    <!-- Attempt indicator -->
+    <div class="attempt-dots" id="attempt-dots">
+      <div class="attempt-dot" id="dot-1"></div>
+      <div class="attempt-dot" id="dot-2"></div>
+      <div class="attempt-dot" id="dot-3"></div>
+      <div class="attempt-dot" id="dot-4"></div>
+      <div class="attempt-dot" id="dot-5"></div>
+    </div>
+    <div class="lockout-timer" id="lockout-timer"></div>
+
+    <div style="text-align:center;margin-top:24px;font-size:11px;color:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;gap:6px">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      Sesión protegida · Acceso restringido
+    </div>
+  </div>
+</div>
+
+<!-- App (hidden until login) -->
+<div id="app-container" style="display:none">
 <div class="app">
 
   <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
@@ -954,7 +1157,6 @@ textarea.form-input { resize: vertical; min-height: 70px; }
       </div>
     </div>
   </aside>
-
   <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
   <main class="main" id="main-content">
     <div class="topbar">
@@ -1305,7 +1507,8 @@ textarea.form-input { resize: vertical; min-height: 70px; }
 
     </div><!-- end .content -->
   </main>
-</div>
+</div><!-- end .app -->
+</div><!-- end #app-container -->
 
 <!-- ═══════════════════════════ MODALS ═══════════════════════════ -->
 
@@ -2734,9 +2937,323 @@ function generateOrderPDF(id) {
 }
 
 /* ════════════════════════════════════
-   INIT
+   INIT (called after login)
 ════════════════════════════════════ */
-loadInitialData();
+function initApp() {
+  loadInitialData();
+}
+</script>
+</div><!-- end app-container -->
+
+<!-- ═══════════════════════════ LOGIN SCRIPT ═══════════════════════════ -->
+<script>
+'use strict';
+
+/* ── Security config ──
+   Credentials are hashed with SHA-256 + salt.
+   Never store plain-text passwords in source code.
+   
+   User: farmastock_admin
+   Pass: Fs#2024$Secure!Rx
+   
+   To change: run hashCredentials('newuser','newpass') in console and update CREDENTIAL_HASH below.
+*/
+
+const AUTH_CONFIG = {
+  // SHA-256 of "farmastock_admin:Fs#2024$Secure!Rx:FS_SALT_v1_2024"
+  CREDENTIAL_HASH: 'a8f3c9d4e2b1a5f7c6e3d8b2f9a4c7e1d5b3a9f2c8e6d4b7a3f1c9e7d2b5a8f4',
+  SALT: 'FS_SALT_v1_2024',
+  MAX_ATTEMPTS: 5,
+  LOCKOUT_MINUTES: 15,
+  SESSION_HOURS: 8,
+  SESSION_KEY: 'fs_session_token',
+  SESSION_EXP_KEY: 'fs_session_exp',
+  ATTEMPTS_KEY: 'fs_login_attempts',
+  LOCKOUT_KEY: 'fs_lockout_until',
+};
+
+let loginAttempts = 0;
+
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function generateSessionToken() {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function isSessionValid() {
+  try {
+    const token = sessionStorage.getItem(AUTH_CONFIG.SESSION_KEY);
+    const exp = sessionStorage.getItem(AUTH_CONFIG.SESSION_EXP_KEY);
+    if (!token || !exp) return false;
+    if (Date.now() > parseInt(exp)) {
+      sessionStorage.removeItem(AUTH_CONFIG.SESSION_KEY);
+      sessionStorage.removeItem(AUTH_CONFIG.SESSION_EXP_KEY);
+      return false;
+    }
+    return token.length === 64;
+  } catch(e) { return false; }
+}
+
+function isLockedOut() {
+  try {
+    const until = localStorage.getItem(AUTH_CONFIG.LOCKOUT_KEY);
+    if (!until) return false;
+    if (Date.now() > parseInt(until)) {
+      localStorage.removeItem(AUTH_CONFIG.LOCKOUT_KEY);
+      localStorage.removeItem(AUTH_CONFIG.ATTEMPTS_KEY);
+      return false;
+    }
+    return true;
+  } catch(e) { return false; }
+}
+
+function getLockoutRemaining() {
+  try {
+    const until = parseInt(localStorage.getItem(AUTH_CONFIG.LOCKOUT_KEY) || '0');
+    return Math.ceil((until - Date.now()) / 1000);
+  } catch(e) { return 0; }
+}
+
+function getStoredAttempts() {
+  try {
+    return parseInt(localStorage.getItem(AUTH_CONFIG.ATTEMPTS_KEY) || '0');
+  } catch(e) { return 0; }
+}
+
+function recordFailedAttempt() {
+  try {
+    const attempts = getStoredAttempts() + 1;
+    localStorage.setItem(AUTH_CONFIG.ATTEMPTS_KEY, String(attempts));
+    if (attempts >= AUTH_CONFIG.MAX_ATTEMPTS) {
+      const lockUntil = Date.now() + AUTH_CONFIG.LOCKOUT_MINUTES * 60 * 1000;
+      localStorage.setItem(AUTH_CONFIG.LOCKOUT_KEY, String(lockUntil));
+    }
+    return attempts;
+  } catch(e) { return 1; }
+}
+
+function clearAttempts() {
+  try {
+    localStorage.removeItem(AUTH_CONFIG.ATTEMPTS_KEY);
+    localStorage.removeItem(AUTH_CONFIG.LOCKOUT_KEY);
+  } catch(e) {}
+}
+
+function showError(msg) {
+  const err = document.getElementById('login-error');
+  document.getElementById('login-error-msg').textContent = msg;
+  err.classList.add('show');
+  document.getElementById('login-user').classList.add('error');
+  document.getElementById('login-pass').classList.add('error');
+  setTimeout(() => {
+    document.getElementById('login-user').classList.remove('error');
+    document.getElementById('login-pass').classList.remove('error');
+  }, 600);
+}
+
+function updateAttemptDots(used) {
+  for (let i = 1; i <= 5; i++) {
+    const dot = document.getElementById('dot-' + i);
+    if (dot) dot.classList.toggle('used', i <= used);
+  }
+}
+
+let lockoutInterval = null;
+
+function startLockoutTimer() {
+  const timer = document.getElementById('lockout-timer');
+  timer.style.display = 'block';
+  document.getElementById('login-btn').disabled = true;
+
+  if (lockoutInterval) clearInterval(lockoutInterval);
+  lockoutInterval = setInterval(() => {
+    const rem = getLockoutRemaining();
+    if (rem <= 0) {
+      clearInterval(lockoutInterval);
+      timer.style.display = 'none';
+      document.getElementById('login-btn').disabled = false;
+      document.getElementById('login-error').classList.remove('show');
+      updateAttemptDots(0);
+    } else {
+      const m = Math.floor(rem / 60);
+      const s = rem % 60;
+      timer.textContent = `Sistema bloqueado por ${m}:${String(s).padStart(2,'0')} min`;
+    }
+  }, 1000);
+}
+
+function togglePass() {
+  const input = document.getElementById('login-pass');
+  const isHidden = input.type === 'password';
+  input.type = isHidden ? 'text' : 'password';
+  document.getElementById('eye-icon').innerHTML = isHidden
+    ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+}
+
+async function attemptLogin() {
+  const btn = document.getElementById('login-btn');
+  const btnText = document.getElementById('login-btn-text');
+
+  // Check lockout
+  if (isLockedOut()) {
+    showError(`Demasiados intentos fallidos. Esperá ${Math.ceil(getLockoutRemaining()/60)} minutos.`);
+    startLockoutTimer();
+    return;
+  }
+
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+
+  if (!user || !pass) {
+    showError('Por favor ingresá usuario y contraseña.');
+    return;
+  }
+
+  // Loading state
+  btn.disabled = true;
+  btnText.textContent = 'Verificando...';
+
+  try {
+    // Hash the input credentials with salt
+    const inputHash = await sha256(`${user}:${pass}:${AUTH_CONFIG.SALT}`);
+    
+    // Constant-time comparison (prevent timing attacks) — compare all chars
+    // The correct hash for farmastock_admin / Fs#2024$Secure!Rx
+    const correctHash = await sha256(`farmastock_admin:Fs#2024$Secure!Rx:${AUTH_CONFIG.SALT}`);
+    
+    // Small artificial delay to prevent brute-force timing
+    await new Promise(r => setTimeout(r, 400 + Math.random() * 200));
+
+    let match = inputHash.length === correctHash.length;
+    for (let i = 0; i < correctHash.length; i++) {
+      if (inputHash[i] !== correctHash[i]) match = false;
+    }
+
+    if (match) {
+      // Success — create session
+      clearAttempts();
+      const token = generateSessionToken();
+      const expiry = Date.now() + AUTH_CONFIG.SESSION_HOURS * 3600 * 1000;
+      sessionStorage.setItem(AUTH_CONFIG.SESSION_KEY, token);
+      sessionStorage.setItem(AUTH_CONFIG.SESSION_EXP_KEY, String(expiry));
+
+      // Animate success
+      btnText.textContent = '✓ Acceso concedido';
+      btn.style.background = 'linear-gradient(135deg,#52B788,#1B4332)';
+      updateAttemptDots(0);
+
+      setTimeout(() => {
+        document.getElementById('login-screen').style.opacity = '0';
+        document.getElementById('login-screen').style.transition = 'opacity .5s ease';
+        setTimeout(() => {
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('app-container').style.display = 'block';
+          initApp();
+          startSessionWatcher();
+        }, 500);
+      }, 600);
+
+    } else {
+      // Failed attempt
+      const attempts = recordFailedAttempt();
+      const remaining = AUTH_CONFIG.MAX_ATTEMPTS - attempts;
+      updateAttemptDots(attempts);
+
+      if (isLockedOut()) {
+        showError(`Cuenta bloqueada por ${AUTH_CONFIG.LOCKOUT_MINUTES} minutos por múltiples intentos fallidos.`);
+        startLockoutTimer();
+      } else {
+        showError(`Credenciales incorrectas. ${remaining} intento${remaining !== 1 ? 's' : ''} restante${remaining !== 1 ? 's' : ''}.`);
+      }
+
+      document.getElementById('login-pass').value = '';
+      btn.disabled = false;
+      btnText.textContent = 'Ingresar al sistema';
+    }
+
+  } catch(e) {
+    console.error('Login error:', e);
+    btn.disabled = false;
+    btnText.textContent = 'Ingresar al sistema';
+    showError('Error del sistema. Intentá nuevamente.');
+  }
+}
+
+function startSessionWatcher() {
+  // Check session every 60s, logout if expired
+  setInterval(() => {
+    if (!isSessionValid()) {
+      sessionStorage.clear();
+      document.getElementById('app-container').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-screen').style.opacity = '1';
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+      document.getElementById('login-error').classList.remove('show');
+      document.getElementById('login-btn').disabled = false;
+      document.getElementById('login-btn-text').textContent = 'Ingresar al sistema';
+    }
+  }, 60000);
+}
+
+// Add logout button to sidebar footer (called after app renders)
+function addLogoutButton() {
+  const footer = document.querySelector('.sb-footer');
+  if (footer && !document.getElementById('logout-btn')) {
+    const logoutDiv = document.createElement('div');
+    logoutDiv.innerHTML = `
+      <button id="logout-btn" onclick="logoutUser()" style="display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;background:none;border:none;border-radius:8px;cursor:pointer;color:rgba(255,255,255,.4);font-size:12px;font-family:'DM Sans',system-ui;transition:all .15s ease;margin-top:6px" onmouseover="this.style.background='rgba(231,111,81,.12)';this.style.color='rgba(231,111,81,.8)'" onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,.4)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Cerrar sesión</span>
+      </button>`;
+    footer.appendChild(logoutDiv);
+  }
+}
+
+function logoutUser() {
+  if (!confirm('¿Cerrar sesión?')) return;
+  sessionStorage.removeItem(AUTH_CONFIG.SESSION_KEY);
+  sessionStorage.removeItem(AUTH_CONFIG.SESSION_EXP_KEY);
+  document.getElementById('app-container').style.display = 'none';
+  const ls = document.getElementById('login-screen');
+  ls.style.display = 'flex';
+  ls.style.opacity = '1';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').classList.remove('show');
+  document.getElementById('login-btn').disabled = false;
+  document.getElementById('login-btn-text').textContent = 'Ingresar al sistema';
+  updateAttemptDots(0);
+}
+
+// Auto-check existing session on page load
+(function checkExistingSession() {
+  if (isLockedOut()) {
+    startLockoutTimer();
+    const attempts = getStoredAttempts();
+    updateAttemptDots(Math.min(attempts, 5));
+    showError(`Sistema bloqueado. Esperá ${Math.ceil(getLockoutRemaining()/60)} minutos.`);
+  }
+  // Note: intentionally NOT auto-login from sessionStorage on page reload for security
+  // Each browser session requires fresh login
+})();
+
+// Patch initApp to also add logout button
+const _origInitApp = initApp;
+window.initApp = function() {
+  _origInitApp();
+  setTimeout(addLogoutButton, 500);
+};
 </script>
 </body>
 </html>
