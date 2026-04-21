@@ -1,0 +1,2742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmaStock — Gestión de Inventario</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM — FARMASTOCK
+   Aesthetic: Clinical precision meets warm hospitality
+   Palette: Sage green dominant, warm neutrals, sharp coral accent
+═══════════════════════════════════════════ */
+:root {
+  --sage:       #2D6A4F;
+  --sage-lt:    #52B788;
+  --sage-bg:    #D8F3DC;
+  --sage-dim:   #1B4332;
+  --coral:      #E76F51;
+  --coral-bg:   #FDEBD7;
+  --coral-dk:   #C45A3C;
+  --amber:      #E9C46A;
+  --amber-bg:   #FEF6DC;
+  --amber-dk:   #B8952A;
+  --sky:        #457B9D;
+  --sky-bg:     #DAE8F0;
+  --sky-dk:     #2D5A77;
+  --plum:       #7B5EA7;
+  --plum-bg:    #EDE5F5;
+  --plum-dk:    #5C3F88;
+
+  --bg:         #F7F6F2;
+  --bg2:        #EFEEE8;
+  --surface:    #FFFFFF;
+  --surface2:   #F4F3EF;
+  --surface3:   #ECEBE5;
+
+  --border:     rgba(45,106,79,.12);
+  --border2:    rgba(45,106,79,.06);
+  --border3:    rgba(45,106,79,.20);
+
+  --text:       #1A2E22;
+  --text2:      #4A6357;
+  --text3:      #8AA393;
+  --text4:      #B5C4BC;
+
+  --font:       'DM Sans', system-ui, sans-serif;
+  --mono:       'DM Mono', monospace;
+
+  --r:          8px;
+  --rl:         12px;
+  --rxl:        16px;
+
+  --sh:         0 1px 3px rgba(27,67,50,.08), 0 1px 2px rgba(27,67,50,.06);
+  --sh2:        0 4px 12px rgba(27,67,50,.10), 0 2px 4px rgba(27,67,50,.06);
+  --sh3:        0 8px 24px rgba(27,67,50,.12), 0 4px 8px rgba(27,67,50,.08);
+
+  --sidebar-w:  228px;
+  --topbar-h:   56px;
+  --trans:      .15s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13.5px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border3); border-radius: 10px; }
+
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.app { display: flex; height: 100vh; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--sage-dim);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.sidebar::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(255,255,255,.06);
+}
+
+.sb-logo {
+  padding: 20px 18px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.sb-logo-icon {
+  width: 34px; height: 34px;
+  background: var(--sage-lt);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sb-logo-icon svg { width: 18px; height: 18px; }
+.sb-logo-name { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -.02em; }
+.sb-logo-ver { font-size: 10px; color: rgba(255,255,255,.4); font-family: var(--mono); }
+
+.sb-nav { flex: 1; overflow-y: auto; padding: 10px 8px; }
+.sb-section {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,.28);
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  padding: 10px 10px 4px;
+  margin-top: 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: var(--r);
+  cursor: pointer;
+  color: rgba(255,255,255,.55);
+  font-size: 13px;
+  font-weight: 400;
+  width: 100%;
+  border: none;
+  background: none;
+  text-align: left;
+  transition: background var(--trans), color var(--trans);
+  position: relative;
+  margin-bottom: 1px;
+}
+.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.85); }
+.nav-item.active {
+  background: rgba(82,183,136,.18);
+  color: #fff;
+  font-weight: 500;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 3px;
+  background: var(--sage-lt);
+  border-radius: 0 2px 2px 0;
+}
+.nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: .7; }
+.nav-item.active svg { opacity: 1; }
+.nav-badge {
+  margin-left: auto;
+  background: var(--coral);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-family: var(--mono);
+  min-width: 18px;
+  text-align: center;
+}
+.sb-footer {
+  padding: 10px 8px 14px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.sb-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: background var(--trans);
+}
+.sb-user:hover { background: rgba(255,255,255,.06); }
+.sb-avatar {
+  width: 28px; height: 28px;
+  background: var(--sage-lt);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--sage-dim);
+  flex-shrink: 0;
+}
+.sb-user-name { font-size: 12px; color: rgba(255,255,255,.65); }
+.sb-user-role { font-size: 10px; color: rgba(255,255,255,.3); }
+
+/* ── Main ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+.topbar {
+  height: var(--topbar-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  flex-shrink: 0;
+  box-shadow: var(--sh);
+  z-index: 10;
+}
+.topbar-title { font-size: 15px; font-weight: 600; color: var(--text); min-width: 140px; letter-spacing: -.02em; }
+.topbar-sub { font-size: 11px; color: var(--text3); font-weight: 400; }
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 300px;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 7px 12px 7px 34px;
+  border: 1.5px solid var(--border2);
+  border-radius: var(--rl);
+  background: var(--bg);
+  font-size: 13px;
+  color: var(--text);
+  font-family: var(--font);
+  outline: none;
+  transition: all var(--trans);
+}
+.search-wrap input:focus {
+  border-color: var(--sage-lt);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(82,183,136,.12);
+}
+.search-wrap input::placeholder { color: var(--text4); }
+.search-icon {
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  width: 14px; height: 14px;
+  opacity: .35;
+  pointer-events: none;
+}
+.topbar-actions { display: flex; gap: 8px; margin-left: auto; align-items: center; }
+
+/* ── Content ── */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 24px;
+}
+
+/* ══════════════════════════════════════════
+   PAGES
+══════════════════════════════════════════ */
+.page { display: none; animation: fadeIn .2s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.page-header { margin-bottom: 20px; }
+.page-header h1 { font-size: 20px; font-weight: 600; color: var(--text); letter-spacing: -.03em; margin-bottom: 2px; }
+.page-header p { font-size: 12.5px; color: var(--text3); }
+.page-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--r);
+  border: 1.5px solid var(--border3);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all var(--trans);
+  white-space: nowrap;
+  letter-spacing: -.01em;
+}
+.btn:hover { background: var(--surface2); transform: translateY(-1px); box-shadow: var(--sh); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn svg { width: 13px; height: 13px; }
+
+.btn-primary { background: var(--sage); color: #fff; border-color: var(--sage); }
+.btn-primary:hover { background: var(--sage-dim); border-color: var(--sage-dim); }
+.btn-danger { background: var(--coral); color: #fff; border-color: var(--coral); }
+.btn-danger:hover { background: var(--coral-dk); border-color: var(--coral-dk); }
+.btn-warning { background: var(--amber); color: var(--amber-dk); border-color: var(--amber); }
+.btn-warning:hover { background: var(--amber-dk); color: #fff; }
+.btn-sky { background: var(--sky); color: #fff; border-color: var(--sky); }
+.btn-sky:hover { background: var(--sky-dk); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--text2); }
+.btn-ghost:hover { background: var(--surface2); border-color: var(--border); }
+.btn-sm { padding: 4px 10px; font-size: 11.5px; }
+.btn-xs { padding: 3px 8px; font-size: 11px; }
+.btn-icon { padding: 7px; }
+
+/* ══════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  box-shadow: var(--sh);
+}
+.card-body { padding: 16px 18px; }
+.card-header {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.card-title { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -.02em; }
+.card-subtitle { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+/* ══════════════════════════════════════════
+   STAT CARDS
+══════════════════════════════════════════ */
+.stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  padding: 16px 18px;
+  box-shadow: var(--sh);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--trans), box-shadow var(--trans);
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--sh2); }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--rl) var(--rl) 0 0;
+}
+.stat-card.green::before { background: var(--sage-lt); }
+.stat-card.coral::before { background: var(--coral); }
+.stat-card.amber::before { background: var(--amber); }
+.stat-card.sky::before { background: var(--sky); }
+.stat-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 6px;
+}
+.stat-value { font-size: 26px; font-weight: 600; letter-spacing: -.03em; line-height: 1; color: var(--text); }
+.stat-value.green { color: var(--sage); }
+.stat-value.coral { color: var(--coral); }
+.stat-value.amber { color: var(--amber-dk); }
+.stat-value.sky { color: var(--sky); }
+.stat-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.stat-icon {
+  position: absolute;
+  right: 14px; top: 14px;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.stat-icon svg { width: 16px; height: 16px; }
+.stat-icon.green { background: var(--sage-bg); color: var(--sage); }
+.stat-icon.coral { background: var(--coral-bg); color: var(--coral); }
+.stat-icon.amber { background: var(--amber-bg); color: var(--amber-dk); }
+.stat-icon.sky { background: var(--sky-bg); color: var(--sky); }
+
+/* ══════════════════════════════════════════
+   BADGES
+══════════════════════════════════════════ */
+.badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.badge-green  { background: var(--sage-bg); color: var(--sage-dim); }
+.badge-coral  { background: var(--coral-bg); color: var(--coral-dk); }
+.badge-amber  { background: var(--amber-bg); color: var(--amber-dk); }
+.badge-sky    { background: var(--sky-bg); color: var(--sky-dk); }
+.badge-plum   { background: var(--plum-bg); color: var(--plum-dk); }
+.badge-gray   { background: var(--surface3); color: var(--text2); }
+
+/* ══════════════════════════════════════════
+   TABLE
+══════════════════════════════════════════ */
+.table-wrap { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+.data-table thead th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  border-bottom: 1.5px solid var(--border);
+  background: var(--surface2);
+  white-space: nowrap;
+}
+.data-table thead th:first-child { border-radius: 0; }
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border2);
+  transition: background var(--trans);
+  cursor: pointer;
+}
+.data-table tbody tr:hover { background: var(--bg); }
+.data-table tbody tr:last-child { border-bottom: none; }
+.data-table tbody td {
+  padding: 9px 12px;
+  font-size: 13px;
+  color: var(--text);
+  vertical-align: middle;
+}
+.td-name { font-weight: 500; }
+.td-mono { font-family: var(--mono); font-size: 11.5px; color: var(--text2); }
+.td-muted { color: var(--text2); }
+.td-actions { display: flex; gap: 4px; align-items: center; }
+
+/* ══════════════════════════════════════════
+   PROGRESS BAR
+══════════════════════════════════════════ */
+.stock-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.progress {
+  height: 5px;
+  background: var(--bg2);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 48px;
+  flex-shrink: 0;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width .4s ease;
+}
+
+/* ══════════════════════════════════════════
+   FORMS
+══════════════════════════════════════════ */
+.form-group { margin-bottom: 14px; }
+.form-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 5px;
+  letter-spacing: -.01em;
+}
+.form-input {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  background: var(--bg);
+  font-size: 13px;
+  color: var(--text);
+  font-family: var(--font);
+  outline: none;
+  transition: all var(--trans);
+}
+.form-input:focus {
+  border-color: var(--sage-lt);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(82,183,136,.10);
+}
+.form-input::placeholder { color: var(--text4); }
+select.form-input { cursor: pointer; }
+textarea.form-input { resize: vertical; min-height: 70px; }
+.form-hint { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+/* ══════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(27,67,50,.45);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+  animation: overlayIn .15s ease;
+}
+.modal-overlay.open { display: flex; }
+@keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--rxl);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--sh3);
+  border: 1px solid var(--border);
+  animation: modalIn .2s cubic-bezier(.34,1.56,.64,1);
+}
+.modal-lg { max-width: 640px; }
+@keyframes modalIn { from { opacity: 0; transform: scale(.95) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border2);
+}
+.modal-title { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: -.02em; }
+.modal-close {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: all var(--trans);
+  flex-shrink: 0;
+}
+.modal-close:hover { background: var(--surface3); color: var(--text); }
+.modal-body { padding: 18px 20px; }
+.modal-footer {
+  padding: 14px 20px 18px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border2);
+}
+
+/* ══════════════════════════════════════════
+   TABS
+══════════════════════════════════════════ */
+.tabs-bar {
+  display: flex;
+  gap: 2px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  padding: 3px;
+  width: fit-content;
+  margin-bottom: 16px;
+}
+.tab-btn {
+  padding: 5px 14px;
+  border-radius: 9px;
+  border: none;
+  background: none;
+  font-size: 12.5px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 400;
+  transition: all var(--trans);
+}
+.tab-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: var(--sh);
+}
+
+/* ══════════════════════════════════════════
+   FILTER CHIPS
+══════════════════════════════════════════ */
+.chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all var(--trans);
+  font-family: var(--font);
+  font-weight: 400;
+}
+.chip:hover { border-color: var(--sage-lt); color: var(--sage); background: var(--sage-bg); }
+.chip.active { background: var(--sage-bg); border-color: var(--sage); color: var(--sage-dim); font-weight: 600; }
+
+/* ══════════════════════════════════════════
+   DROPDOWN AUTOCOMPLETE
+══════════════════════════════════════════ */
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border2);
+}
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+.dropdown-item:hover {
+  background: var(--bg);
+}
+
+/* ══════════════════════════════════════════
+   ALERTS / BANNERS
+══════════════════════════════════════════ */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--rl);
+  margin-bottom: 16px;
+  border: 1px solid;
+}
+.alert-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber-dk); }
+.alert-coral  { background: var(--coral-bg); border-color: var(--coral); color: var(--coral-dk); }
+.alert-green  { background: var(--sage-bg); border-color: var(--sage-lt); color: var(--sage-dim); }
+.alert-title { font-weight: 600; font-size: 12.5px; }
+.alert-body   { font-size: 12px; margin-top: 2px; opacity: .8; }
+
+/* ══════════════════════════════════════════
+   MISC COMPONENTS
+══════════════════════════════════════════ */
+.divider { border: none; border-top: 1px solid var(--border2); margin: 14px 0; }
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text3);
+  font-size: 13px;
+}
+.empty-state-icon {
+  width: 40px; height: 40px;
+  background: var(--surface2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 10px;
+}
+.empty-state-icon svg { width: 20px; height: 20px; opacity: .4; }
+
+.section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.section-row h2 { font-size: 14px; font-weight: 600; letter-spacing: -.02em; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+
+/* ── Movement row ── */
+.mov-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border2);
+}
+.mov-row:last-child { border-bottom: none; }
+.mov-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.mov-info { flex: 1; min-width: 0; }
+.mov-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mov-sub { font-size: 11px; color: var(--text3); }
+.mov-qty { font-size: 13.5px; font-weight: 600; }
+.mov-date { font-size: 11px; color: var(--text3); text-align: right; white-space: nowrap; }
+
+/* ── Bar chart ── */
+.bar-chart-wrap { display: flex; align-items: flex-end; gap: 10px; height: 130px; padding: 12px 0 4px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0; gap: 4px; }
+.bar-block { width: 100%; border-radius: 5px 5px 0 0; min-height: 3px; transition: height .35s ease; }
+.bar-lbl { font-size: 10px; color: var(--text3); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+.bar-val { font-size: 10.5px; font-weight: 600; color: var(--text2); }
+
+/* ── Supplier card ── */
+.prov-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  padding: 16px;
+  box-shadow: var(--sh);
+  transition: all var(--trans);
+  cursor: pointer;
+}
+.prov-card:hover { box-shadow: var(--sh2); transform: translateY(-2px); border-color: var(--sage-lt); }
+.prov-avatar {
+  width: 38px; height: 38px;
+  border-radius: 9px;
+  background: var(--sky-bg);
+  color: var(--sky-dk);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px;
+  margin-bottom: 10px;
+}
+.prov-name { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: -.02em; }
+.prov-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.prov-meta { display: flex; gap: 14px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border2); }
+.prov-meta-item { }
+.prov-meta-val { font-size: 14px; font-weight: 600; color: var(--text); }
+.prov-meta-lbl { font-size: 10px; color: var(--text3); }
+
+/* ── Kanban (orders) ── */
+.kanban { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+.k-col { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--rl); padding: 12px; }
+.k-col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.k-col-title { font-size: 12px; font-weight: 600; color: var(--text); }
+.k-count { background: var(--surface3); color: var(--text2); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; font-family: var(--mono); }
+.k-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 10px 12px;
+  margin-bottom: 7px;
+  box-shadow: var(--sh);
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.k-card:hover { box-shadow: var(--sh2); transform: translateY(-1px); }
+.k-card-id { font-family: var(--mono); font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+.k-card-name { font-size: 12.5px; font-weight: 500; margin-bottom: 3px; }
+.k-card-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 7px; }
+
+/* ── Report charts ── */
+.rep-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border2); }
+.rep-label { flex: 1; font-size: 12.5px; font-weight: 500; }
+.rep-bar-wrap { width: 120px; height: 6px; background: var(--bg2); border-radius: 10px; overflow: hidden; }
+.rep-bar-fill { height: 100%; border-radius: 10px; }
+.rep-val { font-size: 12px; font-weight: 600; color: var(--text); min-width: 60px; text-align: right; font-family: var(--mono); }
+.rep-pct { font-size: 11px; color: var(--text3); min-width: 34px; text-align: right; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 16px;
+  border-radius: var(--rl);
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all .2s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--sh3);
+  max-width: 320px;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background: var(--sage); }
+.toast.warning { background: var(--amber-dk); }
+.toast.error   { background: var(--coral); }
+
+/* ── Order form items ── */
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border2);
+}
+.order-item-name { flex: 1; font-size: 13px; font-weight: 500; }
+.order-item-sub { font-size: 11px; color: var(--text3); }
+
+/* ══════════════════════════════════════════
+   RX BADGE
+══════════════════════════════════════════ */
+.rx-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 9.5px;
+  font-weight: 700;
+  font-family: var(--mono);
+  letter-spacing: .02em;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.rx-yes  { background: var(--coral-bg); color: var(--coral-dk); }
+.rx-arch { background: var(--amber-bg); color: var(--amber-dk); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  :root { --sidebar-w: 64px; }
+  .sb-logo-name, .sb-logo-ver, .nav-item span, .sb-section, .sb-user-name, .sb-user-role { display: none; }
+  .nav-item { justify-content: center; }
+  .nav-item.active::before { left: 0; right: 0; top: 0; bottom: auto; height: 3px; width: auto; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .grid-2, .grid-3, .kanban { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sb-logo-name">FarmaStock</div>
+        <div class="sb-logo-ver">v2.1.0</div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section">Principal</div>
+      <button class="nav-item active" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-page="inventory">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+        <span>Inventario</span>
+      </button>
+      <button class="nav-item" data-page="lowstock">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Stock bajo</span>
+        <span class="nav-badge" id="low-badge">0</span>
+      </button>
+      <button class="nav-item" data-page="categories">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <rect x="2" y="3" width="6" height="6" rx="1"/><rect x="9" y="3" width="6" height="6" rx="1"/>
+          <rect x="16" y="3" width="6" height="6" rx="1"/><rect x="2" y="10" width="6" height="6" rx="1"/>
+          <rect x="9" y="10" width="6" height="6" rx="1"/><rect x="16" y="10" width="6" height="6" rx="1"/>
+        </svg>
+        <span>Categorías</span>
+      </button>
+
+      <div class="sb-section">Ventas</div>
+      <button class="nav-item" data-page="sales">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span>Punto de Venta</span>
+      </button>
+
+      <div class="sb-section">Compras</div>
+      <button class="nav-item" data-page="new-order">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/>
+          <line x1="12" y1="12" x2="12" y2="18"/>
+        </svg>
+        <span>Nueva orden</span>
+      </button>
+      <button class="nav-item" data-page="orders">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Historial</span>
+      </button>
+      <button class="nav-item" data-page="suppliers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Proveedores</span>
+      </button>
+
+      <div class="sb-section">Control</div>
+      <button class="nav-item" data-page="movements">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+          <polyline points="17 6 23 6 23 12"/>
+        </svg>
+        <span>Movimientos</span>
+      </button>
+      <button class="nav-item" data-page="expiry">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>Vencimientos</span>
+      </button>
+      <button class="nav-item" data-page="reports">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        <span>Reportes</span>
+      </button>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-avatar">FA</div>
+        <div>
+          <div class="sb-user-name">Farmacéutico</div>
+          <div class="sb-user-role">Administrador</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+  <main class="main" id="main-content">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="page-title">Dashboard</div>
+      </div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="global-search" placeholder="Buscar producto, lote, categoría…" oninput="globalSearch(this.value)">
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="exportCSV()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Exportar
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="renderCategoryManager();openModal('product-modal')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Nuevo producto
+        </button>
+      </div>
+    </div>
+
+    <div class="content" id="content">
+
+      <!-- ═══════════ DASHBOARD ═══════════ -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Resumen general del inventario — actualizado en tiempo real</p>
+        </div>
+        <div class="stat-grid" id="dash-stats"></div>
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">Stock por categoría</div><div class="card-subtitle">Unidades en inventario</div></div>
+            </div>
+            <div class="card-body">
+              <div class="bar-chart-wrap" id="cat-chart"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">Alertas activas</div></div>
+              <button class="btn btn-ghost btn-xs" onclick="goPage('lowstock')">Ver todas →</button>
+            </div>
+            <div class="card-body" id="dash-alerts"></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">Últimos movimientos</div></div>
+              <button class="btn btn-ghost btn-xs" onclick="goPage('movements')">Ver todos →</button>
+            </div>
+            <div class="card-body" id="dash-movs"></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">Órdenes pendientes</div></div>
+              <button class="btn btn-ghost btn-xs" onclick="goPage('orders')">Ver todas →</button>
+            </div>
+            <div class="card-body" id="dash-orders"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ INVENTORY ═══════════ -->
+      <div class="page" id="page-inventory">
+        <div class="page-header page-header-row">
+          <div><h1>Inventario</h1><p>Gestión completa del stock de medicamentos</p></div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Exportar CSV</button>
+            <button class="btn btn-primary btn-sm" onclick="renderCategoryManager();openModal('product-modal')">+ Nuevo producto</button>
+          </div>
+        </div>
+        <div class="chips-wrap" id="inv-chips"></div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Producto</th><th>Laboratorio</th><th>Categoría</th><th>Lote</th>
+                  <th>Stock</th><th>Mínimo</th><th>Vencimiento</th>
+                  <th>Precio</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="inv-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ LOW STOCK ═══════════ -->
+      <div class="page" id="page-lowstock">
+        <div class="page-header"><h1>Stock bajo</h1><p>Productos que requieren reposición urgente</p></div>
+        <div id="low-banner"></div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Producto</th><th>Categoría</th><th>Stock actual</th><th>Mínimo</th><th>Déficit</th><th>Proveedor</th><th>Estado</th><th>Acción</th></tr>
+              </thead>
+              <tbody id="low-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ CATEGORIES ═══════════ -->
+      <div class="page" id="page-categories">
+        <div class="page-header page-header-row">
+          <div><h1>Por categoría</h1><p>Inventario organizado por tipo de medicamento</p></div>
+          <button class="btn btn-primary btn-sm" onclick="renderCategoryManager();openModal('category-modal')">Administrar</button>
+        </div>
+        <div id="cat-view"></div>
+      </div>
+
+      <!-- ═══════════ SALES / POS ═══════════ -->
+      <div class="page" id="page-sales">
+        <div class="page-header"><h1>Punto de Venta</h1><p>Registrar salida de medicamentos y generar remito</p></div>
+        <div class="grid-2">
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="card-header"><div class="card-title">Datos de la operación</div></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group" style="display:flex; flex-direction:column;">
+                    <div style="display:flex;justify-content:space-between">
+                      <label class="form-label">Obra Social / Cobertura</label>
+                      <button class="btn-ghost btn-xs" style="color:var(--sky);border:none;background:none;cursor:pointer" onclick="openModal('os-modal')">Administrar</button>
+                    </div>
+                    <select class="form-input" id="s-os"></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Tipo de comprobante</label>
+                    <select class="form-input" id="s-type">
+                      <option value="Factura Interna">Factura Interna</option>
+                      <option value="Remito">Remito</option>
+                      <option value="Ticket">Ticket</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Cliente / Paciente (Opcional)</label>
+                  <input type="text" class="form-input" id="s-client" placeholder="Nombre del paciente o DNI">
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Agregar productos</div></div>
+              <div class="card-body">
+                <div style="display:flex;gap:8px;margin-bottom:10px">
+                  <div style="position:relative;flex:1">
+                    <input type="text" class="form-input" id="s-prod-search" placeholder="Buscar medicamento en stock..." oninput="searchSaleProduct(this.value)" autocomplete="off" onfocus="searchSaleProduct(this.value)">
+                    <div id="s-prod-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh3);z-index:100;max-height:200px;overflow-y:auto;margin-top:4px;"></div>
+                    <input type="hidden" id="s-prod-selected-id">
+                  </div>
+                  <input type="number" class="form-input" id="s-prod-qty" value="1" min="1" style="width:76px;text-align:center">
+                  <button class="btn btn-primary btn-sm" onclick="addSaleItem()">Agregar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="align-self:start;position:sticky;top:0">
+            <div class="card-header">
+              <div><div class="card-title">Resumen de Venta</div></div>
+            </div>
+            <div class="card-body">
+              <div id="sale-items-list"><div class="empty-state">Sin productos agregados</div></div>
+              <div class="divider"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                <span style="font-size:12px;color:var(--text2);font-weight:500">Total a cobrar</span>
+                <span style="font-size:18px;font-weight:700;color:var(--text);font-family:var(--mono)" id="sale-total">$0</span>
+              </div>
+              <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;margin-bottom:8px" onclick="submitSale()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Registrar Venta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ NEW ORDER ═══════════ -->
+      <div class="page" id="page-new-order">
+        <div class="page-header"><h1>Nueva orden de compra</h1><p>Generar pedido a proveedor</p></div>
+        <div class="grid-2">
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="card-header"><div class="card-title">Datos del pedido</div></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Proveedor</label>
+                    <select class="form-input" id="o-supplier">
+                      <option>Laboratorio Roemmers</option><option>Bayer Argentina</option>
+                      <option>Pfizer</option><option>Elea Phoenix</option>
+                      <option>Gador</option><option>Montpellier</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Prioridad</label>
+                    <select class="form-input" id="o-priority">
+                      <option value="normal">Normal</option>
+                      <option value="urgente">Urgente</option>
+                      <option value="programada">Programada</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Fecha estimada de entrega</label>
+                    <input type="date" class="form-input" id="o-date">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Condición de pago</label>
+                    <select class="form-input" id="o-payment">
+                      <option>Contado</option><option>30 días</option>
+                      <option>60 días</option><option>Consignación</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Notas / instrucciones especiales</label>
+                  <textarea class="form-input" id="o-notes" placeholder="Instrucciones de entrega, temperatura, etc."></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Agregar productos</div></div>
+              <div class="card-body">
+                <div style="display:flex;gap:8px;margin-bottom:10px">
+                  <div style="position:relative;flex:1">
+                    <input type="text" class="form-input" id="o-prod-search" placeholder="Buscar medicamento..." oninput="searchOrderProduct(this.value)" autocomplete="off" onfocus="searchOrderProduct(this.value)">
+                    <div id="o-prod-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh3);z-index:100;max-height:200px;overflow-y:auto;margin-top:4px;"></div>
+                    <input type="hidden" id="o-prod-selected-id">
+                  </div>
+                  <input type="number" class="form-input" id="o-prod-qty" value="1" min="1" style="width:76px;text-align:center">
+                  <button class="btn btn-primary btn-sm" onclick="addOrderItem()">Agregar</button>
+                </div>
+                <div id="order-sugg" style="padding:9px 12px;background:var(--sage-bg);border-radius:var(--r);font-size:11.5px;color:var(--sage-dim);border:1px solid var(--sage-lt)"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="align-self:start;position:sticky;top:0">
+            <div class="card-header">
+              <div><div class="card-title">Resumen de la orden</div></div>
+            </div>
+            <div class="card-body">
+              <div id="order-items-list"><div class="empty-state"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>Sin productos agregados</div></div>
+              <div class="divider"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                <span style="font-size:12px;color:var(--text2);font-weight:500">Total estimado</span>
+                <span style="font-size:18px;font-weight:700;color:var(--text);font-family:var(--mono)" id="order-total">$0</span>
+              </div>
+              <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px" onclick="submitOrder()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Confirmar y enviar orden
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ ORDERS HISTORY ═══════════ -->
+      <div class="page" id="page-orders">
+        <div class="page-header"><h1>Historial de órdenes</h1><p>Registro completo de compras realizadas</p></div>
+        <div class="tabs-bar" id="orders-tabs">
+          <button class="tab-btn active" onclick="filterOrders('all',this)">Todas</button>
+          <button class="tab-btn" onclick="filterOrders('pendiente',this)">Pendientes</button>
+          <button class="tab-btn" onclick="filterOrders('entregada',this)">Entregadas</button>
+          <button class="tab-btn" onclick="filterOrders('cancelada',this)">Canceladas</button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Orden</th><th>Proveedor</th><th>Productos</th><th>Total</th><th>Fecha</th><th>Pago</th><th>Estado</th><th>Acciones</th></tr>
+              </thead>
+              <tbody id="orders-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ SUPPLIERS ═══════════ -->
+      <div class="page" id="page-suppliers">
+        <div class="page-header page-header-row">
+          <div><h1>Proveedores</h1><p>Directorio y gestión de contactos comerciales</p></div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('supplier-modal')">+ Nuevo proveedor</button>
+        </div>
+        <div class="grid-3" id="suppliers-grid"></div>
+      </div>
+
+      <!-- ═══════════ MOVEMENTS ═══════════ -->
+      <div class="page" id="page-movements">
+        <div class="page-header"><h1>Movimientos de stock</h1><p>Trazabilidad completa de entradas y salidas</p></div>
+        <div class="stat-grid" id="mov-stats"></div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Registro de movimientos</div>
+            <div style="display:flex;gap:8px">
+              <select class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-type-filter" onchange="renderMovements()">
+                <option value="all">Todos</option>
+                <option value="entrada">Entradas</option>
+                <option value="salida">Salidas</option>
+              </select>
+              <select class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-prod-filter" onchange="renderMovements()"></select>
+            </div>
+          </div>
+          <div class="card-body" id="mov-list"></div>
+        </div>
+      </div>
+
+      <!-- ═══════════ EXPIRY ═══════════ -->
+      <div class="page" id="page-expiry">
+        <div class="page-header"><h1>Control de vencimientos</h1><p>Seguimiento de fechas de expiración por lote</p></div>
+        <div class="stat-grid" id="exp-stats"></div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Producto</th><th>Lote</th><th>Stock</th><th>Fecha de vencimiento</th><th>Días restantes</th><th>Estado</th><th>Acción</th></tr>
+              </thead>
+              <tbody id="exp-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ REPORTS ═══════════ -->
+      <div class="page" id="page-reports">
+        <div class="page-header"><h1>Reportes y analytics</h1><p>Métricas del inventario y análisis de rendimiento</p></div>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="switchReport('stock',this)">Stock valorizado</button>
+          <button class="tab-btn" onclick="switchReport('rotation',this)">Rotación</button>
+          <button class="tab-btn" onclick="switchReport('suppliers',this)">Por proveedor</button>
+        </div>
+        <div id="report-content"></div>
+      </div>
+
+    </div><!-- end .content -->
+  </main>
+</div>
+
+<!-- ═══════════════════════════ MODALS ═══════════════════════════ -->
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="product-modal-title">Nuevo producto</span>
+      <button class="modal-close" onclick="closeModal('product-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1">
+          <label class="form-label">Nombre del medicamento *</label>
+          <input class="form-input" id="p-name" placeholder="Ej: Paracetamol 500mg">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Laboratorio *</label>
+          <input class="form-input" id="p-lab" placeholder="Ej: Roemmers">
+        </div>
+        <div class="form-group" style="display:flex; flex-direction:column;">
+          <div style="display:flex;justify-content:space-between">
+            <label class="form-label">Categoría</label>
+            <button class="btn-ghost btn-xs" style="color:var(--sky);border:none;background:none;cursor:pointer;padding:0" onclick="openModal('category-modal');renderCategoryManager()">Administrar</button>
+          </div>
+          <select class="form-input" id="p-cat"></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Stock actual</label>
+          <input class="form-input" type="number" id="p-stock" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stock mínimo</label>
+          <input class="form-input" type="number" id="p-min" min="0" value="10">
+          <div class="form-hint">Umbral para alerta de stock bajo</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Precio unitario ($)</label>
+          <input class="form-input" type="number" id="p-price" min="0" step="0.01" placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha de vencimiento</label>
+          <input class="form-input" type="date" id="p-expiry">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Lote / Código</label>
+          <input class="form-input" id="p-lot" placeholder="LOT-2024-001">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Proveedor</label>
+          <select class="form-input" id="p-supplier">
+            <option>Laboratorio Roemmers</option><option>Bayer Argentina</option>
+            <option>Pfizer</option><option>Elea Phoenix</option>
+            <option>Gador</option><option>Montpellier</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Requiere receta médica</label>
+        <select class="form-input" id="p-rx">
+          <option value="no">No requiere receta</option>
+          <option value="si">Sí — receta obligatoria</option>
+          <option value="arch">Archivo de receta requerido</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('product-modal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Guardar producto</button>
+    </div>
+  </div>
+</div>
+
+<!-- Stock Adjust Modal -->
+<div class="modal-overlay" id="adjust-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Ajustar stock</span>
+      <button class="modal-close" onclick="closeModal('adjust-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="adjust-product-info" style="padding:11px 13px;background:var(--surface2);border-radius:var(--r);border:1px solid var(--border);margin-bottom:14px;font-size:12.5px"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tipo de movimiento</label>
+          <select class="form-input" id="adj-type">
+            <option value="entrada">Entrada — agregar stock</option>
+            <option value="salida">Salida — reducir stock</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cantidad</label>
+          <input type="number" class="form-input" id="adj-qty" min="1" value="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Motivo</label>
+        <select class="form-input" id="adj-reason">
+          <option>Compra a proveedor</option><option>Venta directa</option>
+          <option>Devolución cliente</option><option>Devolución proveedor</option>
+          <option>Vencimiento / baja</option><option>Merma</option>
+          <option>Ajuste de inventario</option><option>Donación</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observaciones</label>
+        <input class="form-input" id="adj-obs" placeholder="Referencia, número de documento, etc.">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('adjust-modal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="applyAdjust()">Aplicar movimiento</button>
+    </div>
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal-overlay" id="order-detail-modal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title">Detalle de orden</span>
+      <button class="modal-close" onclick="closeModal('order-detail-modal')">×</button>
+    </div>
+    <div class="modal-body" id="order-detail-body"></div>
+    <div class="modal-footer" id="order-detail-actions"></div>
+  </div>
+</div>
+
+<!-- Supplier Modal -->
+<div class="modal-overlay" id="supplier-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Nuevo proveedor</span>
+      <button class="modal-close" onclick="closeModal('supplier-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Razón social *</label><input class="form-input" id="sup-name" placeholder="Nombre del laboratorio"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Contacto</label><input class="form-input" id="sup-contact" placeholder="Nombre del representante"></div>
+        <div class="form-group"><label class="form-label">Teléfono</label><input class="form-input" id="sup-tel" placeholder="+54 11 ..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="sup-email" placeholder="ventas@lab.com"></div>
+        <div class="form-group"><label class="form-label">Plazo de entrega (días)</label><input type="number" class="form-input" id="sup-days" value="7" min="1"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('supplier-modal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveSupplier()">Guardar proveedor</button>
+    </div>
+  </div>
+</div>
+
+<!-- OS Modal -->
+<div class="modal-overlay" id="os-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Administrar Obras Sociales</span>
+      <button class="modal-close" onclick="closeModal('os-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <input type="text" class="form-input" id="new-os-name" placeholder="Nueva obra social..." style="flex:1">
+        <button class="btn btn-primary" onclick="addObraSocial()">Agregar</button>
+      </div>
+      <div id="os-list" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Category Modal -->
+<div class="modal-overlay" id="category-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Administrar Categorías</span>
+      <button class="modal-close" onclick="closeModal('category-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <input type="text" class="form-input" id="new-cat-name" placeholder="Nueva categoría..." style="flex:1">
+        <button class="btn btn-primary" onclick="addCategory()">Agregar</button>
+      </div>
+      <div id="cat-list" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════ JAVASCRIPT ═══════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+'use strict';
+
+/* ════════════════════════════════════
+   SUPABASE INTEGRATION & DATA STORE
+════════════════════════════════════ */
+const SUPABASE_URL = 'https://tcskczckulrsisuggfzm.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjc2tjemNrdWxyc2lzdWdnZnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzQyNjksImV4cCI6MjA5MjMxMDI2OX0.-1OYrl5gsyeUBk79XaqqM2ealcMPxfPsb2o1lfDxY58';
+let supabaseDB;
+try {
+  supabaseDB = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch(e) {
+  console.error('Failed to init Supabase:', e);
+  supabaseDB = null;
+}
+
+const catColors = {
+  'Analgésico':      { badge: 'badge-sky',   bar: '#457B9D' },
+  'Antibiótico':     { badge: 'badge-coral',  bar: '#E76F51' },
+  'Antihipertensivo':{ badge: 'badge-plum',   bar: '#7B5EA7' },
+  'Antidiabético':   { badge: 'badge-amber',  bar: '#E9C46A' },
+  'Antiinflamatorio':{ badge: 'badge-coral',  bar: '#D85A30' },
+  'Vitaminas':       { badge: 'badge-green',  bar: '#52B788' },
+  'Dermatológico':   { badge: 'badge-green',  bar: '#74C69D' },
+  'Gastrointestinal':{ badge: 'badge-sky',    bar: '#2A9D8F' },
+  'Cardiovascular':  { badge: 'badge-coral',  bar: '#E63946' },
+  'Respiratorio':    { badge: 'badge-plum',   bar: '#9B72CF' },
+  'Neurológico':     { badge: 'badge-amber',  bar: '#F4A261' },
+  'Oncológico':      { badge: 'badge-gray',   bar: '#8AA393' },
+};
+
+let products = [];
+let orders = [];
+let suppliers = [];
+let movements = [];
+let orderItems = [];
+let saleItems = [];
+let obrasSociales = ['Particular', 'PAMI', 'IOMA', 'OSDE', 'Swiss Medical', 'Galeno'];
+let categoriesList = Object.keys(catColors);
+
+async function loadInitialData() {
+  const content = document.getElementById('main-content');
+  if (content) content.style.opacity = '0.5';
+  if (!supabaseDB) {
+    console.error('Supabase not initialized');
+    if (content) content.style.opacity = '1';
+    renderDashboard();
+    updateLowBadge();
+    return;
+  }
+  try {
+    const [pRes, cRes, osRes, sRes, mRes, oRes] = await Promise.all([
+      supabaseDB.from('products').select('*'),
+      supabaseDB.from('categories').select('*'),
+      supabaseDB.from('obras_sociales').select('*'),
+      supabaseDB.from('suppliers').select('*'),
+      supabaseDB.from('movements').select('*').order('date', { ascending: true }),
+      supabaseDB.from('orders').select('*')
+    ]);
+
+    if (pRes.data) products = pRes.data;
+    if (cRes.data && cRes.data.length > 0) categoriesList = cRes.data.map(c => c.name);
+    if (osRes.data && osRes.data.length > 0) obrasSociales = osRes.data.map(o => o.name);
+    
+    if (sRes.data) suppliers = sRes.data;
+    if (mRes.data) movements = mRes.data;
+    if (oRes.data) orders = oRes.data;
+
+    // Type casting
+    products.forEach(p => { p.stock = Number(p.stock); p.min = Number(p.min_stock); p.price = Number(p.price); });
+    orders.forEach(o => o.total = Number(o.total));
+    movements.forEach(m => m.qty = Number(m.qty));
+
+  } catch(e) {
+    console.error('Supabase load error:', e);
+    toast('Error conectando a la base de datos. Verifique su conexión.', 'error');
+  } finally {
+    const content = document.getElementById('main-content');
+    if (content) content.style.opacity = '1';
+    renderDashboard();
+    updateLowBadge();
+  }
+}
+let editingProductId = null;
+let adjustingProductId = null;
+let ordersFilter = 'all';
+let reportMode = 'stock';
+let invCategoryFilter = null;
+let nextProductId = products.length + 1;
+let nextOrderId = orders.length + 1;
+
+/* ════════════════════════════════════
+   HELPERS
+════════════════════════════════════ */
+const fmt = n => '$' + Math.round(n).toLocaleString('es-AR');
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+const daysUntil = d => Math.ceil((new Date(d) - new Date()) / 86400000);
+const stockStatus = p => {
+  if (p.stock === 0) return { badge: 'badge-coral', text: 'Sin stock' };
+  if (p.stock < p.min) return { badge: 'badge-amber', text: 'Bajo' };
+  return { badge: 'badge-green', text: 'Normal' };
+};
+const rxLabel = rx => {
+  if (rx === 'si')   return '<span class="rx-badge rx-yes">Rx</span>';
+  if (rx === 'arch') return '<span class="rx-badge rx-arch">Arch</span>';
+  return '';
+};
+const svgIn = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+const svgOut = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+/* ════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════ */
+const pageTitles = {
+  dashboard: 'Dashboard', inventory: 'Inventario', lowstock: 'Stock bajo',
+  categories: 'Por categoría', 'new-order': 'Nueva orden', orders: 'Historial',
+  suppliers: 'Proveedores', movements: 'Movimientos', expiry: 'Vencimientos', reports: 'Reportes',
+  sales: 'Punto de Venta'
+};
+
+function goPage(name, clearSearch = true) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.dataset.page === name) n.classList.add('active');
+  });
+  document.getElementById('page-title').textContent = pageTitles[name] || name;
+  if (clearSearch) document.getElementById('global-search').value = '';
+  const renders = {
+    dashboard: renderDashboard, inventory: () => renderInventory(products, invCategoryFilter),
+    lowstock: renderLowStock, categories: renderCategories,
+    'new-order': initOrderForm, orders: renderOrders, suppliers: renderSuppliers,
+    movements: renderMovements, expiry: renderExpiry, reports: () => renderReport(reportMode),
+    sales: initSaleForm
+  };
+  if (renders[name]) renders[name]();
+}
+
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => goPage(btn.dataset.page));
+});
+
+/* ════════════════════════════════════
+   DASHBOARD
+════════════════════════════════════ */
+function renderDashboard() {
+  const low = products.filter(p => p.stock < p.min).length;
+  const total = products.reduce((a, p) => a + p.stock * p.price, 0);
+  const exp30 = products.filter(p => daysUntil(p.expiry) <= 30).length;
+  const pending = orders.filter(o => o.status === 'pendiente').length;
+  document.getElementById('low-badge').textContent = low;
+
+  document.getElementById('dash-stats').innerHTML = `
+    <div class="stat-card green">
+      <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+      <div class="stat-label">Productos</div><div class="stat-value green">${products.length}</div><div class="stat-sub">en inventario</div>
+    </div>
+    <div class="stat-card sky">
+      <div class="stat-icon sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <div class="stat-label">Valor del inventario</div><div class="stat-value sky" style="font-size:19px">${fmt(total)}</div><div class="stat-sub">stock valorizado</div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></div>
+      <div class="stat-label">Stock bajo</div><div class="stat-value amber">${low}</div><div class="stat-sub">requieren reposición</div>
+    </div>
+    <div class="stat-card coral">
+      <div class="stat-icon coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="stat-label">Por vencer</div><div class="stat-value coral">${exp30}</div><div class="stat-sub">próximos 30 días</div>
+    </div>`;
+
+  // Bar chart by category
+  const cats = {};
+  products.forEach(p => cats[p.cat] = (cats[p.cat] || 0) + p.stock);
+  const maxVal = Math.max(...Object.values(cats), 1);
+  let chartHtml = '';
+  Object.entries(cats).slice(0, 8).forEach(([c, n]) => {
+    const h = Math.max(6, Math.round(n / maxVal * 104));
+    chartHtml += `<div class="bar-col"><div class="bar-val">${n}</div><div class="bar-block" style="height:${h}px;background:${(catColors[c]||{bar:'var(--sage-lt)'}).bar}"></div><div class="bar-lbl">${c.substring(0,7)}</div></div>`;
+  });
+  document.getElementById('cat-chart').innerHTML = chartHtml;
+
+  // Alerts
+  const alerts = products.filter(p => p.stock < p.min || daysUntil(p.expiry) <= 60);
+  let alertHtml = '';
+  alerts.slice(0, 6).forEach(p => {
+    if (p.stock < p.min) alertHtml += `<div class="mov-row"><div class="mov-icon" style="background:var(--amber-bg);color:var(--amber-dk)">${svgOut}</div><div class="mov-info"><div class="mov-name">${p.name}</div><div class="mov-sub">Stock: ${p.stock} / mín: ${p.min}</div></div><span class="badge badge-amber">Stock bajo</span></div>`;
+    else if (daysUntil(p.expiry) <= 60) alertHtml += `<div class="mov-row"><div class="mov-icon" style="background:var(--coral-bg);color:var(--coral-dk)">${svgOut}</div><div class="mov-info"><div class="mov-name">${p.name}</div><div class="mov-sub">Vence en ${daysUntil(p.expiry)} días</div></div><span class="badge badge-coral">Por vencer</span></div>`;
+  });
+  document.getElementById('dash-alerts').innerHTML = alertHtml || '<div class="empty-state" style="padding:20px">Sin alertas activas</div>';
+
+  // Last movements
+  let movHtml = '';
+  [...movements].reverse().slice(0, 5).forEach(m => {
+    const isIn = m.type === 'entrada';
+    movHtml += `<div class="mov-row"><div class="mov-icon" style="background:${isIn ? 'var(--sage-bg)' : 'var(--coral-bg)'};color:${isIn ? 'var(--sage)' : 'var(--coral)'}">${isIn ? svgIn : svgOut}</div><div class="mov-info"><div class="mov-name">${m.product_name}</div><div class="mov-sub">${m.reason} · ${m.date}</div></div><div class="mov-date"><div class="mov-qty" style="color:${isIn ? 'var(--sage)' : 'var(--coral)'}">${isIn ? '+' : '-'}${m.qty}</div></div></div>`;
+  });
+  document.getElementById('dash-movs').innerHTML = movHtml;
+
+  // Pending orders
+  const pend = orders.filter(o => o.status === 'pendiente');
+  let ordHtml = '';
+  pend.slice(0, 4).forEach(o => {
+    ordHtml += `<div class="mov-row" onclick="showOrderDetail('${o.id}');goPage('orders')"><div class="mov-info"><div class="mov-name">${o.order_serial || o.id} · ${o.supplier}</div><div class="mov-sub">${o.items.length} productos · ${o.date}</div></div><span class="badge ${o.priority === 'urgente' ? 'badge-coral' : 'badge-amber'}">${o.priority}</span></div>`;
+  });
+  document.getElementById('dash-orders').innerHTML = ordHtml || '<div class="empty-state" style="padding:20px">Sin órdenes pendientes</div>';
+}
+
+/* ════════════════════════════════════
+   INVENTORY
+════════════════════════════════════ */
+function renderInventory(list, catFilter) {
+  const cats = [...new Set(products.map(p => p.cat))].sort();
+  let chips = `<button class="chip ${!catFilter ? 'active' : ''}" onclick="renderInventory(products,null)">Todos (${products.length})</button>`;
+  cats.forEach(c => {
+    const n = products.filter(p => p.cat === c).length;
+    chips += `<button class="chip ${catFilter === c ? 'active' : ''}" onclick="invCategoryFilter='${c}';renderInventory(products,'${c}')">${c} (${n})</button>`;
+  });
+  document.getElementById('inv-chips').innerHTML = chips;
+  invCategoryFilter = catFilter;
+
+  const filtered = catFilter ? list.filter(p => p.cat === catFilter) : list;
+  const tbody = document.getElementById('inv-tbody');
+  tbody.innerHTML = '';
+  if (!filtered.length) { tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>Sin resultados</div></td></tr>`; return; }
+
+  filtered.forEach(p => {
+    const s = stockStatus(p);
+    const d = daysUntil(p.expiry);
+    const expColor = d <= 30 ? 'color:var(--coral)' : d <= 90 ? 'color:var(--amber-dk)' : '';
+    const pct = Math.min(100, Math.round(p.stock / Math.max(p.min * 2, 1) * 100));
+    const barColor = p.stock === 0 ? 'var(--coral)' : p.stock < p.min ? 'var(--amber)' : 'var(--sage-lt)';
+    const cat = catColors[p.cat] || { badge: 'badge-gray' };
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-name">${p.name} ${rxLabel(p.rx)}</td>
+      <td class="td-muted">${p.lab}</td>
+      <td><span class="badge ${cat.badge}">${p.cat}</span></td>
+      <td class="td-mono">${p.lot}</td>
+      <td><div class="stock-bar"><span style="font-weight:500">${p.stock}</span><div class="progress"><div class="progress-fill" style="width:${pct}%;background:${barColor}"></div></div></div></td>
+      <td class="td-muted">${p.min}</td>
+      <td style="${expColor};font-size:12px">${p.expiry}</td>
+      <td style="font-family:var(--mono);font-size:12.5px">${fmt(p.price)}</td>
+      <td class="td-actions">
+        <button class="btn btn-ghost btn-xs" onclick="editProduct('${p.id}')">Editar</button>
+        <button class="btn btn-ghost btn-xs" onclick="openAdjust('${p.id}')">Ajustar</button>
+        <button class="btn btn-danger btn-xs" onclick="deleteProduct('${p.id}')">Baja</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ════════════════════════════════════
+   PRODUCT CRUD
+════════════════════════════════════ */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function editProduct(id) {
+  renderCategoryManager();
+  editingProductId = id;
+  const p = products.find(x => x.id === id);
+  document.getElementById('product-modal-title').textContent = 'Editar producto';
+  document.getElementById('p-name').value = p.name;
+  document.getElementById('p-lab').value = p.lab;
+  document.getElementById('p-cat').value = p.cat;
+  document.getElementById('p-stock').value = p.stock;
+  document.getElementById('p-min').value = p.min;
+  document.getElementById('p-price').value = p.price;
+  document.getElementById('p-expiry').value = p.expiry;
+  document.getElementById('p-lot').value = p.lot;
+  document.getElementById('p-supplier').value = p.supplier;
+  document.getElementById('p-rx').value = p.rx || 'no';
+  openModal('product-modal');
+}
+
+async function saveProduct() {
+  const name = document.getElementById('p-name').value.trim();
+  const lab  = document.getElementById('p-lab').value.trim();
+  if (!name || !lab) { toast('Nombre y laboratorio son requeridos', 'error'); return; }
+  const data = {
+    name, lab,
+    cat:      document.getElementById('p-cat').value,
+    stock:    parseInt(document.getElementById('p-stock').value) || 0,
+    min_stock: parseInt(document.getElementById('p-min').value) || 0,
+    price:    parseFloat(document.getElementById('p-price').value) || 0,
+    expiry:   document.getElementById('p-expiry').value || null,
+    lot:      document.getElementById('p-lot').value.trim(),
+    supplier: document.getElementById('p-supplier').value,
+    rx:       document.getElementById('p-rx').value || 'no',
+  };
+  
+  if (editingProductId) {
+    const res = await supabaseDB.from('products').update(data).eq('id', editingProductId).select();
+    if (res.error) {
+      console.error('Supabase update error:', res.error);
+      toast('Error: ' + (res.error.message || res.error.details || 'Error al actualizar'), 'error');
+      return;
+    }
+    res.data[0].min = res.data[0].min_stock;
+    const idx = products.findIndex(p => p.id === editingProductId);
+    products[idx] = res.data[0];
+    toast('Producto actualizado correctamente');
+  } else {
+    const res = await supabaseDB.from('products').insert([data]).select();
+    if (res.error) {
+      console.error('Supabase insert error:', res.error);
+      toast('Error: ' + (res.error.message || res.error.details || 'Error al crear producto'), 'error');
+      return;
+    }
+    res.data[0].min = res.data[0].min_stock;
+    products.push(res.data[0]);
+    toast('Producto agregado al inventario');
+  }
+  
+  editingProductId = null;
+  document.getElementById('product-modal-title').textContent = 'Nuevo producto';
+  ['p-name','p-lab','p-stock','p-min','p-price','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
+  closeModal('product-modal');
+  renderInventory(products, invCategoryFilter);
+  renderDashboard();
+  updateLowBadge();
+}
+
+async function deleteProduct(id) {
+  const p = products.find(x => x.id === id);
+  if (!confirm(`¿Dar de baja "${p.name}" del inventario? Esta acción no se puede deshacer.`)) return;
+  
+  const mov = { product_name: p.name, type: 'salida', qty: p.stock, reason: 'Baja de inventario', date: today(), obs: 'Baja manual' };
+  
+  const pRes = await supabaseDB.from('products').delete().eq('id', id);
+  if (pRes.error) { toast('Error al dar de baja', 'error'); return; }
+  
+  await supabaseDB.from('movements').insert([mov]);
+  movements.push(mov);
+  
+  products = products.filter(x => x.id !== id);
+  renderInventory(products, invCategoryFilter);
+  renderDashboard();
+  updateLowBadge();
+  toast(`"${p.name}" dado de baja`);
+}
+
+/* ════════════════════════════════════
+   STOCK ADJUST
+════════════════════════════════════ */
+function openAdjust(id) {
+  adjustingProductId = id;
+  const p = products.find(x => x.id === id);
+  document.getElementById('adjust-product-info').innerHTML = `<strong>${p.name}</strong><br><span style="color:var(--text2)">Stock actual: <strong style="color:var(--sage)">${p.stock}</strong> unidades &nbsp;·&nbsp; Mínimo: ${p.min} &nbsp;·&nbsp; Lote: ${p.lot}</span>`;
+  document.getElementById('adj-qty').value = 1;
+  document.getElementById('adj-obs').value = '';
+  openModal('adjust-modal');
+}
+
+async function applyAdjust() {
+  const p = products.find(x => x.id === adjustingProductId);
+  const type = document.getElementById('adj-type').value;
+  const qty  = parseInt(document.getElementById('adj-qty').value) || 0;
+  const reason = document.getElementById('adj-reason').value;
+  const obs  = document.getElementById('adj-obs').value;
+  if (qty <= 0) { toast('Ingresá una cantidad válida', 'error'); return; }
+  
+  let newStock = p.stock;
+  if (type === 'entrada') newStock += qty;
+  else { if (qty > newStock) { toast('Stock insuficiente para la salida', 'warning'); return; } newStock -= qty; }
+  
+  const pRes = await supabaseDB.from('products').update({ stock: newStock }).eq('id', p.id);
+  if (pRes.error) { toast('Error al actualizar stock', 'error'); return; }
+  p.stock = newStock;
+  
+  const mov = { product_name: p.name, type, qty, reason, date: today(), obs };
+  await supabaseDB.from('movements').insert([mov]);
+  movements.push(mov);
+  
+  closeModal('adjust-modal');
+  toast(`Stock actualizado: ${p.name} → ${p.stock} u.`);
+  renderInventory(products, invCategoryFilter);
+  renderDashboard();
+  updateLowBadge();
+}
+
+/* ════════════════════════════════════
+   LOW STOCK
+════════════════════════════════════ */
+function renderLowStock() {
+  const low = products.filter(p => p.stock < p.min).sort((a, b) => (a.stock / a.min) - (b.stock / b.min));
+  updateLowBadge();
+  const banner = document.getElementById('low-banner');
+  if (!low.length) {
+    banner.innerHTML = `<div class="alert alert-green"><svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><div class="alert-title">¡Todo el stock está en nivel adecuado!</div><div class="alert-body">No hay productos que requieran reposición en este momento.</div></div></div>`;
+  } else {
+    const deficit = low.reduce((a, p) => a + (p.min - p.stock), 0);
+    banner.innerHTML = `<div class="alert alert-amber"><svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div><div class="alert-title">${low.length} productos requieren reposición</div><div class="alert-body">Déficit total: ${deficit} unidades. Considerá generar una orden de compra.</div></div></div>`;
+  }
+  const tbody = document.getElementById('low-tbody');
+  tbody.innerHTML = '';
+  if (!low.length) { tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">Sin productos con stock bajo</div></td></tr>`; return; }
+  low.forEach(p => {
+    const deficit = p.min - p.stock;
+    const s = stockStatus(p);
+    const cat = catColors[p.cat] || { badge: 'badge-gray' };
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-name">${p.name}</td>
+      <td><span class="badge ${cat.badge}">${p.cat}</span></td>
+      <td style="font-weight:600;color:${p.stock === 0 ? 'var(--coral)' : 'var(--amber-dk)'}">${p.stock}</td>
+      <td class="td-muted">${p.min}</td>
+      <td style="color:var(--coral);font-weight:600">-${deficit}</td>
+      <td style="font-size:12px;color:var(--text2)">${p.supplier}</td>
+      <td><span class="badge ${s.badge}">${s.text}</span></td>
+      <td class="td-actions">
+        <button class="btn btn-primary btn-xs" onclick="orderFromLowStock('${p.id}')">Ordenar</button>
+        <button class="btn btn-ghost btn-xs" onclick="openAdjust('${p.id}')">Ajustar</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function updateLowBadge() {
+  document.getElementById('low-badge').textContent = products.filter(p => p.stock < p.min).length;
+}
+
+/* ════════════════════════════════════
+   CATEGORIES
+════════════════════════════════════ */
+function renderCategories() {
+  const cats = {};
+  products.forEach(p => { if (!cats[p.cat]) cats[p.cat] = []; cats[p.cat].push(p); });
+  let html = '';
+  for (const [cat, prods] of Object.entries(cats)) {
+    const c = catColors[cat] || { badge: 'badge-gray' };
+    const val = prods.reduce((a, p) => a + p.stock * p.price, 0);
+    const lowCount = prods.filter(p => p.stock < p.min).length;
+    html += `
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="badge ${c.badge}" style="font-size:12px;padding:4px 10px">${cat}</span>
+            <span style="font-size:12px;color:var(--text3)">${prods.length} productos</span>
+            ${lowCount ? `<span class="badge badge-amber">${lowCount} bajo mínimo</span>` : ''}
+          </div>
+          <span style="font-size:13px;font-weight:600;color:var(--text);font-family:var(--mono)">${fmt(val)}</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" style="table-layout:fixed">
+            <colgroup>
+              <col style="width:35%">
+              <col style="width:10%">
+              <col style="width:10%">
+              <col style="width:15%">
+              <col style="width:15%">
+              <col style="width:15%">
+            </colgroup>
+            <thead><tr><th>Producto</th><th>Stock</th><th>Mínimo</th><th>Estado</th><th>Precio</th><th>Vencimiento</th></tr></thead>
+            <tbody>${prods.map(p => {
+              const s = stockStatus(p); const d = daysUntil(p.expiry);
+              return `<tr onclick="editProduct('${p.id}')"><td class="td-name">${p.name} ${rxLabel(p.rx)}</td><td style="font-weight:500">${p.stock}</td><td class="td-muted">${p.min}</td><td><span class="badge ${s.badge}">${s.text}</span></td><td style="font-family:var(--mono);font-size:12px">${fmt(p.price)}</td><td style="font-size:12px;color:${d<=30?'var(--coral)':d<=90?'var(--amber-dk)':'var(--text2)'}">${p.expiry}</td></tr>`;
+            }).join('')}</tbody>
+          </table>
+        </div>
+      </div>`;
+  }
+  document.getElementById('cat-view').innerHTML = html;
+}
+
+/* ════════════════════════════════════
+   ORDER FORM
+════════════════════════════════════ */
+let preserveOrderState = false;
+
+function orderFromLowStock(id) {
+  const p = products.find(x => x.id === id);
+  const deficit = p.min - p.stock;
+  const qtyToOrder = Math.max(deficit, 1);
+  
+  if (orderItems.length > 0 && confirm(`Ya tenés una orden en proceso con ${orderItems.length} producto(s).\n\n¿Deseás agregar ${qtyToOrder} u. de "${p.name}" a la orden actual?\n\n(Aceptar: agregar a la orden actual | Cancelar: crear orden nueva)`)) {
+    const ex = orderItems.find(i => i.id === id);
+    if (ex) ex.qty += qtyToOrder;
+    else orderItems.push({ id: id, name: p.name, qty: qtyToOrder, price: p.price });
+  } else {
+    orderItems = [{ id: id, name: p.name, qty: qtyToOrder, price: p.price }];
+  }
+  preserveOrderState = true;
+  goPage('new-order');
+}
+
+function initOrderForm() {
+  if (!preserveOrderState) {
+    orderItems = [];
+  }
+  preserveOrderState = false;
+  document.getElementById('o-prod-search').value = '';
+  document.getElementById('o-prod-selected-id').value = '';
+  document.getElementById('o-prod-dropdown').style.display = 'none';
+  const t = new Date(); t.setDate(t.getDate() + 7);
+  document.getElementById('o-date').value = t.toISOString().split('T')[0];
+  const low = products.filter(p => p.stock < p.min);
+  document.getElementById('order-sugg').innerHTML = low.length
+    ? `<strong>Sugerencia:</strong> hay ${low.length} productos con stock bajo: ${low.slice(0,3).map(p=>p.name).join(', ')}${low.length>3?'…':''}.`
+    : '✓ Todo el stock está en nivel adecuado.';
+  renderOrderItems();
+}
+
+function searchOrderProduct(q) {
+  const dd = document.getElementById('o-prod-dropdown');
+  document.getElementById('o-prod-selected-id').value = ''; // clear hidden id if typing
+  if (!q) { dd.style.display = 'none'; return; }
+  const res = products.filter(p => p.name.toLowerCase().includes(q.toLowerCase()) || (p.lot && p.lot.toLowerCase().includes(q.toLowerCase())));
+  if (!res.length) {
+    dd.innerHTML = '<div class="dropdown-item" style="color:var(--text3)">Sin resultados</div>';
+  } else {
+    dd.innerHTML = res.slice(0,10).map(p => `<div class="dropdown-item" onclick="selectOrderProduct('${p.id}', '${p.name.replace(/'/g,"\\'")} - Stock: ${p.stock}')"><strong>${p.name}</strong> <span style="font-size:11px;color:var(--text3)">(Stock: ${p.stock})</span></div>`).join('');
+  }
+  dd.style.display = 'block';
+}
+
+function selectOrderProduct(id, displayName) {
+  document.getElementById('o-prod-selected-id').value = id;
+  document.getElementById('o-prod-search').value = displayName;
+  document.getElementById('o-prod-dropdown').style.display = 'none';
+  document.getElementById('o-prod-qty').focus();
+}
+
+document.addEventListener('click', e => {
+  const dd = document.getElementById('o-prod-dropdown');
+  if (dd && !e.target.closest('#o-prod-dropdown') && e.target.id !== 'o-prod-search') {
+    dd.style.display = 'none';
+  }
+});
+
+function addOrderItem() {
+  const pid = document.getElementById('o-prod-selected-id').value;
+  if (!pid) { toast('Seleccione un medicamento del buscador', 'warning'); return; }
+  const qty = parseInt(document.getElementById('o-prod-qty').value) || 1;
+  const p = products.find(x => x.id === pid);
+  if (!p) return;
+  const ex = orderItems.find(i => i.id === pid);
+  if (ex) ex.qty += qty;
+  else orderItems.push({ id: pid, name: p.name, qty, price: p.price });
+  renderOrderItems();
+}
+
+function renderOrderItems() {
+  const el = document.getElementById('order-items-list');
+  if (!orderItems.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>Sin productos agregados</div>`;
+    document.getElementById('order-total').textContent = '$0';
+    return;
+  }
+  let html = ''; let total = 0;
+  orderItems.forEach((item, i) => {
+    total += item.qty * item.price;
+    html += `
+      <div class="order-item-row">
+        <div style="flex:1">
+          <div class="order-item-name">${item.name}</div>
+          <div class="order-item-sub">${fmt(item.price)} × ${item.qty} = ${fmt(item.qty * item.price)}</div>
+        </div>
+        <input type="number" value="${item.qty}" min="1" style="width:56px;padding:4px 7px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);font-size:12px;color:var(--text);text-align:center;font-family:var(--font)" onchange="orderItems[${i}].qty=Math.max(1,parseInt(this.value)||1);renderOrderItems()">
+        <button class="modal-close" onclick="orderItems.splice(${i},1);renderOrderItems()">×</button>
+      </div>`;
+  });
+  el.innerHTML = html;
+  document.getElementById('order-total').textContent = fmt(total);
+}
+
+async function submitOrder() {
+  if (!orderItems.length) { toast('Agregá al menos un producto a la orden', 'warning'); return; }
+  const hid = `ORD-${String(orders.length + 1).padStart(3, '0')}`;
+  
+  const ord = {
+    order_serial: hid,
+    supplier: document.getElementById('o-supplier').value,
+    items: orderItems.map(i => ({ ...i })),
+    total: orderItems.reduce((a, i) => a + i.qty * i.price, 0),
+    date: today(), status: 'pendiente',
+    priority: document.getElementById('o-priority').value,
+    payment: document.getElementById('o-payment').value,
+    notes: document.getElementById('o-notes').value,
+  };
+  
+  const res = await supabaseDB.from('orders').insert([ord]).select();
+  if (res.error) { toast('Error al crear orden', 'error'); return; }
+  orders.unshift(res.data[0]);
+  
+  toast(`Orden ${hid} creada exitosamente`);
+  orderItems = [];
+  goPage('orders');
+}
+
+/* ════════════════════════════════════
+   ORDERS HISTORY
+════════════════════════════════════ */
+function renderOrders() {
+  const list = ordersFilter === 'all' ? orders : orders.filter(o => o.status === ordersFilter);
+  const statusBadge = { entregada: 'badge-green', pendiente: 'badge-amber', cancelada: 'badge-coral' };
+  const tbody = document.getElementById('orders-tbody');
+  tbody.innerHTML = '';
+  if (!list.length) { tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">Sin órdenes</div></td></tr>`; return; }
+  list.forEach(o => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-mono">${o.order_serial || o.id}</td>
+      <td style="font-weight:500">${o.supplier}</td>
+      <td class="td-muted">${o.items.length} ítem(s)</td>
+      <td style="font-family:var(--mono);font-size:12.5px">${fmt(o.total)}</td>
+      <td class="td-muted" style="font-size:12px">${o.date}</td>
+      <td style="font-size:12px;color:var(--text2)">${o.payment || '—'}</td>
+      <td><span class="badge ${statusBadge[o.status]}">${o.status}</span></td>
+      <td class="td-actions">
+        <button class="btn btn-ghost btn-xs" onclick="showOrderDetail('${o.id}')">Ver</button>
+        ${o.status === 'pendiente' ? `<button class="btn btn-primary btn-xs" onclick="receiveOrder('${o.id}')">Recibir</button><button class="btn btn-danger btn-xs" onclick="cancelOrder('${o.id}')">Cancelar</button>` : ''}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterOrders(f, btn) {
+  ordersFilter = f;
+  document.querySelectorAll('#orders-tabs .tab-btn').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderOrders();
+}
+
+function showOrderDetail(id) {
+  const o = orders.find(x => x.id === id);
+  const displayId = o.order_serial || o.id;
+  const statusBadge = { entregada: 'badge-green', pendiente: 'badge-amber', cancelada: 'badge-coral' };
+  let body = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:13px;margin-bottom:16px;padding:12px 14px;background:var(--surface2);border-radius:var(--r)">
+      <div><span style="color:var(--text3);font-size:11px;display:block">Orden</span><span style="font-family:var(--mono);font-weight:600">${displayId}</span></div>
+      <div><span style="color:var(--text3);font-size:11px;display:block">Estado</span><span class="badge ${statusBadge[o.status]}">${o.status}</span></div>
+      <div><span style="color:var(--text3);font-size:11px;display:block">Proveedor</span><span style="font-weight:500">${o.supplier}</span></div>
+      <div><span style="color:var(--text3);font-size:11px;display:block">Prioridad</span><span class="badge ${o.priority === 'urgente' ? 'badge-coral' : 'badge-amber'}">${o.priority}</span></div>
+      <div><span style="color:var(--text3);font-size:11px;display:block">Fecha</span>${o.date}</div>
+      <div><span style="color:var(--text3);font-size:11px;display:block">Pago</span>${o.payment || '—'}</div>
+    </div>
+    <div style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Productos</div>`;
+  o.items.forEach(item => {
+    body += `<div class="order-item-row"><div class="order-item-name" style="flex:1">${item.name}</div><div style="text-align:right"><div style="font-weight:600;font-size:13px">${item.qty} u.</div><div style="font-size:11px;color:var(--text3)">${fmt(item.price * item.qty)}</div></div></div>`;
+  });
+  body += `<div class="divider"></div><div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600"><span>Total</span><span style="font-family:var(--mono)">${fmt(o.total)}</span></div>`;
+  if (o.notes) body += `<div style="margin-top:12px;padding:10px;background:var(--surface2);border-radius:var(--r);font-size:12px;color:var(--text2)">${o.notes}</div>`;
+  document.getElementById('order-detail-body').innerHTML = body;
+  const acts = document.getElementById('order-detail-actions');
+  acts.innerHTML = `<button class="btn btn-ghost" onclick="closeModal('order-detail-modal')">Cerrar</button>`;
+  acts.innerHTML += `<button class="btn btn-warning" onclick="generateOrderPDF('${o.id}')">Descargar PDF</button>`;
+  if (o.status === 'pendiente') {
+    acts.innerHTML += `<button class="btn btn-primary" onclick="receiveOrder('${o.id}');closeModal('order-detail-modal')">Marcar como recibida</button>`;
+    acts.innerHTML += `<button class="btn btn-danger" onclick="cancelOrder('${o.id}');closeModal('order-detail-modal')">Cancelar orden</button>`;
+  }
+  openModal('order-detail-modal');
+}
+
+async function receiveOrder(id) {
+  const o = orders.find(x => x.id === id);
+  const displayId = o.order_serial || o.id;
+  if (!confirm(`¿Marcar orden ${displayId} como entregada y actualizar stock?`)) return;
+  
+  await supabaseDB.from('orders').update({ status: 'entregada' }).eq('id', id);
+  o.status = 'entregada';
+  
+  const movsToPush = [];
+  for (const item of o.items) {
+    const p = products.find(x => x.name === item.name);
+    if (p) { 
+      const newStock = p.stock + item.qty;
+      await supabaseDB.from('products').update({ stock: newStock }).eq('id', p.id);
+      p.stock = newStock;
+      movsToPush.push({ product_name: p.name, type: 'entrada', qty: item.qty, reason: 'Compra a proveedor', date: today(), obs: `Orden ${displayId}` });
+    }
+  }
+  
+  if (movsToPush.length) {
+    await supabaseDB.from('movements').insert(movsToPush);
+    movsToPush.forEach(m => movements.push(m));
+  }
+  
+  renderOrders(); renderDashboard(); updateLowBadge();
+  toast(`Orden ${displayId} recibida — stock actualizado`);
+}
+
+async function cancelOrder(id) {
+  const o = orders.find(x => x.id === id);
+  const displayId = o.order_serial || o.id;
+  if (!confirm(`¿Cancelar la orden ${displayId}?`)) return;
+  
+  await supabaseDB.from('orders').update({ status: 'cancelada' }).eq('id', id);
+  o.status = 'cancelada';
+  renderOrders();
+  toast('Orden cancelada', 'warning');
+}
+
+/* ════════════════════════════════════
+   SUPPLIERS
+════════════════════════════════════ */
+function renderSuppliers() {
+  const grid = document.getElementById('suppliers-grid');
+  grid.innerHTML = '';
+  suppliers.forEach(s => {
+    const init = s.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+    const div = document.createElement('div');
+    div.className = 'prov-card';
+    div.innerHTML = `
+      <div class="prov-avatar">${init}</div>
+      <div class="prov-name">${s.name}</div>
+      <div class="prov-sub">${s.contact}</div>
+      <div class="prov-sub">${s.tel}</div>
+      <div class="prov-sub" style="color:var(--sky)">${s.email}</div>
+      <div class="prov-meta">
+        <div class="prov-meta-item"><div class="prov-meta-val">${s.days}d</div><div class="prov-meta-lbl">Entrega</div></div>
+        <div class="prov-meta-item"><div class="prov-meta-val">${s.orders}</div><div class="prov-meta-lbl">Órdenes</div></div>
+        <div class="prov-meta-item"><div class="prov-meta-val" style="font-size:12px">${fmt(s.total)}</div><div class="prov-meta-lbl">Comprado</div></div>
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+
+function saveSupplier() {
+  const name = document.getElementById('sup-name').value.trim();
+  if (!name) { toast('El nombre es requerido', 'error'); return; }
+  suppliers.push({
+    name, contact: document.getElementById('sup-contact').value,
+    tel: document.getElementById('sup-tel').value,
+    email: document.getElementById('sup-email').value,
+    days: parseInt(document.getElementById('sup-days').value) || 7,
+    orders: 0, total: 0,
+  });
+  closeModal('supplier-modal');
+  renderSuppliers();
+  toast('Proveedor agregado');
+}
+
+/* ════════════════════════════════════
+   MOVEMENTS
+════════════════════════════════════ */
+function renderMovements() {
+  const tf = document.getElementById('mov-type-filter').value;
+  const pf = document.getElementById('mov-prod-filter');
+  if (pf.children.length <= 1) {
+    pf.innerHTML = '<option value="all">Todos los productos</option>' + products.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
+  }
+  const pval = pf.value;
+  let list = [...movements].reverse();
+  if (tf !== 'all') list = list.filter(m => m.type === tf);
+  if (pval && pval !== 'all') list = list.filter(m => m.product_name === pval);
+
+  const totalIn = movements.filter(m => m.type === 'entrada').reduce((a, m) => a + m.qty, 0);
+  const totalOut = movements.filter(m => m.type === 'salida').reduce((a, m) => a + m.qty, 0);
+  document.getElementById('mov-stats').innerHTML = `
+    <div class="stat-card green">
+      <div class="stat-icon green">${svgIn}</div>
+      <div class="stat-label">Total entradas</div><div class="stat-value green">${totalIn}</div><div class="stat-sub">unidades ingresadas</div>
+    </div>
+    <div class="stat-card coral">
+      <div class="stat-icon coral">${svgOut}</div>
+      <div class="stat-label">Total salidas</div><div class="stat-value coral">${totalOut}</div><div class="stat-sub">unidades egresadas</div>
+    </div>
+    <div class="stat-card sky">
+      <div class="stat-icon sky"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="stat-label">Balance neto</div><div class="stat-value sky" style="${totalIn-totalOut<0?'color:var(--coral)':''}">${totalIn-totalOut>=0?'+':''}${totalIn-totalOut}</div><div class="stat-sub">unidades</div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-icon amber"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="stat-label">Registros</div><div class="stat-value amber">${movements.length}</div><div class="stat-sub">movimientos totales</div>
+    </div>`;
+
+  let html = '';
+  list.forEach(m => {
+    const isIn = m.type === 'entrada';
+    html += `<div class="mov-row"><div class="mov-icon" style="background:${isIn ? 'var(--sage-bg)' : 'var(--coral-bg)'};color:${isIn ? 'var(--sage)' : 'var(--coral)'}">${isIn ? svgIn : svgOut}</div><div class="mov-info"><div class="mov-name">${m.product_name}</div><div class="mov-sub">${m.reason}${m.obs ? ' · ' + m.obs : ''}</div></div><div class="mov-date"><div class="mov-qty" style="color:${isIn ? 'var(--sage)' : 'var(--coral)'}">${isIn ? '+' : '-'}${m.qty}</div><div>${m.date}</div></div></div>`;
+  });
+  document.getElementById('mov-list').innerHTML = html || '<div class="empty-state">Sin movimientos para mostrar</div>';
+}
+
+/* ════════════════════════════════════
+   EXPIRY
+════════════════════════════════════ */
+function renderExpiry() {
+  const e30 = products.filter(p => daysUntil(p.expiry) <= 30).length;
+  const e90 = products.filter(p => { const d = daysUntil(p.expiry); return d > 30 && d <= 90; }).length;
+  const ok  = products.filter(p => daysUntil(p.expiry) > 90).length;
+  const exp = products.filter(p => daysUntil(p.expiry) <= 0).length;
+
+  document.getElementById('exp-stats').innerHTML = `
+    <div class="stat-card coral"><div class="stat-label">Vencidos</div><div class="stat-value coral">${exp}</div><div class="stat-sub">dar de baja urgente</div></div>
+    <div class="stat-card coral"><div class="stat-label">Críticos ≤30d</div><div class="stat-value coral">${e30}</div><div class="stat-sub">vencen este mes</div></div>
+    <div class="stat-card amber"><div class="stat-label">Próximos ≤90d</div><div class="stat-value amber">${e90}</div><div class="stat-sub">atención recomendada</div></div>
+    <div class="stat-card green"><div class="stat-label">Estado OK</div><div class="stat-value green">${ok}</div><div class="stat-sub">más de 90 días</div></div>`;
+
+  const sorted = [...products].sort((a, b) => new Date(a.expiry) - new Date(b.expiry));
+  const tbody = document.getElementById('exp-tbody');
+  tbody.innerHTML = '';
+  sorted.forEach(p => {
+    const d = daysUntil(p.expiry);
+    const badge = d <= 0 ? 'badge-coral' : d <= 30 ? 'badge-coral' : d <= 90 ? 'badge-amber' : 'badge-green';
+    const label = d <= 0 ? 'Vencido' : d <= 30 ? 'Crítico' : d <= 90 ? 'Próximo' : 'OK';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-name">${p.name}</td>
+      <td class="td-mono">${p.lot}</td>
+      <td>${p.stock}</td>
+      <td style="font-size:12px">${p.expiry}</td>
+      <td style="font-weight:${d<=30?'600':'400'};color:${d<=30?'var(--coral)':d<=90?'var(--amber-dk)':'var(--text2)'}">${d <= 0 ? 'Vencido' : d + ' días'}</td>
+      <td><span class="badge ${badge}">${label}</span></td>
+      <td>${d <= 90 ? `<button class="btn btn-danger btn-xs" onclick="removeExpired('${p.id}')">Dar de baja</button>` : '—'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+async function removeExpired(id) {
+  const p = products.find(x => x.id === id);
+  if (!confirm(`¿Dar de baja "${p.name}" del inventario por vencimiento?`)) return;
+  const mov = { product_name: p.name, type: 'salida', qty: p.stock, reason: 'Vencimiento / baja', date: today(), obs: p.lot };
+  
+  const pRes = await supabaseDB.from('products').delete().eq('id', id);
+  if(pRes.error) { toast('Error', 'error'); return; }
+  
+  await supabaseDB.from('movements').insert([mov]);
+  movements.push(mov);
+  
+  products = products.filter(x => x.id !== id);
+  renderExpiry(); renderDashboard(); updateLowBadge();
+  toast(`"${p.name}" dado de baja por vencimiento`);
+}
+
+/* ════════════════════════════════════
+   REPORTS
+════════════════════════════════════ */
+function switchReport(mode, btn) {
+  reportMode = mode;
+  document.querySelectorAll('#page-reports .tab-btn').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderReport(mode);
+}
+
+function renderReport(mode) {
+  const el = document.getElementById('report-content');
+  if (mode === 'stock') {
+    const cats = {};
+    products.forEach(p => { if (!cats[p.cat]) cats[p.cat] = { count: 0, val: 0, units: 0 }; cats[p.cat].count++; cats[p.cat].val += p.stock * p.price; cats[p.cat].units += p.stock; });
+    const total = Object.values(cats).reduce((a, c) => a + c.val, 0);
+    const totalU = products.reduce((a, p) => a + p.stock, 0);
+
+    let statsHtml = `<div class="stat-grid" style="margin-bottom:16px">
+      <div class="stat-card sky"><div class="stat-label">Valor total</div><div class="stat-value sky" style="font-size:18px">${fmt(total)}</div></div>
+      <div class="stat-card green"><div class="stat-label">Total unidades</div><div class="stat-value green">${totalU}</div></div>
+      <div class="stat-card amber"><div class="stat-label">Categorías</div><div class="stat-value amber">${Object.keys(cats).length}</div></div>
+      <div class="stat-card coral"><div class="stat-label">Bajo mínimo</div><div class="stat-value coral">${products.filter(p=>p.stock<p.min).length}</div></div>
+    </div>`;
+
+    const sorted = Object.entries(cats).sort((a, b) => b[1].val - a[1].val);
+    let rows = '';
+    sorted.forEach(([c, d]) => {
+      const pct = total > 0 ? Math.round(d.val / total * 100) : 0;
+      const barColor = (catColors[c] || { bar: 'var(--sage-lt)' }).bar;
+      rows += `<div class="rep-row"><div><div class="rep-label">${c}</div><div style="font-size:11px;color:var(--text3)">${d.count} productos · ${d.units} u.</div></div><div class="rep-bar-wrap"><div class="rep-bar-fill" style="width:${pct}%;background:${barColor}"></div></div><div class="rep-val">${fmt(d.val)}</div><div class="rep-pct">${pct}%</div></div>`;
+    });
+    el.innerHTML = statsHtml + `<div class="card"><div class="card-header"><div class="card-title">Valor por categoría</div></div><div class="card-body">${rows}</div></div>`;
+
+  } else if (mode === 'rotation') {
+    const sales = {};
+    movements.filter(m => m.type === 'salida').forEach(m => sales[m.product_name] = (sales[m.product_name] || 0) + m.qty);
+    let html = `<div class="card"><div class="table-wrap"><table class="data-table"><thead><tr><th>Producto</th><th>Categoría</th><th>Stock</th><th>Salidas (período)</th><th>Cobertura estimada</th><th>Rotación</th></tr></thead><tbody>`;
+    products.forEach(p => {
+      const sal = sales[p.name] || 0;
+      const cov = sal > 0 ? Math.round(p.stock / sal * 30) : null;
+      const rot = sal > 5 ? 'Alta' : sal > 0 ? 'Media' : 'Baja';
+      const rc = rot === 'Alta' ? 'badge-green' : rot === 'Media' ? 'badge-amber' : 'badge-coral';
+      const cat = catColors[p.cat] || { badge: 'badge-gray' };
+      html += `<tr><td class="td-name">${p.name}</td><td><span class="badge ${cat.badge}">${p.cat}</span></td><td>${p.stock}</td><td style="font-weight:600;color:${sal>0?'var(--sage)':'var(--text3)'}">${sal}</td><td style="color:var(--text2)">${cov !== null ? cov + ' días' : '—'}</td><td><span class="badge ${rc}">${rot}</span></td></tr>`;
+    });
+    html += `</tbody></table></div></div>`;
+    el.innerHTML = html;
+
+  } else {
+    const byProv = {};
+    products.forEach(p => { if (!byProv[p.supplier]) byProv[p.supplier] = { prods: 0, val: 0, low: 0 }; byProv[p.supplier].prods++; byProv[p.supplier].val += p.stock * p.price; if (p.stock < p.min) byProv[p.supplier].low++; });
+    let html = `<div class="card"><div class="table-wrap"><table class="data-table"><thead><tr><th>Proveedor</th><th>Productos</th><th>Valor en stock</th><th>Stock bajo</th><th>Órdenes históricas</th></tr></thead><tbody>`;
+    Object.entries(byProv).forEach(([pv, d]) => {
+      const sup = suppliers.find(s => s.name === pv);
+      html += `<tr><td style="font-weight:500">${pv}</td><td>${d.prods}</td><td style="font-family:var(--mono);font-size:12.5px">${fmt(d.val)}</td><td style="color:${d.low>0?'var(--amber-dk)':'var(--sage)'};font-weight:600">${d.low}</td><td>${sup ? sup.orders : '—'}</td></tr>`;
+    });
+    html += `</tbody></table></div></div>`;
+    el.innerHTML = html;
+  }
+}
+
+/* ════════════════════════════════════
+   SEARCH
+════════════════════════════════════ */
+function globalSearch(q) {
+  const isInventory = document.getElementById('page-inventory')?.classList.contains('active');
+  if (!isInventory) {
+    goPage('inventory', false);
+  } else {
+    // If we're already on inventory but clearSearch is called from goPage, the input would be clear.
+    // Ensure we don't clear it.
+  }
+  
+  if (!q) { renderInventory(products, null); return; }
+  const r = products.filter(p =>
+    [p.name, p.lab, p.cat, p.lot, p.supplier].join(' ').toLowerCase().includes(q.toLowerCase())
+  );
+  invCategoryFilter = null;
+  renderInventory(r, null);
+}
+
+/* ════════════════════════════════════
+   EXPORT CSV
+════════════════════════════════════ */
+function exportCSV() {
+  const headers = ['Nombre','Laboratorio','Categoría','Stock','Mínimo','Precio','Vencimiento','Lote','Proveedor','Receta'];
+  const rows = products.map(p => [p.name, p.lab, p.cat, p.stock, p.min, p.price, p.expiry, p.lot, p.supplier, p.rx].map(v => `"${v}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.download = `inventario_farmastock_${today()}.csv`;
+  a.click();
+  toast('CSV exportado exitosamente');
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(ov => {
+  ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
+});
+
+/* ════════════════════════════════════
+   SALES, OS AND CATEGORIES MANAGEMENT
+════════════════════════════════════ */
+function renderCategoryManager() {
+  const select = document.getElementById('p-cat');
+  if (select) {
+    const currentVal = select.value;
+    select.innerHTML = categoriesList.map(c => `<option value="${c}">${c}</option>`).join('');
+    if (categoriesList.includes(currentVal)) select.value = currentVal;
+  }
+  
+  const list = document.getElementById('cat-list');
+  if (list) {
+    list.innerHTML = categoriesList.map((c, i) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid var(--border2)">
+        <span>${c}</span>
+        <div>
+          <button class="btn btn-ghost btn-xs" onclick="editCategoryName('${c}')" style="padding:2px 6px;margin-right:4px">Editar</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteCategory('${c}')" style="padding:2px 6px">Eliminar</button>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+async function editCategoryName(oldName) {
+  const newName = prompt('Nuevo nombre de categoría:', oldName);
+  if (newName && newName.trim() !== '' && newName !== oldName) {
+    const finalName = newName.trim();
+    if (categoriesList.includes(finalName)) { toast('La categoría ya existe', 'warning'); return; }
+    
+    await supabaseDB.from('categories').update({ name: finalName }).eq('name', oldName);
+    await supabaseDB.from('products').update({ cat: finalName }).eq('cat', oldName);
+    
+    categoriesList[categoriesList.indexOf(oldName)] = finalName;
+    if (catColors[oldName]) catColors[finalName] = catColors[oldName];
+    
+    products.forEach(p => { if (p.cat === oldName) p.cat = finalName; });
+    renderCategoryManager();
+    
+    if (document.getElementById('page-categories').classList.contains('active')) renderCategories();
+    if (document.getElementById('page-inventory').classList.contains('active')) renderInventory(products, invCategoryFilter);
+    toast('Categoría actualizada exitosamente');
+  }
+}
+
+async function addCategory() {
+  const name = document.getElementById('new-cat-name').value.trim();
+  if (name && !categoriesList.includes(name)) {
+    const res = await supabaseDB.from('categories').insert([{ name }]);
+    if (res.error) { toast('Error agregando', 'error'); return; }
+    categoriesList.push(name);
+    document.getElementById('new-cat-name').value = '';
+    renderCategoryManager();
+    toast('Categoría agregada');
+  }
+}
+
+async function deleteCategory(name) {
+  if (!confirm(`¿Eliminar la categoría "${name}"?`)) return;
+  await supabaseDB.from('categories').delete().eq('name', name);
+  categoriesList = categoriesList.filter(c => c !== name);
+  renderCategoryManager();
+  toast('Categoría eliminada');
+}
+
+function renderOsManager() {
+  const list = document.getElementById('os-list');
+  if (list) {
+    list.innerHTML = obrasSociales.map((os, i) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid var(--border2)">
+        <span>${os}</span>
+        <button class="btn btn-danger btn-xs" onclick="deleteOs('${os}')" style="padding:2px 6px">Eliminar</button>
+      </div>
+    `).join('');
+  }
+  
+  const select = document.getElementById('s-os');
+  if (select) {
+    const current = select.value;
+    select.innerHTML = obrasSociales.map(os => `<option value="${os}">${os}</option>`).join('');
+    if (obrasSociales.includes(current)) select.value = current;
+  }
+}
+
+async function addObraSocial() {
+  const name = document.getElementById('new-os-name').value.trim();
+  if (name && !obrasSociales.includes(name)) {
+    const res = await supabaseDB.from('obras_sociales').insert([{ name }]);
+    if (res.error) { toast('Error', 'error'); return; }
+    obrasSociales.push(name);
+    document.getElementById('new-os-name').value = '';
+    renderOsManager();
+    toast('Obra social agregada');
+  }
+}
+
+async function deleteOs(name) {
+  if (!confirm(`¿Eliminar obra social "${name}"?`)) return;
+  await supabaseDB.from('obras_sociales').delete().eq('name', name);
+  obrasSociales = obrasSociales.filter(o => o !== name);
+  renderOsManager();
+  toast('Obra social eliminada');
+}
+
+function initSaleForm() {
+  saleItems = [];
+  document.getElementById('s-prod-search').value = '';
+  document.getElementById('s-prod-selected-id').value = '';
+  document.getElementById('s-prod-dropdown').style.display = 'none';
+  document.getElementById('s-client').value = '';
+  renderOsManager();
+  renderSaleItems();
+}
+
+function searchSaleProduct(q) {
+  const dd = document.getElementById('s-prod-dropdown');
+  document.getElementById('s-prod-selected-id').value = '';
+  if (!q) { dd.style.display = 'none'; return; }
+  const res = products.filter(p => (p.name.toLowerCase().includes(q.toLowerCase()) || (p.lot && p.lot.toLowerCase().includes(q.toLowerCase()))) && p.stock > 0);
+  if (!res.length) {
+    dd.innerHTML = '<div class="dropdown-item" style="color:var(--text3)">Sin stock / No encontrado</div>';
+  } else {
+    dd.innerHTML = res.slice(0,10).map(p => `<div class="dropdown-item" onclick="selectSaleProduct('${p.id}', '${p.name.replace(/'/g,"\\'")} - Stock: ${p.stock}')"><strong>${p.name}</strong> <span style="font-size:11px;color:var(--text3)">(Stock: ${p.stock} | Lote: ${p.lot})</span></div>`).join('');
+  }
+  dd.style.display = 'block';
+}
+
+function selectSaleProduct(id, displayName) {
+  document.getElementById('s-prod-selected-id').value = id;
+  document.getElementById('s-prod-search').value = displayName;
+  document.getElementById('s-prod-dropdown').style.display = 'none';
+  document.getElementById('s-prod-qty').focus();
+}
+
+function addSaleItem() {
+  const pid = document.getElementById('s-prod-selected-id').value;
+  if (!pid) { toast('Seleccione un medicamento', 'warning'); return; }
+  const qty = parseInt(document.getElementById('s-prod-qty').value) || 1;
+  const p = products.find(x => x.id === pid);
+  if (!p) return;
+  const ex = saleItems.find(i => i.id === pid);
+  const currentTotal = ex ? ex.qty + qty : qty;
+  if (currentTotal > p.stock) { toast(`Stock insuficiente (max: ${p.stock})`, 'error'); return; }
+  if (ex) ex.qty += qty;
+  else saleItems.push({ id: pid, name: p.name, qty, price: p.price });
+  
+  document.getElementById('s-prod-search').value = '';
+  document.getElementById('s-prod-selected-id').value = '';
+  document.getElementById('s-prod-qty').value = 1;
+  renderSaleItems();
+}
+
+function renderSaleItems() {
+  const el = document.getElementById('sale-items-list');
+  if (!saleItems.length) {
+    el.innerHTML = '<div class="empty-state">Sin productos agregados</div>';
+    document.getElementById('sale-total').textContent = '$0';
+    return;
+  }
+  let html = ''; let total = 0;
+  saleItems.forEach((item, i) => {
+    total += item.qty * item.price;
+    html += `
+      <div class="order-item-row">
+        <div style="flex:1">
+          <div class="order-item-name">${item.name}</div>
+          <div class="order-item-sub">${fmt(item.price)} × ${item.qty} = ${fmt(item.qty * item.price)}</div>
+        </div>
+        <button class="modal-close" onclick="saleItems.splice(${i},1);renderSaleItems()">×</button>
+      </div>`;
+  });
+  el.innerHTML = html;
+  document.getElementById('sale-total').textContent = fmt(total);
+}
+
+async function submitSale() {
+  if (!saleItems.length) { toast('Agregá al menos un producto', 'warning'); return; }
+  const os = document.getElementById('s-os').value;
+  const client = document.getElementById('s-client').value || 'Consumidor Final';
+  const type = document.getElementById('s-type').value;
+  
+  const movsToPush = [];
+  
+  for (const item of saleItems) {
+    const p = products.find(x => x.id === item.id);
+    const newStock = p.stock - item.qty;
+    
+    await supabaseDB.from('products').update({ stock: newStock }).eq('id', p.id);
+    p.stock = newStock;
+    movsToPush.push({ product_name: p.name, type: 'salida', qty: item.qty, reason: 'Venta - ' + type, date: today(), obs: client + (os !== 'Particular' ? ' / ' + os : '') });
+  }
+  
+  if (movsToPush.length) {
+    await supabaseDB.from('movements').insert(movsToPush);
+    movsToPush.forEach(m => movements.push(m));
+  }
+  
+  const saleLog = { date: today(), items: saleItems, client, os, total: saleItems.reduce((a,i)=>a+i.qty*i.price,0), type };
+  await supabaseDB.from('sales').insert([saleLog]);
+  
+  toast('Venta registrada exitosamente. Generando comprobante...');
+  generateSalePDF(saleItems, type, os, client);
+  
+  initSaleForm();
+}
+
+function generateSalePDF(items, type, os, client) {
+  let date = today();
+  let total = items.reduce((a,i) => a + i.qty * i.price, 0);
+  let html = `
+    <div style="padding:40px;font-family:sans-serif;color:#333;max-width:800px;margin:0 auto;">
+      <h1 style="color:#2D6A4F;margin-bottom:5px;border-bottom:2px solid #52B788;padding-bottom:10px;">FarmaStock - ${type}</h1>
+      <p style="margin-top:0"><strong>Fecha:</strong> ${date}<br>
+      <strong>Cliente:</strong> ${client}<br>
+      <strong>Cobertura:</strong> ${os}</p>
+      
+      <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+        <thead>
+          <tr style="background:#f4f4f4;">
+            <th style="padding:10px;text-align:left;border-bottom:1px solid #ddd">Producto</th>
+            <th style="padding:10px;text-align:center;border-bottom:1px solid #ddd">Cantidad</th>
+            <th style="padding:10px;text-align:right;border-bottom:1px solid #ddd">P. Unitario</th>
+            <th style="padding:10px;text-align:right;border-bottom:1px solid #ddd">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${items.map(i => `
+            <tr>
+              <td style="padding:10px;border-bottom:1px solid #eee">${i.name}</td>
+              <td style="padding:10px;text-align:center;border-bottom:1px solid #eee">${i.qty}</td>
+              <td style="padding:10px;text-align:right;border-bottom:1px solid #eee">${fmt(i.price)}</td>
+              <td style="padding:10px;text-align:right;border-bottom:1px solid #eee">${fmt(i.price * i.qty)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      
+      <h2 style="text-align:right;margin-top:20px;color:#2D6A4F;">Total: ${fmt(total)}</h2>
+      <p style="text-align:center;color:#666;font-size:12px;margin-top:40px;">Comprobante de uso interno — FarmaStock Inventory</p>
+    </div>
+  `;
+  
+  let opt = { margin: 0, filename: `${type}_${date}.pdf`, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+  html2pdf().set(opt).from(html).save();
+}
+
+function generateOrderPDF(id) {
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+  const displayId = o.order_serial || o.id;
+  let html = `
+    <div style="padding:40px;font-family:sans-serif;color:#333;max-width:800px;margin:0 auto;">
+      <h1 style="color:#2D6A4F;margin-bottom:5px;border-bottom:2px solid #52B788;padding-bottom:10px;">Orden de Compra: ${displayId}</h1>
+      <p style="margin-top:0"><strong>Fecha:</strong> ${o.date}<br>
+      <strong>Proveedor:</strong> ${o.supplier}<br>
+      <strong>Estado:</strong> ${o.status.toUpperCase()}<br>
+      <strong>Prioridad:</strong> ${o.priority.toUpperCase()}<br>
+      <strong>Condición de pago:</strong> ${o.payment || '—'}</p>
+      
+      <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+        <thead>
+          <tr style="background:#f4f4f4;">
+            <th style="padding:10px;text-align:left;border-bottom:1px solid #ddd">Producto</th>
+            <th style="padding:10px;text-align:center;border-bottom:1px solid #ddd">Cantidad</th>
+            <th style="padding:10px;text-align:right;border-bottom:1px solid #ddd">P. Unitario</th>
+            <th style="padding:10px;text-align:right;border-bottom:1px solid #ddd">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${o.items.map(i => `
+            <tr>
+              <td style="padding:10px;border-bottom:1px solid #eee">${i.name}</td>
+              <td style="padding:10px;text-align:center;border-bottom:1px solid #eee">${i.qty}</td>
+              <td style="padding:10px;text-align:right;border-bottom:1px solid #eee">${fmt(i.price)}</td>
+              <td style="padding:10px;text-align:right;border-bottom:1px solid #eee">${fmt(i.price * i.qty)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      
+      ${o.notes ? `<p style="margin-top:20px"><strong>Observaciones:</strong><br>${o.notes}</p>` : ''}
+      <h2 style="text-align:right;margin-top:20px;color:#2D6A4F;">Total Estimado: ${fmt(o.total)}</h2>
+    </div>
+  `;
+  
+  let opt = { margin: 0, filename: `Orden_${displayId}.pdf`, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+  html2pdf().set(opt).from(html).save();
+}
+
+/* ════════════════════════════════════
+   INIT
+════════════════════════════════════ */
+loadInitialData();
+</script>
+</body>
+</html>
