@@ -1259,70 +1259,21 @@ textarea.form-input { resize: vertical; min-height: 72px; }
     @keyframes orb2 { from{transform:translate(0,0) scale(1)} to{transform:translate(-50px,70px) scale(1.15)} }
     @keyframes loginFadeIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
     @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-7px)} 40%,80%{transform:translateX(7px)} }
-    .login-card {
-      background: rgba(255,255,255,.04);
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      border: 1px solid rgba(82,183,136,.15);
-      border-radius: 28px;
-      padding: 52px 48px 48px;
-      width: 100%;
-      max-width: 430px;
-      box-shadow: 0 40px 80px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.04) inset;
-      animation: loginFadeIn .7s cubic-bezier(.34,1.4,.64,1) both;
-      position: relative;
-      z-index: 1;
-    }
-    .login-input {
-      width: 100%;
-      padding: 14px 17px;
-      background: rgba(255,255,255,.07);
-      border: 1.5px solid rgba(82,183,136,.18);
-      border-radius: 14px;
-      color: #fff;
-      font-size: 14px;
-      font-family: 'DM Sans', system-ui, sans-serif;
-      outline: none;
-      transition: all .2s ease;
-      box-sizing: border-box;
-    }
-    .login-input:focus {
-      border-color: rgba(82,183,136,.55);
-      background: rgba(255,255,255,.10);
-      box-shadow: 0 0 0 3px rgba(82,183,136,.12);
-    }
-    .login-input::placeholder { color: rgba(255,255,255,.28); }
-    .login-input.error { border-color: rgba(230,57,70,.6); animation: shake .4s ease; }
-    .login-btn {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #52B788, #1A3A2A);
-      border: none;
-      border-radius: 14px;
-      color: #fff;
-      font-size: 14.5px;
-      font-weight: 700;
-      font-family: 'DM Sans', system-ui, sans-serif;
-      cursor: pointer;
-      transition: all .2s ease;
-      letter-spacing: -.01em;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(82,183,136,.3);
-    }
-    .login-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(82,183,136,.4); }
-    .login-btn:active { transform: translateY(0); }
-    .login-btn:disabled { opacity: .6; cursor: not-allowed; }
-    .login-label { display: block; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 8px; font-family: 'DM Sans', system-ui, sans-serif; }
-    .login-error { background: rgba(230,57,70,.10); border: 1px solid rgba(230,57,70,.25); border-radius: 11px; padding: 11px 15px; font-size: 12.5px; color: #f9a8b0; display: none; align-items: center; gap: 9px; margin-bottom: 16px; }
-    .login-error.show { display: flex; }
-    .lockout-timer { text-align: center; font-size: 12px; color: rgba(230,57,70,.65); margin-top: 10px; display: none; font-family: 'DM Mono', monospace; }
-    .pass-toggle { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: rgba(255,255,255,.3); transition: color .2s; background: none; border: none; padding: 0; display: flex; }
-    .pass-toggle:hover { color: rgba(255,255,255,.65); }
-    .attempt-dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
-    .attempt-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.12); transition: background .3s; }
-    .attempt-dot.used { background: rgba(230,57,70,.65); }
-    @media (max-width: 480px) { .login-card { padding: 40px 28px 36px; margin: 16px; } }
+    .login-card { background:rgba(255,255,255,.04);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid rgba(82,183,136,.15);border-radius:28px;padding:52px 48px 48px;width:100%;max-width:430px;box-shadow:0 40px 80px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.04) inset;animation:loginFadeIn .7s cubic-bezier(.34,1.4,.64,1) both;position:relative;z-index:1; }
+    .login-input { width:100%;padding:14px 17px;background:rgba(255,255,255,.07);border:1.5px solid rgba(82,183,136,.18);border-radius:14px;color:#fff;font-size:14px;font-family:'DM Sans',system-ui,sans-serif;outline:none;transition:all .2s ease;box-sizing:border-box; }
+    .login-input:focus { border-color:rgba(82,183,136,.55);background:rgba(255,255,255,.10);box-shadow:0 0 0 3px rgba(82,183,136,.12); }
+    .login-input::placeholder { color:rgba(255,255,255,.28); }
+    .login-input.error { border-color:rgba(230,57,70,.6);animation:shake .4s ease; }
+    .login-btn { width:100%;padding:15px;background:linear-gradient(135deg,#52B788,#1A3A2A);border:none;border-radius:14px;color:#fff;font-size:14.5px;font-weight:700;font-family:'DM Sans',system-ui,sans-serif;cursor:pointer;transition:all .2s ease;box-shadow:0 6px 20px rgba(82,183,136,.3); }
+    .login-btn:hover:not(:disabled) { transform:translateY(-2px);box-shadow:0 10px 28px rgba(82,183,136,.4); }
+    .login-btn:active { transform:translateY(0); }
+    .login-btn:disabled { opacity:.6;cursor:not-allowed; }
+    .login-label { display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px; }
+    .login-error { background:rgba(230,57,70,.10);border:1px solid rgba(230,57,70,.25);border-radius:11px;padding:11px 15px;font-size:12.5px;color:#f9a8b0;display:none;align-items:center;gap:9px;margin-bottom:16px; }
+    .login-error.show { display:flex; }
+    .pass-toggle { position:absolute;right:15px;top:50%;transform:translateY(-50%);cursor:pointer;color:rgba(255,255,255,.3);transition:color .2s;background:none;border:none;padding:0;display:flex; }
+    .pass-toggle:hover { color:rgba(255,255,255,.65); }
+    @media (max-width:480px) { .login-card { padding:40px 28px 36px;margin:16px; } }
   </style>
   <div class="login-card">
     <div style="text-align:center;margin-bottom:40px">
@@ -1332,7 +1283,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
           <rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>
         </svg>
       </div>
-      <div style="font-size:24px;font-weight:800;color:#fff;letter-spacing:-.03em;font-family:'DM Sans',system-ui">FarmaStock</div>
+      <div style="font-size:24px;font-weight:800;color:#fff;letter-spacing:-.03em">FarmaStock</div>
       <div style="font-size:12px;color:rgba(255,255,255,.3);margin-top:4px;letter-spacing:.04em">Panel de Administración · v3.0</div>
     </div>
     <div class="login-error" id="login-error">
@@ -1340,14 +1291,16 @@ textarea.form-input { resize: vertical; min-height: 72px; }
       <span id="login-error-msg">Credenciales inválidas</span>
     </div>
     <div style="margin-bottom:16px">
-      <label class="login-label" for="login-user">Usuario</label>
-      <input class="login-input" type="text" id="login-user" placeholder="Ingresá tu usuario" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
+      <label class="login-label" for="login-email">Usuario</label>
+      <input class="login-input" type="text" id="login-email" placeholder="Ingresá tu usuario" autocomplete="username"
+        onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
     </div>
     <div style="margin-bottom:26px">
       <label class="login-label" for="login-pass">Contraseña</label>
       <div style="position:relative">
-        <input class="login-input" type="password" id="login-pass" placeholder="Ingresá tu contraseña" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()" style="padding-right:46px">
-        <button class="pass-toggle" onclick="togglePass()" type="button" id="pass-toggle-btn">
+        <input class="login-input" type="password" id="login-pass" placeholder="Ingresá tu contraseña"
+          autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()" style="padding-right:46px">
+        <button class="pass-toggle" onclick="togglePass()" type="button">
           <svg id="eye-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
           </svg>
@@ -1357,19 +1310,12 @@ textarea.form-input { resize: vertical; min-height: 72px; }
     <button class="login-btn" id="login-btn" onclick="attemptLogin()">
       <span id="login-btn-text">Ingresar al sistema</span>
     </button>
-    <div class="attempt-dots" id="attempt-dots">
-      <div class="attempt-dot" id="dot-1"></div><div class="attempt-dot" id="dot-2"></div>
-      <div class="attempt-dot" id="dot-3"></div><div class="attempt-dot" id="dot-4"></div>
-      <div class="attempt-dot" id="dot-5"></div>
-    </div>
-    <div class="lockout-timer" id="lockout-timer"></div>
     <div style="text-align:center;margin-top:26px;font-size:11px;color:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;gap:6px">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Sesión protegida · Acceso restringido
+      Autenticación segura vía Supabase Auth
     </div>
   </div>
 </div>
-
 <!-- Custom Confirm Modal -->
 <div id="confirm-overlay">
   <div id="confirm-box">
@@ -1440,16 +1386,6 @@ textarea.form-input { resize: vertical; min-height: 72px; }
         <span>Categorías</span>
       </button>
 
-      <div class="sb-section">Ventas</div>
-      <button class="nav-item" data-page="sales">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <span>Punto de Venta</span>
-      </button>
-
       <div class="sb-section">Compras</div>
       <button class="nav-item" data-page="new-order">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -1498,9 +1434,9 @@ textarea.form-input { resize: vertical; min-height: 72px; }
     </nav>
     <div class="sb-footer">
       <div class="sb-user">
-        <div class="sb-avatar">FA</div>
+        <div class="sb-avatar" id="sb-avatar-initials">Ad</div>
         <div>
-          <div class="sb-user-name">Farmacéutico</div>
+          <div class="sb-user-name" id="sb-username">Admin</div>
           <div class="sb-user-role">Administrador</div>
         </div>
       </div>
@@ -1592,7 +1528,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
                 <tr>
                   <th>Producto</th><th>Laboratorio</th><th>Categoría</th><th>Lote</th>
                   <th>Stock</th><th>Mínimo</th><th>Vencimiento</th>
-                  <th>Precio</th><th>Proveedor</th><th>Acciones</th>
+                  <th>Proveedor</th><th>Acciones</th>
                 </tr>
               </thead>
               <tbody id="inv-tbody"></tbody>
@@ -1626,70 +1562,6 @@ textarea.form-input { resize: vertical; min-height: 72px; }
         <div id="cat-view"></div>
       </div>
 
-      <!-- ═══════════ SALES / POS ═══════════ -->
-      <div class="page" id="page-sales">
-        <div class="page-header"><h1>Punto de Venta</h1><p>Registrar salida de medicamentos y generar remito</p></div>
-        <div class="grid-2">
-          <div>
-            <div class="card" style="margin-bottom:14px">
-              <div class="card-header"><div class="card-title">Datos de la operación</div></div>
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group" style="display:flex;flex-direction:column;">
-                    <div style="display:flex;justify-content:space-between">
-                      <label class="form-label">Obra Social / Cobertura</label>
-                      <button class="btn-ghost btn-xs" style="color:var(--sky);border:none;background:none;cursor:pointer;font-size:11px" onclick="openModal('os-modal')">Administrar</button>
-                    </div>
-                    <select class="form-input" id="s-os"></select>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Tipo de comprobante</label>
-                    <select class="form-input" id="s-type">
-                      <option value="Factura Interna">Factura Interna</option>
-                      <option value="Remito">Remito</option>
-                      <option value="Ticket">Ticket</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Cliente / Paciente (Opcional)</label>
-                  <input type="text" class="form-input" id="s-client" placeholder="Nombre del paciente o DNI">
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header"><div class="card-title">Agregar productos</div></div>
-              <div class="card-body">
-                <div style="display:flex;gap:8px;margin-bottom:10px">
-                  <div style="position:relative;flex:1">
-                    <input type="text" class="form-input" id="s-prod-search" placeholder="Buscar medicamento en stock..." oninput="searchSaleProduct(this.value)" autocomplete="off" onfocus="searchSaleProduct(this.value)">
-                    <div id="s-prod-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh-lg);z-index:100;max-height:200px;overflow-y:auto;margin-top:4px;"></div>
-                    <input type="hidden" id="s-prod-selected-id">
-                  </div>
-                  <input type="number" class="form-input" id="s-prod-qty" value="1" min="1" style="width:76px;text-align:center">
-                  <button class="btn btn-green btn-sm" onclick="addSaleItem()">Agregar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card" style="align-self:start;position:sticky;top:0">
-            <div class="card-header"><div class="card-title">Resumen de Venta</div></div>
-            <div class="card-body">
-              <div id="sale-items-list"><div class="empty-state" style="padding:20px"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/></svg></div>Sin productos agregados</div></div>
-              <div class="divider"></div>
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-                <span style="font-size:12px;color:var(--text2);font-weight:600">Total a cobrar</span>
-                <span style="font-size:20px;font-weight:800;color:var(--text);font-family:var(--font-display)" id="sale-total">$0</span>
-              </div>
-              <button class="btn btn-green" style="width:100%;justify-content:center;padding:11px;margin-bottom:8px" onclick="submitSale()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                Registrar Venta
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- ═══════════ NEW ORDER ═══════════ -->
       <div class="page" id="page-new-order">
         <div class="page-header"><h1>Nueva orden de compra</h1><p>Generar pedido a proveedor</p></div>
@@ -1716,13 +1588,6 @@ textarea.form-input { resize: vertical; min-height: 72px; }
                   <div class="form-group">
                     <label class="form-label">Fecha estimada de entrega</label>
                     <input type="date" class="form-input" id="o-date">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Condición de pago</label>
-                    <select class="form-input" id="o-payment">
-                      <option>Contado</option><option>30 días</option>
-                      <option>60 días</option><option>Consignación</option>
-                    </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -1753,8 +1618,8 @@ textarea.form-input { resize: vertical; min-height: 72px; }
               <div id="order-items-list"><div class="empty-state"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>Sin productos agregados</div></div>
               <div class="divider"></div>
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-                <span style="font-size:12px;color:var(--text2);font-weight:600">Total estimado</span>
-                <span style="font-size:20px;font-weight:800;color:var(--text);font-family:var(--font-display)" id="order-total">$0</span>
+                <span style="font-size:12px;color:var(--text2);font-weight:600">Total de la orden</span>
+                <span style="font-size:20px;font-weight:800;color:var(--text);font-family:var(--font-display)" id="order-total">0 unidades</span>
               </div>
               <button class="btn btn-green" style="width:100%;justify-content:center;padding:11px" onclick="submitOrder()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1778,30 +1643,26 @@ textarea.form-input { resize: vertical; min-height: 72px; }
             <button class="tab-btn" onclick="filterOrders('entregada',this)">Entregadas</button>
             <button class="tab-btn" onclick="filterOrders('cancelada',this)">Canceladas</button>
           </div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <span id="orders-count" style="font-size:12px;color:var(--text3)"></span>
-            <button class="btn btn-danger btn-sm" id="bulk-delete-btn"
-              style="display:none" onclick="bulkDeleteOrders()">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="3 6 5 6 21 6"/>
-                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-              </svg>
-              Eliminar seleccionadas (<span id="bulk-count">0</span>)
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="date" class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="orders-date-from" onchange="renderOrders()" title="Desde">
+            <input type="date" class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="orders-date-to" onchange="renderOrders()" title="Hasta">
+            <button class="btn btn-ghost btn-xs" onclick="toggleOrdersSort()" id="orders-sort-btn" title="Cambiar orden">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+              Más recientes
             </button>
+            <span id="orders-count" style="font-size:12px;color:var(--text3)"></span>
           </div>
         </div>
 
-        <!-- Bulk action bar (appears when rows are selected) -->
-        <div id="orders-bulk-bar" style="display:none;padding:10px 16px;background:var(--forest);color:#fff;border-radius:var(--r-md);margin-bottom:12px;display:none;align-items:center;gap:12px;animation:fadeIn .15s ease">
+        <!-- Bulk action bar -->
+        <div id="orders-bulk-bar" style="display:none;padding:10px 16px;background:var(--forest);color:#fff;border-radius:var(--r-md);margin-bottom:12px;align-items:center;gap:12px;animation:fadeIn .15s ease">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           <span id="bulk-bar-text" style="font-size:13px;font-weight:600;flex:1"></span>
           <button class="btn btn-danger btn-sm" onclick="bulkDeleteOrders()" style="background:rgba(230,57,70,.9);border-color:transparent;color:#fff">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
             Eliminar seleccionadas
           </button>
-          <button class="btn btn-ghost btn-sm" onclick="clearOrderSelection()" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2)">
-            Cancelar
-          </button>
+          <button class="btn btn-ghost btn-sm" onclick="clearOrderSelection()" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2)">Cancelar</button>
         </div>
 
         <div class="card" style="padding:0;overflow:hidden">
@@ -1814,8 +1675,11 @@ textarea.form-input { resize: vertical; min-height: 72px; }
                       style="width:14px;height:14px;cursor:pointer;accent-color:var(--forest-lt)"
                       onchange="toggleSelectAllOrders(this)">
                   </th>
-                  <th>Orden</th><th>Proveedor</th><th>Productos</th><th>Total</th>
-                  <th>Fecha</th><th>Pago</th><th>Estado</th><th>Acciones</th>
+                  <th>Orden</th><th>Proveedor</th><th>Ítems</th>
+                  <th style="cursor:pointer;user-select:none" onclick="toggleOrdersSort()" title="Ordenar por fecha">
+                    Fecha <span id="sort-arrow">↓</span>
+                  </th>
+                  <th>Estado</th><th>Acciones</th>
                 </tr>
               </thead>
               <tbody id="orders-tbody"></tbody>
@@ -1835,21 +1699,30 @@ textarea.form-input { resize: vertical; min-height: 72px; }
 
       <!-- ═══════════ MOVEMENTS ═══════════ -->
       <div class="page" id="page-movements">
-        <div class="page-header"><h1>Movimientos de stock</h1><p>Trazabilidad completa de entradas y salidas</p></div>
+        <div class="page-header page-header-row">
+          <div><h1>Movimientos de stock</h1><p>Trazabilidad completa con responsable, horario y agrupación por día</p></div>
+          <button class="btn btn-ghost btn-sm" onclick="exportMovementsCSV()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar
+          </button>
+        </div>
         <div class="stat-grid" id="mov-stats"></div>
         <div class="card">
           <div class="card-header">
             <div class="card-title">Registro de movimientos</div>
-            <div style="display:flex;gap:8px">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
               <select class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-type-filter" onchange="renderMovements()">
-                <option value="all">Todos</option>
+                <option value="all">Todos los tipos</option>
                 <option value="entrada">Entradas</option>
                 <option value="salida">Salidas</option>
               </select>
               <select class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-prod-filter" onchange="renderMovements()"></select>
+              <input type="date" class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-date-from" onchange="renderMovements()" placeholder="Desde">
+              <input type="date" class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-date-to" onchange="renderMovements()" placeholder="Hasta">
+              <button class="btn btn-ghost btn-xs" onclick="clearMovFilters()">Limpiar filtros</button>
             </div>
           </div>
-          <div class="card-body" id="mov-list"></div>
+          <div class="card-body" id="mov-list" style="padding:0"></div>
         </div>
       </div>
 
@@ -1873,7 +1746,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
       <div class="page" id="page-reports">
         <div class="page-header"><h1>Reportes y analytics</h1><p>Métricas del inventario y análisis de rendimiento</p></div>
         <div class="tabs-bar">
-          <button class="tab-btn active" onclick="switchReport('stock',this)">Stock valorizado</button>
+          <button class="tab-btn active" onclick="switchReport('stock',this)">Por categoría</button>
           <button class="tab-btn" onclick="switchReport('rotation',this)">Rotación</button>
           <button class="tab-btn" onclick="switchReport('suppliers',this)">Por proveedor</button>
         </div>
@@ -1925,15 +1798,9 @@ textarea.form-input { resize: vertical; min-height: 72px; }
           <div class="form-hint">Umbral para alerta de stock bajo</div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Precio unitario ($)</label>
-          <input class="form-input" type="number" id="p-price" min="0" step="0.01" placeholder="0.00">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Fecha de vencimiento</label>
-          <input class="form-input" type="date" id="p-expiry">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Fecha de vencimiento</label>
+        <input class="form-input" type="date" id="p-expiry">
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -1983,14 +1850,19 @@ textarea.form-input { resize: vertical; min-height: 72px; }
           <input type="number" class="form-input" id="adj-qty" min="1" value="1">
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Motivo</label>
-        <select class="form-input" id="adj-reason">
-          <option>Compra a proveedor</option><option>Venta directa</option>
-          <option>Devolución cliente</option><option>Devolución proveedor</option>
-          <option>Vencimiento / baja</option><option>Merma</option>
-          <option>Ajuste de inventario</option><option>Donación</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Motivo</label>
+          <select class="form-input" id="adj-reason">
+            <option>Compra a proveedor</option><option>Devolución cliente</option>
+            <option>Devolución proveedor</option><option>Vencimiento / baja</option>
+            <option>Merma</option><option>Ajuste de inventario</option><option>Donación</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Responsable</label>
+          <input class="form-input" id="adj-responsible" placeholder="Nombre del responsable">
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">Observaciones</label>
@@ -2076,23 +1948,6 @@ textarea.form-input { resize: vertical; min-height: 72px; }
   </div>
 </div>
 
-<!-- OS Modal -->
-<div class="modal-overlay" id="os-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">Administrar Obras Sociales</span>
-      <button class="modal-close" onclick="closeModal('os-modal')">×</button>
-    </div>
-    <div class="modal-body">
-      <div style="display:flex;gap:8px;margin-bottom:14px">
-        <input type="text" class="form-input" id="new-os-name" placeholder="Nueva obra social..." style="flex:1">
-        <button class="btn btn-green" onclick="addObraSocial()">Agregar</button>
-      </div>
-      <div id="os-list" style="max-height:220px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r)"></div>
-    </div>
-  </div>
-</div>
-
 <!-- Category Modal -->
 <div class="modal-overlay" id="category-modal">
   <div class="modal">
@@ -2174,11 +2029,10 @@ const catColors = {
 ════════════════════════════════════ */
 let products = [];
 let orders = [];
+let currentUser = 'Admin'; // updated on login
 let suppliers = [];
 let movements = [];
 let orderItems = [];
-let saleItems = [];
-let obrasSociales = ['Particular','PAMI','IOMA','OSDE','Swiss Medical','Galeno'];
 let categoriesList = Object.keys(catColors);
 let editingProductId = null;
 let adjustingProductId = null;
@@ -2196,22 +2050,19 @@ async function loadInitialData() {
   if (content) content.style.opacity = '0.5';
   if (!supabaseDB) { if (content) content.style.opacity='1'; renderDashboard(); updateLowBadge(); return; }
   try {
-    const [pRes, cRes, osRes, sRes, mRes, oRes] = await Promise.all([
+    const [pRes, cRes, sRes, mRes, oRes] = await Promise.all([
       supabaseDB.from('products').select('*'),
       supabaseDB.from('categories').select('*'),
-      supabaseDB.from('obras_sociales').select('*'),
       supabaseDB.from('suppliers').select('*'),
       supabaseDB.from('movements').select('*').order('date', { ascending: true }),
       supabaseDB.from('orders').select('*')
     ]);
     if (pRes.data) products = pRes.data;
     if (cRes.data && cRes.data.length > 0) categoriesList = cRes.data.map(c => c.name);
-    if (osRes.data && osRes.data.length > 0) obrasSociales = osRes.data.map(o => o.name);
     if (sRes.data) suppliers = sRes.data;
     if (mRes.data) movements = mRes.data;
     if (oRes.data) orders = oRes.data;
-    products.forEach(p => { p.stock = Number(p.stock); p.min = Number(p.min_stock); p.price = Number(p.price); });
-    orders.forEach(o => o.total = Number(o.total));
+    products.forEach(p => { p.stock = Number(p.stock); p.min = Number(p.min_stock); });
     movements.forEach(m => m.qty = Number(m.qty));
   } catch(e) {
     console.error('Load error:', e);
@@ -2226,8 +2077,23 @@ async function loadInitialData() {
 /* ════════════════════════════════════
    HELPERS
 ════════════════════════════════════ */
-const fmt = n => '$' + Math.round(n).toLocaleString('es-AR');
-const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+const fmt    = n => '$' + Math.round(n).toLocaleString('es-AR');
+const today  = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+const nowISO = () => new Date().toISOString(); // full datetime for movements
+const fmtDatetime = iso => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso; // fallback for date-only strings
+  const date = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  const time = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  return { date, time, full: `${date} ${time}` };
+};
+const fmtDateOnly = iso => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+};
 const daysUntil = d => {
   if (!d) return 9999;
   return Math.ceil((new Date(d+'T00:00:00') - new Date(new Date().toDateString())) / 86400000);
@@ -2335,7 +2201,7 @@ const pageTitles = {
   dashboard: 'Dashboard', inventory: 'Inventario', lowstock: 'Stock bajo',
   categories: 'Por categoría', 'new-order': 'Nueva orden', orders: 'Historial',
   suppliers: 'Proveedores', movements: 'Movimientos', expiry: 'Vencimientos',
-  reports: 'Reportes', sales: 'Punto de Venta'
+  reports: 'Reportes'
 };
 
 function goPage(name, clearSearch = true) {
@@ -2356,8 +2222,7 @@ function goPage(name, clearSearch = true) {
     suppliers:    renderSuppliers,
     movements:    renderMovements,
     expiry:       renderExpiry,
-    reports:      () => renderReport(reportMode),
-    sales:        initSaleForm
+    reports:      () => renderReport(reportMode)
   };
   if (renders[name]) renders[name]();
 }
@@ -2395,7 +2260,6 @@ function populateSupplierSelects(preserveValue) {
 ════════════════════════════════════ */
 function renderDashboard() {
   const low = products.filter(p => p.stock < p.min).length;
-  const total = products.reduce((a, p) => a + p.stock * p.price, 0);
   const exp30 = products.filter(p => daysUntil(p.expiry) <= 30 && daysUntil(p.expiry) >= 0).length;
   const pending = orders.filter(o => o.status === 'pendiente').length;
   document.getElementById('low-badge').textContent = low;
@@ -2406,8 +2270,8 @@ function renderDashboard() {
       <div class="stat-label">Productos</div><div class="stat-value green">${products.length}</div><div class="stat-sub">en inventario activo</div>
     </div>
     <div class="stat-card sky">
-      <div class="stat-icon sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-      <div class="stat-label">Valor del inventario</div><div class="stat-value sky" style="font-size:20px">${fmt(total)}</div><div class="stat-sub">stock valorizado</div>
+      <div class="stat-icon sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div class="stat-label">Proveedores</div><div class="stat-value sky">${suppliers.length}</div><div class="stat-sub">registrados en el sistema</div>
     </div>
     <div class="stat-card amber">
       <div class="stat-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></div>
@@ -2484,7 +2348,6 @@ function renderInventory(list, catFilter) {
       <td><div class="stock-bar"><span style="font-weight:700">${p.stock}</span><div class="progress"><div class="progress-fill" style="width:${pct}%;background:${barColor}"></div></div></div></td>
       <td class="td-muted">${p.min}</td>
       <td style="${expColor};font-size:12px">${expText}</td>
-      <td style="font-family:var(--mono);font-size:12.5px">${fmt(p.price)}</td>
       <td style="font-size:12px;color:var(--text2)">${p.supplier||'—'}</td>
       <td class="td-actions">
         <button class="btn btn-ghost btn-xs" onclick="editProduct('${p.id}')">Editar</button>
@@ -2508,9 +2371,6 @@ function openNewProductModal() {
   document.getElementById('product-modal-title').textContent = 'Nuevo producto';
   // Clear all fields
   ['p-name','p-lab','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('p-stock').value   = '0';
-  document.getElementById('p-min').value     = '10';
-  document.getElementById('p-price').value   = '';
   document.getElementById('p-rx').value      = 'no';
   openModal('product-modal');
 }
@@ -2528,7 +2388,6 @@ function editProduct(id) {
   document.getElementById('p-cat').value     = p.cat;
   document.getElementById('p-stock').value   = p.stock;
   document.getElementById('p-min').value     = p.min;
-  document.getElementById('p-price').value   = p.price;
   document.getElementById('p-expiry').value  = p.expiry || '';
   document.getElementById('p-lot').value     = p.lot || '';
   document.getElementById('p-supplier').value = p.supplier || '';
@@ -2545,7 +2404,6 @@ async function saveProduct() {
     cat:       document.getElementById('p-cat').value,
     stock:     parseInt(document.getElementById('p-stock').value) || 0,
     min_stock: parseInt(document.getElementById('p-min').value) || 0,
-    price:     parseFloat(document.getElementById('p-price').value) || 0,
     expiry:    document.getElementById('p-expiry').value || null,
     lot:       document.getElementById('p-lot').value.trim(),
     supplier:  document.getElementById('p-supplier').value,
@@ -2569,7 +2427,7 @@ async function saveProduct() {
 
   editingProductId = null;
   document.getElementById('product-modal-title').textContent = 'Nuevo producto';
-  ['p-name','p-lab','p-stock','p-min','p-price','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
+  ['p-name','p-lab','p-stock','p-min','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
   closeModal('product-modal');
   renderInventory(products, invCategoryFilter);
   renderDashboard();
@@ -2588,7 +2446,7 @@ async function deleteProduct(id) {
   if (!ok) return;
   const pRes = await supabaseDB.from('products').delete().eq('id', id);
   if (pRes.error) { toast('Error al dar de baja', 'error'); return; }
-  const mov = { product_name: p.name, type: 'salida', qty: p.stock, reason: 'Baja de inventario', date: today(), obs: 'Baja manual' };
+  const mov = { product_name: p.name, type: 'salida', qty: p.stock, reason: 'Baja de inventario', datetime: nowISO(), obs: 'Baja manual', responsible: currentUser };
   await supabaseDB.from('movements').insert([mov]);
   movements.push(mov);
   products = products.filter(x => x.id !== id);
@@ -2609,15 +2467,17 @@ function openAdjust(id) {
     <span style="color:var(--text2);font-size:12px">Stock actual: <strong style="color:var(--forest-lt)">${p.stock}</strong> u. &nbsp;·&nbsp; Mínimo: ${p.min} &nbsp;·&nbsp; Lote: <span class="lot-tag" style="vertical-align:middle">${p.lot||'—'}</span></span>`;
   document.getElementById('adj-qty').value = 1;
   document.getElementById('adj-obs').value = '';
+  document.getElementById('adj-responsible').value = currentUser;
   openModal('adjust-modal');
 }
 
 async function applyAdjust() {
   const p = products.find(x => x.id === adjustingProductId);
-  const type   = document.getElementById('adj-type').value;
-  const qty    = parseInt(document.getElementById('adj-qty').value) || 0;
-  const reason = document.getElementById('adj-reason').value;
-  const obs    = document.getElementById('adj-obs').value;
+  const type        = document.getElementById('adj-type').value;
+  const qty         = parseInt(document.getElementById('adj-qty').value) || 0;
+  const reason      = document.getElementById('adj-reason').value;
+  const obs         = document.getElementById('adj-obs').value;
+  const responsible = document.getElementById('adj-responsible').value.trim() || currentUser;
   if (qty <= 0) { toast('Ingresá una cantidad válida', 'error'); return; }
   let newStock = p.stock;
   if (type === 'entrada') newStock += qty;
@@ -2625,7 +2485,7 @@ async function applyAdjust() {
   const pRes = await supabaseDB.from('products').update({ stock: newStock }).eq('id', p.id);
   if (pRes.error) { toast('Error al actualizar stock', 'error'); return; }
   p.stock = newStock;
-  const mov = { product_name: p.name, type, qty, reason, date: today(), obs };
+  const mov = { product_name: p.name, type, qty, reason, datetime: nowISO(), obs, responsible };
   await supabaseDB.from('movements').insert([mov]);
   movements.push(mov);
   closeModal('adjust-modal');
@@ -2685,7 +2545,6 @@ function renderCategories() {
   let html = '';
   for (const [cat, prods] of Object.entries(cats)) {
     const c = catColors[cat] || { badge:'badge-gray' };
-    const val = prods.reduce((a,p) => a + p.stock*p.price, 0);
     const lowCount = prods.filter(p => p.stock < p.min).length;
     html += `
       <div class="card" style="margin-bottom:14px">
@@ -2695,12 +2554,11 @@ function renderCategories() {
             <span style="font-size:12px;color:var(--text3)">${prods.length} productos</span>
             ${lowCount ? `<span class="badge badge-amber">${lowCount} bajo mínimo</span>` : ''}
           </div>
-          <span style="font-size:13.5px;font-weight:800;color:var(--text);font-family:var(--font-display)">${fmt(val)}</span>
         </div>
         <div class="table-wrap">
           <table class="data-table" style="table-layout:fixed">
-            <colgroup><col style="width:30%"><col style="width:10%"><col style="width:8%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:16%"></colgroup>
-            <thead><tr><th>Producto</th><th>Stock</th><th>Mín</th><th>Estado</th><th>Precio</th><th>Vencimiento</th><th>Proveedor</th></tr></thead>
+            <colgroup><col style="width:35%"><col style="width:10%"><col style="width:10%"><col style="width:15%"><col style="width:15%"><col style="width:15%"></colgroup>
+            <thead><tr><th>Producto</th><th>Stock</th><th>Mín</th><th>Estado</th><th>Vencimiento</th><th>Proveedor</th></tr></thead>
             <tbody>${prods.map(p => {
               const s = stockStatus(p); const d = daysUntil(p.expiry);
               const expColor = !p.expiry?'':d<=0?'color:var(--coral);font-weight:700':d<=30?'color:var(--coral)':d<=90?'color:var(--amber-dk)':'';
@@ -2709,7 +2567,6 @@ function renderCategories() {
                 <td style="font-weight:700">${p.stock}</td>
                 <td class="td-muted">${p.min}</td>
                 <td><span class="badge ${s.badge}">${s.text}</span></td>
-                <td style="font-family:var(--mono);font-size:12px">${fmt(p.price)}</td>
                 <td style="font-size:12px;${expColor}">${p.expiry||'—'}</td>
                 <td style="font-size:11.5px;color:var(--text2)">${p.supplier||'—'}</td>
               </tr>`;
@@ -2729,7 +2586,7 @@ function orderFromLowStock(id) {
   const qtyToOrder = Math.max(p.min - p.stock, 1);
   const ex = orderItems.find(i => i.id === id);
   if (ex) ex.qty += qtyToOrder;
-  else orderItems.push({ id, name: p.name, qty: qtyToOrder, price: p.price });
+  else orderItems.push({ id, name: p.name, qty: qtyToOrder });
   preserveOrderState = true;
   goPage('new-order');
 }
@@ -2795,11 +2652,10 @@ function selectOrderProduct(id, displayName) {
 }
 
 document.addEventListener('click', e => {
-  ['o-prod-dropdown','s-prod-dropdown'].forEach(ddId => {
-    const dd = document.getElementById(ddId);
-    const inputId = ddId === 'o-prod-dropdown' ? 'o-prod-search' : 's-prod-search';
-    if (dd && !e.target.closest('#'+ddId) && e.target.id !== inputId) dd.style.display='none';
-  });
+  const dd = document.getElementById('o-prod-dropdown');
+  if (dd && !e.target.closest('#o-prod-dropdown') && e.target.id !== 'o-prod-search') {
+    dd.style.display = 'none';
+  }
 });
 
 function addOrderItem() {
@@ -2810,7 +2666,7 @@ function addOrderItem() {
   if (!p) return;
   const ex = orderItems.find(i => i.id === pid);
   if (ex) ex.qty += qty;
-  else orderItems.push({ id: pid, name: p.name, qty, price: p.price });
+  else orderItems.push({ id: pid, name: p.name, qty });
   document.getElementById('o-prod-search').value = '';
   document.getElementById('o-prod-selected-id').value = '';
   renderOrderItems();
@@ -2820,19 +2676,18 @@ function renderOrderItems() {
   const el = document.getElementById('order-items-list');
   if (!orderItems.length) {
     el.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>Sin productos agregados</div>`;
-    document.getElementById('order-total').textContent = '$0';
+    document.getElementById('order-total').textContent = '0 unidades';
     return;
   }
   let total = 0;
   el.innerHTML = orderItems.map((item, i) => {
-    total += item.qty * item.price;
     return `<div class="order-item-row">
-      <div style="flex:1"><div class="order-item-name">${item.name}</div><div class="order-item-sub">${fmt(item.price)} × ${item.qty} = ${fmt(item.qty*item.price)}</div></div>
+      <div style="flex:1"><div class="order-item-name">${item.name}</div><div class="order-item-sub">${item.qty} unidades</div></div>
       <input type="number" value="${item.qty}" min="1" style="width:56px;padding:4px 8px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);font-size:12px;color:var(--text);text-align:center;font-family:var(--font)" onchange="orderItems[${i}].qty=Math.max(1,parseInt(this.value)||1);renderOrderItems()">
       <button class="modal-close" onclick="orderItems.splice(${i},1);renderOrderItems()">×</button>
     </div>`;
   }).join('');
-  document.getElementById('order-total').textContent = fmt(total);
+  document.getElementById('order-total').textContent = `${orderItems.reduce((a,i)=>a+i.qty,0)} unidades`;
 }
 
 async function submitOrder() {
@@ -2842,10 +2697,9 @@ async function submitOrder() {
     order_serial: hid,
     supplier: document.getElementById('o-supplier').value,
     items: orderItems.map(i => ({...i})),
-    total: orderItems.reduce((a,i) => a+i.qty*i.price, 0),
+    total: orderItems.reduce((a,i) => a+i.qty, 0),
     date: today(), status: 'pendiente',
     priority: document.getElementById('o-priority').value,
-    payment: document.getElementById('o-payment').value,
     notes: document.getElementById('o-notes').value,
   };
   const res = await supabaseDB.from('orders').insert([ord]).select();
@@ -2860,82 +2714,88 @@ async function submitOrder() {
    ORDERS HISTORY
 ════════════════════════════════════ */
 let selectedOrderIds = new Set();
+let ordersSort = 'desc';
+
+function toggleOrdersSort() {
+  ordersSort = ordersSort === 'desc' ? 'asc' : 'desc';
+  const btn   = document.getElementById('orders-sort-btn');
+  const arrow = document.getElementById('sort-arrow');
+  if (arrow) arrow.textContent = ordersSort === 'desc' ? '↓' : '↑';
+  if (btn) btn.innerHTML = (ordersSort==='desc'
+    ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg> Más recientes'
+    : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(180deg)"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg> Más antiguas');
+  renderOrders();
+}
 
 function renderOrders() {
-  const list = ordersFilter === 'all' ? orders : orders.filter(o => o.status === ordersFilter);
-  const statusBadge  = { entregada: 'badge-green', pendiente: 'badge-amber', cancelada: 'badge-coral' };
-  const statusLabel  = { entregada: 'Entregada', pendiente: 'Pendiente', cancelada: 'Cancelada' };
+  const dateFrom = document.getElementById('orders-date-from')?.value || '';
+  const dateTo   = document.getElementById('orders-date-to')?.value   || '';
+
+  let list = ordersFilter === 'all' ? [...orders] : orders.filter(o => o.status === ordersFilter);
+  if (dateFrom) list = list.filter(o => (o.date||'') >= dateFrom);
+  if (dateTo)   list = list.filter(o => (o.date||'') <= dateTo);
+  list.sort((a, b) => {
+    const da = new Date(a.date||0), db = new Date(b.date||0);
+    return ordersSort === 'desc' ? db - da : da - db;
+  });
+
+  const statusBadge = { entregada:'badge-green', pendiente:'badge-amber', cancelada:'badge-coral' };
+  const statusLabel = { entregada:'Entregada', pendiente:'Pendiente', cancelada:'Cancelada' };
   const tbody = document.getElementById('orders-tbody');
   tbody.innerHTML = '';
 
-  // Update count label
   const countEl = document.getElementById('orders-count');
-  if (countEl) countEl.textContent = `${list.length} orden${list.length !== 1 ? 'es' : ''}`;
-
-  // Reset select-all state
+  if (countEl) countEl.textContent = `${list.length} orden${list.length!==1?'es':''}`;
   const selectAll = document.getElementById('orders-select-all');
   if (selectAll) selectAll.checked = false;
   selectedOrderIds.clear();
   updateBulkBar();
 
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">
-      <div class="empty-state-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>
-      </div>
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">
+      <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
       <p>Sin órdenes para este filtro</p>
     </div></td></tr>`;
     return;
   }
 
   list.forEach(o => {
-    const isDeletable  = o.status !== 'pendiente';
-    const displayId    = o.order_serial || o.id;
-    const itemCount    = Array.isArray(o.items) ? o.items.length : 0;
-    const isSelected   = selectedOrderIds.has(String(o.id));
+    const isDeletable = o.status !== 'pendiente';
+    const displayId   = o.order_serial || o.id;
+    const itemCount   = Array.isArray(o.items) ? o.items.length : 0;
+    const isSelected  = selectedOrderIds.has(String(o.id));
+    const dateDisplay = fmtDateOnly(o.date) !== '—' ? fmtDateOnly(o.date) : (o.date||'—');
 
     const tr = document.createElement('tr');
     tr.id = `order-row-${o.id}`;
-    tr.style.transition = 'background var(--t)';
     if (isSelected) tr.style.background = 'var(--mint-faint)';
-
     tr.innerHTML = `
       <td style="width:36px;padding:10px 8px 10px 14px">
-        ${isDeletable ? `
-          <input type="checkbox" class="order-checkbox"
-            data-id="${o.id}"
-            style="width:14px;height:14px;cursor:pointer;accent-color:var(--forest-lt)"
-            ${isSelected ? 'checked' : ''}
-            onchange="toggleOrderSelect(this, '${o.id}')">
-        ` : `<span style="width:14px;display:inline-block"></span>`}
+        ${isDeletable
+          ? `<input type="checkbox" class="order-checkbox" data-id="${o.id}"
+               style="width:14px;height:14px;cursor:pointer;accent-color:var(--forest-lt)"
+               ${isSelected?'checked':''} onchange="toggleOrderSelect(this,'${o.id}')">`
+          : `<span style="width:14px;display:inline-block"></span>`}
       </td>
       <td class="td-mono">${displayId}</td>
       <td style="font-weight:600">${o.supplier}</td>
-      <td class="td-muted">${itemCount} ítem${itemCount !== 1 ? 's' : ''}</td>
-      <td style="font-family:var(--mono);font-size:12.5px">${fmt(o.total)}</td>
-      <td class="td-muted" style="font-size:12px">${o.date}</td>
-      <td style="font-size:12px;color:var(--text2)">${o.payment || '—'}</td>
-      <td><span class="badge ${statusBadge[o.status]}">${statusLabel[o.status] || o.status}</span></td>
+      <td class="td-muted">${itemCount} ítem${itemCount!==1?'s':''}</td>
+      <td class="td-muted" style="font-size:12px">${dateDisplay}</td>
+      <td><span class="badge ${statusBadge[o.status]}">${statusLabel[o.status]||o.status}</span></td>
       <td class="td-actions">
         <button class="btn btn-ghost btn-xs" onclick="showOrderDetail('${o.id}')">Ver</button>
-        ${o.status === 'pendiente' ? `
-          <button class="btn btn-green btn-xs" onclick="openReceiveModal('${o.id}')">Recibir</button>
-          <button class="btn btn-danger btn-xs" onclick="cancelOrder('${o.id}')">Cancelar</button>
-        ` : `
-          <button class="btn btn-danger btn-xs" onclick="deleteOrder('${o.id}')">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="3 6 5 6 21 6"/>
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-            </svg>
-            Eliminar
-          </button>
-        `}
+        ${o.status==='pendiente'
+          ? `<button class="btn btn-green btn-xs" onclick="openReceiveModal('${o.id}')">Recibir</button>
+             <button class="btn btn-danger btn-xs" onclick="cancelOrder('${o.id}')">Cancelar</button>`
+          : `<button class="btn btn-danger btn-xs" onclick="deleteOrder('${o.id}')">
+               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+               Eliminar</button>`}
       </td>`;
     tbody.appendChild(tr);
   });
 }
+
 
 function toggleOrderSelect(checkbox, orderId) {
   const tr = document.getElementById(`order-row-${orderId}`);
@@ -3055,13 +2915,12 @@ function showOrderDetail(id) {
       <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Proveedor</span><span style="font-weight:600">${o.supplier}</span></div>
       <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Prioridad</span><span class="badge ${o.priority==='urgente'?'badge-coral':'badge-amber'}">${o.priority}</span></div>
       <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Fecha</span>${o.date}</div>
-      <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Pago</span>${o.payment||'—'}</div>
     </div>
     <div class="section-label">Productos</div>`;
   (Array.isArray(o.items)?o.items:[]).forEach(item => {
-    body += `<div class="order-item-row"><div class="order-item-name" style="flex:1">${item.name}</div><div style="text-align:right"><div style="font-weight:700;font-size:13px">${item.qty} u.</div><div style="font-size:11px;color:var(--text3)">${fmt(item.price*item.qty)}</div></div></div>`;
+    body += `<div class="order-item-row"><div class="order-item-name" style="flex:1">${item.name}</div><div style="font-weight:700;font-size:13px">${item.qty} u.</div></div>`;
   });
-  body += `<div class="divider"></div><div style="display:flex;justify-content:space-between;font-size:15px;font-weight:800;font-family:var(--font-display)"><span>Total</span><span>${fmt(o.total)}</span></div>`;
+  body += `<div class="divider"></div>`;
   if (o.notes) body += `<div style="margin-top:12px;padding:11px 13px;background:var(--surface2);border-radius:var(--r);font-size:12px;color:var(--text2);border:1px solid var(--border)">${o.notes}</div>`;
   document.getElementById('order-detail-body').innerHTML = body;
   const acts = document.getElementById('order-detail-actions');
@@ -3208,8 +3067,9 @@ async function confirmReceiveOrder() {
         product_name: item.name,
         type: 'entrada', qty: qtyReceived,
         reason: 'Compra a proveedor',
-        date: today(),
-        obs: `Orden ${displayId} · Lote: ${newLot||'—'}${newExpiry?' · Vto: '+newExpiry:''}`
+        datetime: nowISO(),
+        obs: `Orden ${displayId} · Lote: ${newLot||'—'}${newExpiry?' · Vto: '+newExpiry:''}`,
+        responsible: currentUser
       });
 
     } else if (newLot && anyMatch) {
@@ -3220,8 +3080,7 @@ async function confirmReceiveOrder() {
         cat:       anyMatch.cat,
         stock:     qtyReceived,
         min_stock: anyMatch.min_stock || anyMatch.min || 0,
-        price:     item.price || anyMatch.price,
-        expiry:    newExpiry,
+                expiry:    newExpiry,
         lot:       newLot,
         supplier:  anyMatch.supplier || '',
         rx:        anyMatch.rx || 'no',
@@ -3231,16 +3090,16 @@ async function confirmReceiveOrder() {
         const inserted = res.data[0];
         inserted.min = inserted.min_stock;
         inserted.stock = Number(inserted.stock);
-        inserted.price = Number(inserted.price);
-        products.push(inserted);
+                products.push(inserted);
         createdCount++;
       }
       movsToPush.push({
         product_name: item.name,
         type: 'entrada', qty: qtyReceived,
         reason: 'Compra a proveedor — lote nuevo',
-        date: today(),
-        obs: `Orden ${displayId} · Nuevo lote: ${newLot}${newExpiry?' · Vto: '+newExpiry:''}`
+        datetime: nowISO(),
+        obs: `Orden ${displayId} · Nuevo lote: ${newLot}${newExpiry?' · Vto: '+newExpiry:''}`,
+        responsible: currentUser
       });
 
     } else if (anyMatch) {
@@ -3259,8 +3118,9 @@ async function confirmReceiveOrder() {
         product_name: item.name,
         type: 'entrada', qty: qtyReceived,
         reason: 'Compra a proveedor',
-        date: today(),
-        obs: `Orden ${displayId}${newExpiry?' · Vto: '+newExpiry:''}`
+        datetime: nowISO(),
+        obs: `Orden ${displayId}${newExpiry?' · Vto: '+newExpiry:''}`,
+        responsible: currentUser
       });
 
     } else {
@@ -3268,7 +3128,6 @@ async function confirmReceiveOrder() {
       const newEntry = {
         name: item.name, lab: '', cat: categoriesList[0] || 'General',
         stock: qtyReceived, min_stock: 10,
-        price: item.price || 0,
         expiry: newExpiry, lot: newLot, supplier: o.supplier || '', rx: 'no',
       };
       const res = await supabaseDB.from('products').insert([newEntry]).select();
@@ -3283,8 +3142,9 @@ async function confirmReceiveOrder() {
         product_name: item.name,
         type: 'entrada', qty: qtyReceived,
         reason: 'Compra a proveedor — producto nuevo',
-        date: today(),
-        obs: `Orden ${displayId}`
+        datetime: nowISO(),
+        obs: `Orden ${displayId}`,
+        responsible: currentUser
       });
     }
   }
@@ -3362,8 +3222,7 @@ function renderSuppliers() {
   suppliers.forEach(s => {
     const init        = (s.name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
     const ordersCount = orders.filter(o => o.supplier === s.name).length;
-    const totalSpent  = orders.filter(o => o.supplier === s.name && o.status === 'entregada')
-                              .reduce((a, o) => a + Number(o.total), 0);
+    const totalSpent  = null;
     const prodCount   = products.filter(p => p.supplier === s.name).length;
     const pendCount   = orders.filter(o => o.supplier === s.name && o.status === 'pendiente').length;
 
@@ -3416,10 +3275,7 @@ function renderSuppliers() {
           <div class="prov-meta-val">${prodCount}</div>
           <div class="prov-meta-lbl">Productos</div>
         </div>
-        <div class="prov-meta-item">
-          <div class="prov-meta-val" style="font-size:11.5px">${fmt(totalSpent)}</div>
-          <div class="prov-meta-lbl">Comprado</div>
-        </div>
+
       </div>
 
       ${pendCount > 0 ? `
@@ -3512,27 +3368,158 @@ async function saveSupplier() {
 /* ════════════════════════════════════
    MOVEMENTS
 ════════════════════════════════════ */
+function clearMovFilters() {
+  document.getElementById('mov-type-filter').value = 'all';
+  document.getElementById('mov-prod-filter').value = 'all';
+  document.getElementById('mov-date-from').value = '';
+  document.getElementById('mov-date-to').value = '';
+  renderMovements();
+}
+
+function exportMovementsCSV() {
+  const headers = ['Producto','Tipo','Cantidad','Motivo','Responsable','Fecha','Hora','Observaciones'];
+  const rows = movements.map(m => {
+    const dt = fmtDatetime(m.datetime || m.date);
+    return [m.product_name, m.type, m.qty, m.reason, m.responsible||'—',
+      typeof dt === 'object' ? dt.date : dt,
+      typeof dt === 'object' ? dt.time : '',
+      m.obs||''].map(v => `"${v}"`).join(',');
+  });
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.download = `movimientos_${today()}.csv`;
+  a.click();
+  toast('Movimientos exportados');
+}
+
 function renderMovements() {
-  const tf = document.getElementById('mov-type-filter').value;
+  // Populate product filter if empty
   const pf = document.getElementById('mov-prod-filter');
   if (pf.children.length <= 1) {
-    pf.innerHTML = '<option value="all">Todos los productos</option>' + products.map(p=>`<option value="${p.name}">${p.name}</option>`).join('');
+    pf.innerHTML = '<option value="all">Todos los productos</option>' +
+      products.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
   }
-  const pval = pf.value;
-  let list = [...movements].reverse();
-  if (tf !== 'all') list = list.filter(m => m.type === tf);
+
+  const tf       = document.getElementById('mov-type-filter').value;
+  const pval     = pf.value;
+  const dateFrom = document.getElementById('mov-date-from').value;
+  const dateTo   = document.getElementById('mov-date-to').value;
+
+  // Sort newest first
+  let list = [...movements].sort((a, b) => {
+    const da = new Date(a.datetime || a.date || 0);
+    const db = new Date(b.datetime || b.date || 0);
+    return db - da;
+  });
+
+  if (tf !== 'all')         list = list.filter(m => m.type === tf);
   if (pval && pval !== 'all') list = list.filter(m => m.product_name === pval);
-  const totalIn  = movements.filter(m=>m.type==='entrada').reduce((a,m)=>a+m.qty,0);
-  const totalOut = movements.filter(m=>m.type==='salida').reduce((a,m)=>a+m.qty,0);
+  if (dateFrom) list = list.filter(m => {
+    const d = (m.datetime || m.date || '').substring(0, 10);
+    return d >= dateFrom;
+  });
+  if (dateTo) list = list.filter(m => {
+    const d = (m.datetime || m.date || '').substring(0, 10);
+    return d <= dateTo;
+  });
+
+  // Stats (always from full movements array)
+  const totalIn  = movements.filter(m => m.type === 'entrada').reduce((a, m) => a + m.qty, 0);
+  const totalOut = movements.filter(m => m.type === 'salida').reduce((a, m) => a + m.qty, 0);
   document.getElementById('mov-stats').innerHTML = `
-    <div class="stat-card green"><div class="stat-icon green">${svgIn}</div><div class="stat-label">Total entradas</div><div class="stat-value green">${totalIn}</div><div class="stat-sub">unidades ingresadas</div></div>
-    <div class="stat-card coral"><div class="stat-icon coral">${svgOut}</div><div class="stat-label">Total salidas</div><div class="stat-value coral">${totalOut}</div><div class="stat-sub">unidades egresadas</div></div>
-    <div class="stat-card sky"><div class="stat-icon sky"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="stat-label">Balance neto</div><div class="stat-value sky" style="${totalIn-totalOut<0?'color:var(--coral)':''}">${totalIn-totalOut>=0?'+':''}${totalIn-totalOut}</div><div class="stat-sub">unidades</div></div>
-    <div class="stat-card amber"><div class="stat-icon amber"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="stat-label">Registros</div><div class="stat-value amber">${movements.length}</div><div class="stat-sub">movimientos totales</div></div>`;
-  document.getElementById('mov-list').innerHTML = list.map(m => {
-    const isIn = m.type === 'entrada';
-    return `<div class="mov-row"><div class="mov-icon" style="background:${isIn?'var(--mint-pale)':'var(--coral-pale)'};color:${isIn?'var(--forest-lt)':'var(--coral)'}">${isIn?svgIn:svgOut}</div><div class="mov-info"><div class="mov-name">${m.product_name}</div><div class="mov-sub">${m.reason}${m.obs?' · '+m.obs:''}</div></div><div class="mov-date"><div class="mov-qty" style="color:${isIn?'var(--forest-lt)':'var(--coral)'}">${isIn?'+':'-'}${m.qty}</div><div>${m.date}</div></div></div>`;
-  }).join('') || '<div class="empty-state">Sin movimientos para mostrar</div>';
+    <div class="stat-card green"><div class="stat-icon green">${svgIn}</div>
+      <div class="stat-label">Total entradas</div><div class="stat-value green">${totalIn}</div>
+      <div class="stat-sub">unidades ingresadas</div></div>
+    <div class="stat-card coral"><div class="stat-icon coral">${svgOut}</div>
+      <div class="stat-label">Total salidas</div><div class="stat-value coral">${totalOut}</div>
+      <div class="stat-sub">unidades egresadas</div></div>
+    <div class="stat-card sky">
+      <div class="stat-icon sky"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="stat-label">Balance neto</div>
+      <div class="stat-value sky" style="${totalIn-totalOut<0?'color:var(--coral)':''}">${totalIn-totalOut>=0?'+':''}${totalIn-totalOut}</div>
+      <div class="stat-sub">unidades</div></div>
+    <div class="stat-card amber">
+      <div class="stat-icon amber"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="stat-label">Filtrados</div><div class="stat-value amber">${list.length}</div>
+      <div class="stat-sub">de ${movements.length} totales</div></div>`;
+
+  const container = document.getElementById('mov-list');
+  if (!list.length) {
+    container.innerHTML = `<div class="empty-state" style="padding:40px">
+      <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+      <p>Sin movimientos para los filtros seleccionados</p>
+    </div>`;
+    return;
+  }
+
+  // Group by calendar date
+  const groups = {};
+  list.forEach(m => {
+    const key = (m.datetime || m.date || '').substring(0, 10) || 'sin-fecha';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(m);
+  });
+
+  const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const monthNames = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+  let html = '';
+  Object.entries(groups).forEach(([dateKey, items]) => {
+    // Day header
+    let dayLabel = dateKey;
+    if (dateKey !== 'sin-fecha') {
+      const d = new Date(dateKey + 'T12:00:00'); // noon to avoid TZ issues
+      const todayStr = today();
+      const yesterdayStr = (() => { const y = new Date(); y.setDate(y.getDate()-1); return y.toISOString().substring(0,10); })();
+      if (dateKey === todayStr) dayLabel = 'Hoy';
+      else if (dateKey === yesterdayStr) dayLabel = 'Ayer';
+      else dayLabel = `${dayNames[d.getDay()]} ${d.getDate()} de ${monthNames[d.getMonth()]}`;
+    }
+
+    const dayIn  = items.filter(m => m.type === 'entrada').reduce((a,m) => a+m.qty, 0);
+    const dayOut = items.filter(m => m.type === 'salida').reduce((a,m) => a+m.qty, 0);
+
+    html += `
+      <div style="padding:10px 20px 6px;background:var(--surface2);border-bottom:1px solid var(--border2);
+                  display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:1">
+        <span style="font-weight:700;font-size:12.5px;color:var(--text)">${dayLabel}</span>
+        <span style="font-size:11px;color:var(--text3)">${items.length} movimiento${items.length!==1?'s':''}</span>
+        ${dayIn  ? `<span style="font-size:11px;color:var(--forest-lt);font-weight:600">+${dayIn} entradas</span>` : ''}
+        ${dayOut ? `<span style="font-size:11px;color:var(--coral);font-weight:600">-${dayOut} salidas</span>` : ''}
+      </div>`;
+
+    items.forEach(m => {
+      const isIn  = m.type === 'entrada';
+      const dt    = fmtDatetime(m.datetime || m.date);
+      const time  = typeof dt === 'object' ? dt.time : '';
+      const resp  = m.responsible || '—';
+
+      html += `
+        <div class="mov-row" style="padding:10px 20px;border-bottom:1px solid var(--border2)">
+          <div class="mov-icon" style="background:${isIn?'var(--mint-pale)':'var(--coral-pale)'};color:${isIn?'var(--forest-lt)':'var(--coral)'}">
+            ${isIn ? svgIn : svgOut}
+          </div>
+          <div class="mov-info" style="flex:1;min-width:0">
+            <div class="mov-name">${m.product_name}</div>
+            <div class="mov-sub">${m.reason}${m.obs ? ' · ' + m.obs : ''}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
+            <div class="mov-qty" style="font-size:14px;font-weight:700;color:${isIn?'var(--forest-lt)':'var(--coral)'}">
+              ${isIn?'+':'-'}${m.qty}
+            </div>
+            ${time ? `<div style="font-size:10.5px;color:var(--text3);font-family:var(--mono)">${time}</div>` : ''}
+            <div style="display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--text3)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              ${resp}
+            </div>
+          </div>
+        </div>`;
+    });
+  });
+
+  container.innerHTML = html;
 }
 
 /* ════════════════════════════════════
@@ -3779,7 +3766,7 @@ async function removeExpired(id) {
     type: 'danger'
   });
   if (!ok) return;
-  const mov = { product_name: p.name, type:'salida', qty:p.stock, reason:'Vencimiento / baja', date:today(), obs:`Lote: ${p.lot||'—'} · Vto: ${p.expiry||'—'}` };
+  const mov = { product_name: p.name, type:'salida', qty:p.stock, reason:'Vencimiento / baja', datetime: nowISO(), obs:`Lote: ${p.lot||'—'} · Vto: ${p.expiry||'—'}`, responsible: currentUser };
   await supabaseDB.from('products').delete().eq('id', id);
   await supabaseDB.from('movements').insert([mov]);
   movements.push(mov);
@@ -3803,46 +3790,72 @@ function renderReport(mode) {
   if (mode === 'stock') {
     const cats = {};
     products.forEach(p => {
-      if (!cats[p.cat]) cats[p.cat]={count:0,val:0,units:0};
-      cats[p.cat].count++; cats[p.cat].val+=p.stock*p.price; cats[p.cat].units+=p.stock;
+      if (!cats[p.cat]) cats[p.cat] = { count: 0, units: 0, low: 0 };
+      cats[p.cat].count++;
+      cats[p.cat].units += p.stock;
+      if (p.stock < p.min) cats[p.cat].low++;
     });
-    const total = Object.values(cats).reduce((a,c)=>a+c.val,0);
-    const totalU = products.reduce((a,p)=>a+p.stock,0);
+    const totalU   = products.reduce((a,p) => a + p.stock, 0);
+    const maxUnits = Math.max(...Object.values(cats).map(c => c.units), 1);
     el.innerHTML = `
       <div class="stat-grid" style="margin-bottom:16px">
-        <div class="stat-card sky"><div class="stat-label">Valor total</div><div class="stat-value sky" style="font-size:20px">${fmt(total)}</div></div>
-        <div class="stat-card green"><div class="stat-label">Total unidades</div><div class="stat-value green">${totalU}</div></div>
-        <div class="stat-card amber"><div class="stat-label">Categorías</div><div class="stat-value amber">${Object.keys(cats).length}</div></div>
-        <div class="stat-card coral"><div class="stat-label">Bajo mínimo</div><div class="stat-value coral">${products.filter(p=>p.stock<p.min).length}</div></div>
+        <div class="stat-card green"><div class="stat-label">Total unidades</div><div class="stat-value green">${totalU}</div><div class="stat-sub">en inventario</div></div>
+        <div class="stat-card sky"><div class="stat-label">Categorías</div><div class="stat-value sky">${Object.keys(cats).length}</div><div class="stat-sub">activas</div></div>
+        <div class="stat-card amber"><div class="stat-label">Bajo mínimo</div><div class="stat-value amber">${products.filter(p=>p.stock<p.min).length}</div><div class="stat-sub">productos</div></div>
+        <div class="stat-card coral"><div class="stat-label">Sin stock</div><div class="stat-value coral">${products.filter(p=>p.stock===0).length}</div><div class="stat-sub">productos</div></div>
       </div>
-      <div class="card"><div class="card-header"><div class="card-title">Valor por categoría</div></div><div class="card-body">` +
-      Object.entries(cats).sort((a,b)=>b[1].val-a[1].val).map(([c,d]) => {
-        const pct = total>0 ? Math.round(d.val/total*100) : 0;
-        const barColor = (catColors[c]||{bar:'var(--mint)'}).bar;
-        return `<div class="rep-row"><div><div class="rep-label">${c}</div><div style="font-size:11px;color:var(--text3)">${d.count} productos · ${d.units} u.</div></div><div class="rep-bar-wrap"><div class="rep-bar-fill" style="width:${pct}%;background:${barColor}"></div></div><div class="rep-val">${fmt(d.val)}</div><div class="rep-pct">${pct}%</div></div>`;
+      <div class="card"><div class="card-header"><div class="card-title">Unidades por categoría</div></div><div class="card-body">` +
+      Object.entries(cats).sort((a,b) => b[1].units - a[1].units).map(([c,d]) => {
+        const pct      = Math.round(d.units / maxUnits * 100);
+        const barColor = (catColors[c] || { bar: 'var(--mint)' }).bar;
+        return `<div class="rep-row">
+          <div><div class="rep-label">${c}</div><div style="font-size:11px;color:var(--text3)">${d.count} productos${d.low ? ` · <span style="color:var(--amber-dk)">${d.low} bajo mínimo</span>` : ''}</div></div>
+          <div class="rep-bar-wrap"><div class="rep-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+          <div class="rep-val" style="font-family:var(--mono)">${d.units} u.</div>
+        </div>`;
       }).join('') + '</div></div>';
+
   } else if (mode === 'rotation') {
-    const sales = {};
-    movements.filter(m=>m.type==='salida').forEach(m => sales[m.product_name]=(sales[m.product_name]||0)+m.qty);
-    el.innerHTML = `<div class="card"><div class="table-wrap"><table class="data-table"><thead><tr><th>Producto</th><th>Categoría</th><th>Stock</th><th>Salidas</th><th>Cobertura</th><th>Rotación</th></tr></thead><tbody>` +
+    const exits = {};
+    movements.filter(m => m.type === 'salida').forEach(m => exits[m.product_name] = (exits[m.product_name] || 0) + m.qty);
+    el.innerHTML = `<div class="card"><div class="table-wrap"><table class="data-table">
+      <thead><tr><th>Producto</th><th>Categoría</th><th>Stock</th><th>Salidas</th><th>Cobertura</th><th>Rotación</th></tr></thead>
+      <tbody>` +
       products.map(p => {
-        const sal = sales[p.name]||0;
-        const cov = sal>0 ? Math.round(p.stock/sal*30) : null;
-        const rot = sal>5?'Alta':sal>0?'Media':'Baja';
-        const rc  = rot==='Alta'?'badge-green':rot==='Media'?'badge-amber':'badge-coral';
-        const cat = catColors[p.cat]||{badge:'badge-gray'};
-        return `<tr><td class="td-name">${p.name}</td><td><span class="badge ${cat.badge}">${p.cat}</span></td><td>${p.stock}</td><td style="font-weight:700;color:${sal>0?'var(--forest-lt)':'var(--text3)'}">${sal}</td><td style="color:var(--text2)">${cov!==null?cov+' días':'—'}</td><td><span class="badge ${rc}">${rot}</span></td></tr>`;
+        const sal = exits[p.name] || 0;
+        const cov = sal > 0 ? Math.round(p.stock / sal * 30) : null;
+        const rot = sal > 5 ? 'Alta' : sal > 0 ? 'Media' : 'Baja';
+        const rc  = rot === 'Alta' ? 'badge-green' : rot === 'Media' ? 'badge-amber' : 'badge-coral';
+        const cat = catColors[p.cat] || { badge: 'badge-gray' };
+        return `<tr>
+          <td class="td-name">${p.name}</td>
+          <td><span class="badge ${cat.badge}">${p.cat}</span></td>
+          <td>${p.stock}</td>
+          <td style="font-weight:700;color:${sal>0?'var(--forest-lt)':'var(--text3)'}">${sal}</td>
+          <td style="color:var(--text2)">${cov !== null ? cov + ' días' : '—'}</td>
+          <td><span class="badge ${rc}">${rot}</span></td>
+        </tr>`;
       }).join('') + `</tbody></table></div></div>`;
+
   } else {
     const byProv = {};
     products.forEach(p => {
-      if (!byProv[p.supplier]) byProv[p.supplier]={prods:0,val:0,low:0};
-      byProv[p.supplier].prods++; byProv[p.supplier].val+=p.stock*p.price;
-      if (p.stock<p.min) byProv[p.supplier].low++;
+      const k = p.supplier || '—';
+      if (!byProv[k]) byProv[k] = { prods: 0, units: 0, low: 0 };
+      byProv[k].prods++;
+      byProv[k].units += p.stock;
+      if (p.stock < p.min) byProv[k].low++;
     });
-    el.innerHTML = `<div class="card"><div class="table-wrap"><table class="data-table"><thead><tr><th>Proveedor</th><th>Productos</th><th>Valor en stock</th><th>Stock bajo</th></tr></thead><tbody>` +
-      Object.entries(byProv).map(([pv,d]) =>
-        `<tr><td style="font-weight:600">${pv||'—'}</td><td>${d.prods}</td><td style="font-family:var(--mono);font-size:12.5px">${fmt(d.val)}</td><td style="color:${d.low>0?'var(--amber-dk)':'var(--forest-lt)'};font-weight:700">${d.low}</td></tr>`
+    el.innerHTML = `<div class="card"><div class="table-wrap"><table class="data-table">
+      <thead><tr><th>Proveedor</th><th>Productos</th><th>Unidades en stock</th><th>Stock bajo</th></tr></thead>
+      <tbody>` +
+      Object.entries(byProv).map(([pv, d]) =>
+        `<tr>
+          <td style="font-weight:600">${pv}</td>
+          <td>${d.prods}</td>
+          <td style="font-family:var(--mono)">${d.units}</td>
+          <td style="color:${d.low>0?'var(--amber-dk)':'var(--forest-lt)'};font-weight:700">${d.low}</td>
+        </tr>`
       ).join('') + `</tbody></table></div></div>`;
   }
 }
@@ -3862,8 +3875,8 @@ function globalSearch(q) {
    EXPORT CSV
 ════════════════════════════════════ */
 function exportCSV() {
-  const headers = ['Nombre','Laboratorio','Categoría','Stock','Mínimo','Precio','Vencimiento','Lote','Proveedor','Receta'];
-  const rows = products.map(p => [p.name,p.lab,p.cat,p.stock,p.min,p.price,p.expiry||'',p.lot||'',p.supplier||'',p.rx||''].map(v=>`"${v}"`).join(','));
+  const headers = ['Nombre','Laboratorio','Categoría','Stock','Mínimo','Vencimiento','Lote','Proveedor','Receta'];
+  const rows = products.map(p => [p.name,p.lab,p.cat,p.stock,p.min,p.expiry||'',p.lot||'',p.supplier||'',p.rx||''].map(v=>`"${v}"`).join(','));
   const csv = [headers.join(','), ...rows].join('\n');
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
@@ -3959,157 +3972,6 @@ async function deleteCategory(name) {
   toast('Categoría eliminada');
 }
 
-function renderOsManager() {
-  const list = document.getElementById('os-list');
-  if (list) {
-    list.innerHTML = obrasSociales.map(os => `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border2)">
-        <span style="font-size:13px">${os}</span>
-        <button class="btn btn-danger btn-xs" onclick="deleteOs('${os}')">Eliminar</button>
-      </div>`).join('');
-  }
-  const select = document.getElementById('s-os');
-  if (select) {
-    const cur = select.value;
-    select.innerHTML = obrasSociales.map(os=>`<option value="${os}">${os}</option>`).join('');
-    if (obrasSociales.includes(cur)) select.value = cur;
-  }
-}
-
-async function addObraSocial() {
-  const name = document.getElementById('new-os-name').value.trim();
-  if (!name || obrasSociales.includes(name)) return;
-  const res = await supabaseDB.from('obras_sociales').insert([{ name }]);
-  if (res.error) { toast('Error', 'error'); return; }
-  obrasSociales.push(name);
-  document.getElementById('new-os-name').value = '';
-  renderOsManager();
-  toast('Obra social agregada');
-}
-
-async function deleteOs(name) {
-  const ok = await showConfirm({
-    title: `Eliminar obra social`,
-    message: `¿Eliminar "${name}" del listado?`,
-    okLabel: 'Eliminar',
-    okClass: 'btn-danger',
-    type: 'warning'
-  });
-  if (!ok) return;
-  await supabaseDB.from('obras_sociales').delete().eq('name', name);
-  obrasSociales = obrasSociales.filter(o => o !== name);
-  renderOsManager();
-  toast('Obra social eliminada');
-}
-
-function initSaleForm() {
-  saleItems = [];
-  document.getElementById('s-prod-search').value = '';
-  document.getElementById('s-prod-selected-id').value = '';
-  document.getElementById('s-prod-dropdown').style.display = 'none';
-  document.getElementById('s-client').value = '';
-  renderOsManager();
-  renderSaleItems();
-}
-
-function searchSaleProduct(q) {
-  const dd = document.getElementById('s-prod-dropdown');
-  document.getElementById('s-prod-selected-id').value = '';
-  if (!q) { dd.style.display='none'; return; }
-  const res = products.filter(p => (p.name.toLowerCase().includes(q.toLowerCase()) || (p.lot&&p.lot.toLowerCase().includes(q.toLowerCase()))) && p.stock>0);
-  dd.innerHTML = res.length
-    ? res.slice(0,10).map(p=>`<div class="dropdown-item" onclick="selectSaleProduct('${p.id}','${p.name.replace(/'/g,"\\'")} — Stock: ${p.stock}')"><strong>${p.name}</strong> <span style="font-size:11px;color:var(--text3)">(Stock: ${p.stock} | Lote: ${p.lot||'—'})</span></div>`).join('')
-    : '<div class="dropdown-item" style="color:var(--text3)">Sin stock / No encontrado</div>';
-  dd.style.display = 'block';
-}
-
-function selectSaleProduct(id, displayName) {
-  document.getElementById('s-prod-selected-id').value = id;
-  document.getElementById('s-prod-search').value = displayName;
-  document.getElementById('s-prod-dropdown').style.display = 'none';
-  document.getElementById('s-prod-qty').focus();
-}
-
-function addSaleItem() {
-  const pid = document.getElementById('s-prod-selected-id').value;
-  if (!pid) { toast('Seleccioná un medicamento', 'warning'); return; }
-  const qty = parseInt(document.getElementById('s-prod-qty').value) || 1;
-  const p = products.find(x => x.id === pid);
-  if (!p) return;
-  const ex = saleItems.find(i => i.id === pid);
-  const cur = ex ? ex.qty + qty : qty;
-  if (cur > p.stock) { toast(`Stock insuficiente (máx: ${p.stock})`, 'error'); return; }
-  if (ex) ex.qty += qty;
-  else saleItems.push({ id: pid, name: p.name, qty, price: p.price });
-  document.getElementById('s-prod-search').value = '';
-  document.getElementById('s-prod-selected-id').value = '';
-  document.getElementById('s-prod-qty').value = 1;
-  renderSaleItems();
-}
-
-function renderSaleItems() {
-  const el = document.getElementById('sale-items-list');
-  if (!saleItems.length) {
-    el.innerHTML = '<div class="empty-state" style="padding:20px"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/></svg></div>Sin productos agregados</div>';
-    document.getElementById('sale-total').textContent = '$0';
-    return;
-  }
-  let total = 0;
-  el.innerHTML = saleItems.map((item, i) => {
-    total += item.qty * item.price;
-    return `<div class="order-item-row">
-      <div style="flex:1"><div class="order-item-name">${item.name}</div><div class="order-item-sub">${fmt(item.price)} × ${item.qty} = ${fmt(item.qty*item.price)}</div></div>
-      <button class="modal-close" onclick="saleItems.splice(${i},1);renderSaleItems()">×</button>
-    </div>`;
-  }).join('');
-  document.getElementById('sale-total').textContent = fmt(total);
-}
-
-async function submitSale() {
-  if (!saleItems.length) { toast('Agregá al menos un producto', 'warning'); return; }
-  const os     = document.getElementById('s-os').value;
-  const client = document.getElementById('s-client').value || 'Consumidor Final';
-  const type   = document.getElementById('s-type').value;
-  const movsToPush = [];
-  for (const item of saleItems) {
-    const p = products.find(x => x.id === item.id);
-    const newStock = p.stock - item.qty;
-    await supabaseDB.from('products').update({ stock: newStock }).eq('id', p.id);
-    p.stock = newStock;
-    movsToPush.push({ product_name: p.name, type:'salida', qty:item.qty, reason:'Venta - '+type, date:today(), obs: client+(os!=='Particular'?' / '+os:'') });
-  }
-  if (movsToPush.length) {
-    await supabaseDB.from('movements').insert(movsToPush);
-    movsToPush.forEach(m => movements.push(m));
-  }
-  const saleLog = { date:today(), items:saleItems, client, os, total:saleItems.reduce((a,i)=>a+i.qty*i.price,0), type };
-  await supabaseDB.from('sales').insert([saleLog]);
-  toast('Venta registrada. Generando comprobante...');
-  generateSalePDF(saleItems, type, os, client);
-  initSaleForm();
-  renderDashboard();
-  updateLowBadge();
-}
-
-/* ════════════════════════════════════
-   PDF GENERATION
-════════════════════════════════════ */
-function generateSalePDF(items, type, os, client) {
-  const total = items.reduce((a,i)=>a+i.qty*i.price,0);
-  const html = `<div style="padding:40px;font-family:'DM Sans',sans-serif;color:#111C17;max-width:800px;margin:0 auto;">
-    <div style="border-bottom:3px solid #52B788;padding-bottom:14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-end">
-      <div><h1 style="font-family:'DM Sans',sans-serif;color:#1A3A2A;margin:0;font-size:26px">${type}</h1><p style="color:#7A9688;margin:4px 0 0;font-size:13px">FarmaStock · Sistema de Inventario</p></div>
-      <div style="text-align:right;font-size:13px;color:#3D5A4A"><div><strong>Fecha:</strong> ${today()}</div><div><strong>Cliente:</strong> ${client}</div><div><strong>Cobertura:</strong> ${os}</div></div>
-    </div>
-    <table style="width:100%;border-collapse:collapse;">
-      <thead><tr style="background:#F0FAF3"><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">PRODUCTO</th><th style="padding:10px 12px;text-align:center;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">CANT.</th><th style="padding:10px 12px;text-align:right;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">P. UNIT.</th><th style="padding:10px 12px;text-align:right;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">SUBTOTAL</th></tr></thead>
-      <tbody>${items.map(i=>`<tr style="border-bottom:1px solid #F0EFE9"><td style="padding:10px 12px">${i.name}</td><td style="padding:10px 12px;text-align:center">${i.qty}</td><td style="padding:10px 12px;text-align:right">${fmt(i.price)}</td><td style="padding:10px 12px;text-align:right;font-weight:600">${fmt(i.price*i.qty)}</td></tr>`).join('')}</tbody>
-    </table>
-    <div style="text-align:right;margin-top:20px;padding:14px 12px;background:#F0FAF3;border-radius:10px"><span style="font-size:14px;color:#3D5A4A">Total: </span><span style="font-size:22px;font-weight:800;color:#1A3A2A">${fmt(total)}</span></div>
-    <p style="text-align:center;color:#B5C9BE;font-size:11px;margin-top:40px">Comprobante generado por FarmaStock v3.0 · ${today()}</p>
-  </div>`;
-  html2pdf().set({ margin:0, filename:`${type}_${today()}.pdf`, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'} }).from(html).save();
-}
 
 function generateOrderPDF(id) {
   const o = orders.find(x => x.id === id);
@@ -4122,11 +3984,10 @@ function generateOrderPDF(id) {
       <div style="text-align:right;font-size:13px;color:#3D5A4A"><div><strong>Fecha:</strong> ${o.date}</div><div><strong>Proveedor:</strong> ${o.supplier}</div><div><strong>Estado:</strong> ${o.status.toUpperCase()}</div></div>
     </div>
     <table style="width:100%;border-collapse:collapse;">
-      <thead><tr style="background:#F0FAF3"><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">PRODUCTO</th><th style="padding:10px 12px;text-align:center;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">CANT.</th><th style="padding:10px 12px;text-align:right;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">P. UNIT.</th><th style="padding:10px 12px;text-align:right;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">SUBTOTAL</th></tr></thead>
-      <tbody>${items.map(i=>`<tr style="border-bottom:1px solid #F0EFE9"><td style="padding:10px 12px">${i.name}</td><td style="padding:10px 12px;text-align:center">${i.qty}</td><td style="padding:10px 12px;text-align:right">${fmt(i.price)}</td><td style="padding:10px 12px;text-align:right;font-weight:600">${fmt(i.price*i.qty)}</td></tr>`).join('')}</tbody>
+      <thead><tr style="background:#F0FAF3"><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">PRODUCTO</th><th style="padding:10px 12px;text-align:center;border-bottom:2px solid #D8F3DC;font-size:11px;letter-spacing:.08em;color:#3D8B6E">CANT.</th></tr></thead>
+      <tbody>${items.map(i=>`<tr style="border-bottom:1px solid #F0EFE9"><td style="padding:10px 12px">${i.name}</td><td style="padding:10px 12px;text-align:center;font-weight:600">${i.qty} u.</td></tr>`).join('')}</tbody>
     </table>
     ${o.notes?`<div style="margin-top:16px;padding:12px;background:#F0FAF3;border-radius:8px;font-size:13px;color:#3D5A4A"><strong>Observaciones:</strong> ${o.notes}</div>`:''}
-    <div style="text-align:right;margin-top:20px;padding:14px 12px;background:#F0FAF3;border-radius:10px"><span style="font-size:14px;color:#3D5A4A">Total Estimado: </span><span style="font-size:22px;font-weight:800;color:#1A3A2A">${fmt(o.total)}</span></div>
     <p style="text-align:center;color:#B5C9BE;font-size:11px;margin-top:40px">Orden generada por FarmaStock v3.0 · ${today()}</p>
   </div>`;
   html2pdf().set({ margin:0, filename:`Orden_${displayId}.pdf`, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'} }).from(html).save();
@@ -4136,94 +3997,20 @@ function generateOrderPDF(id) {
    INIT
 ════════════════════════════════════ */
 function initApp() {
+  // currentUser is already set by showApp() before initApp() is called
   loadInitialData();
 }
 </script>
 </div>
-
-<!-- ═══════════════════════════ LOGIN SCRIPT ═══════════════════════════ -->
+<!-- ═══════════════════════════ AUTH SCRIPT (Supabase) ═══════════════════════════ -->
 <script>
 'use strict';
-const AUTH_CONFIG = {
-  SALT: 'FS_SALT_v1_2024',
-  MAX_ATTEMPTS: 5,
-  LOCKOUT_MINUTES: 15,
-  SESSION_HOURS: 8,
-  SESSION_KEY: 'fs_session_token',
-  SESSION_EXP_KEY: 'fs_session_exp',
-  ATTEMPTS_KEY: 'fs_login_attempts',
-  LOCKOUT_KEY: 'fs_lockout_until',
-};
 
-async function sha256(message) {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-function generateSessionToken() {
-  const a = new Uint8Array(32); crypto.getRandomValues(a);
-  return Array.from(a).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-function isSessionValid() {
-  try {
-    const token = sessionStorage.getItem(AUTH_CONFIG.SESSION_KEY);
-    const exp   = sessionStorage.getItem(AUTH_CONFIG.SESSION_EXP_KEY);
-    if (!token || !exp) return false;
-    if (Date.now() > parseInt(exp)) { sessionStorage.removeItem(AUTH_CONFIG.SESSION_KEY); sessionStorage.removeItem(AUTH_CONFIG.SESSION_EXP_KEY); return false; }
-    return token.length === 64;
-  } catch(e) { return false; }
-}
-function isLockedOut() {
-  try {
-    const until = localStorage.getItem(AUTH_CONFIG.LOCKOUT_KEY);
-    if (!until) return false;
-    if (Date.now() > parseInt(until)) { localStorage.removeItem(AUTH_CONFIG.LOCKOUT_KEY); localStorage.removeItem(AUTH_CONFIG.ATTEMPTS_KEY); return false; }
-    return true;
-  } catch(e) { return false; }
-}
-function getLockoutRemaining() { try { return Math.ceil((parseInt(localStorage.getItem(AUTH_CONFIG.LOCKOUT_KEY)||'0') - Date.now()) / 1000); } catch(e) { return 0; } }
-function getStoredAttempts() { try { return parseInt(localStorage.getItem(AUTH_CONFIG.ATTEMPTS_KEY)||'0'); } catch(e) { return 0; } }
-function recordFailedAttempt() {
-  try {
-    const a = getStoredAttempts() + 1;
-    localStorage.setItem(AUTH_CONFIG.ATTEMPTS_KEY, String(a));
-    if (a >= AUTH_CONFIG.MAX_ATTEMPTS) localStorage.setItem(AUTH_CONFIG.LOCKOUT_KEY, String(Date.now() + AUTH_CONFIG.LOCKOUT_MINUTES * 60 * 1000));
-    return a;
-  } catch(e) { return 1; }
-}
-function clearAttempts() { try { localStorage.removeItem(AUTH_CONFIG.ATTEMPTS_KEY); localStorage.removeItem(AUTH_CONFIG.LOCKOUT_KEY); } catch(e) {} }
-function showLoginError(msg) {
-  const err = document.getElementById('login-error');
-  document.getElementById('login-error-msg').textContent = msg;
-  err.classList.add('show');
-  ['login-user','login-pass'].forEach(id => {
-    const el = document.getElementById(id);
-    el.classList.add('error');
-    setTimeout(() => el.classList.remove('error'), 600);
-  });
-}
-function updateAttemptDots(used) {
-  for (let i=1;i<=5;i++) { const d=document.getElementById('dot-'+i); if(d) d.classList.toggle('used', i<=used); }
-}
-let lockoutInterval = null;
-function startLockoutTimer() {
-  const timer = document.getElementById('lockout-timer');
-  timer.style.display = 'block';
-  document.getElementById('login-btn').disabled = true;
-  if (lockoutInterval) clearInterval(lockoutInterval);
-  lockoutInterval = setInterval(() => {
-    const rem = getLockoutRemaining();
-    if (rem <= 0) {
-      clearInterval(lockoutInterval);
-      timer.style.display = 'none';
-      document.getElementById('login-btn').disabled = false;
-      document.getElementById('login-error').classList.remove('show');
-      updateAttemptDots(0);
-    } else {
-      timer.textContent = `Sistema bloqueado por ${Math.floor(rem/60)}:${String(rem%60).padStart(2,'0')} min`;
-    }
-  }, 1000);
-}
+/* ────────────────────────────────────────
+   Supabase Auth — replaces all previous
+   localStorage/SHA256 session logic
+──────────────────────────────────────── */
+
 function togglePass() {
   const input = document.getElementById('login-pass');
   const isHidden = input.type === 'password';
@@ -4232,103 +4019,139 @@ function togglePass() {
     ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
     : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
 }
+
+function showLoginError(msg) {
+  const el = document.getElementById('login-error');
+  document.getElementById('login-error-msg').textContent = msg;
+  el.classList.add('show');
+  ['login-email','login-pass'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('error');
+    setTimeout(() => el.classList.remove('error'), 600);
+  });
+}
+
+function hideLoginError() {
+  document.getElementById('login-error').classList.remove('show');
+}
+
 async function attemptLogin() {
-  const btn = document.getElementById('login-btn');
+  const btn     = document.getElementById('login-btn');
   const btnText = document.getElementById('login-btn-text');
-  if (isLockedOut()) { showLoginError(`Demasiados intentos fallidos. Esperá ${Math.ceil(getLockoutRemaining()/60)} minutos.`); startLockoutTimer(); return; }
-  const user = document.getElementById('login-user').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  if (!user || !pass) { showLoginError('Por favor ingresá usuario y contraseña.'); return; }
-  btn.disabled = true; btnText.textContent = 'Verificando...';
+  const username = document.getElementById('login-email').value.trim();
+  const pass     = document.getElementById('login-pass').value;
+  // Append internal domain so Supabase Auth gets a valid email format
+  const email    = username.includes('@') ? username : `${username}@farmastock.local`;
+
+  hideLoginError();
+
+  if (!username || !pass) {
+    showLoginError('Por favor ingresá usuario y contraseña.');
+    return;
+  }
+
+  btn.disabled = true;
+  btnText.textContent = 'Verificando…';
+
   try {
-    const inputHash   = await sha256(`${user}:${pass}:${AUTH_CONFIG.SALT}`);
-    const correctHash = await sha256(`farmastock_admin:Fs#2024$Secure!Rx:${AUTH_CONFIG.SALT}`);
-    await new Promise(r => setTimeout(r, 400 + Math.random() * 200));
-    let match = inputHash.length === correctHash.length;
-    for (let i=0; i<correctHash.length; i++) { if (inputHash[i] !== correctHash[i]) match = false; }
-    if (match) {
-      clearAttempts();
-      const token = generateSessionToken();
-      sessionStorage.setItem(AUTH_CONFIG.SESSION_KEY, token);
-      sessionStorage.setItem(AUTH_CONFIG.SESSION_EXP_KEY, String(Date.now() + AUTH_CONFIG.SESSION_HOURS * 3600 * 1000));
-      btnText.textContent = '✓ Acceso concedido';
-      btn.style.background = 'linear-gradient(135deg,#74C69D,#1A3A2A)';
-      updateAttemptDots(0);
-      setTimeout(() => {
-        const ls = document.getElementById('login-screen');
-        ls.style.transition = 'opacity .5s ease';
-        ls.style.opacity = '0';
-        setTimeout(() => {
-          ls.style.display = 'none';
-          document.getElementById('app-container').style.display = 'block';
-          initApp();
-          startSessionWatcher();
-          addLogoutButton();
-        }, 500);
-      }, 600);
-    } else {
-      const attempts = recordFailedAttempt();
-      const remaining = AUTH_CONFIG.MAX_ATTEMPTS - attempts;
-      updateAttemptDots(attempts);
-      if (isLockedOut()) { showLoginError(`Cuenta bloqueada por ${AUTH_CONFIG.LOCKOUT_MINUTES} minutos.`); startLockoutTimer(); }
-      else showLoginError(`Credenciales incorrectas. ${remaining} intento${remaining!==1?'s':''} restante${remaining!==1?'s':''}.`);
-      document.getElementById('login-pass').value = '';
+    const { data, error } = await supabaseDB.auth.signInWithPassword({ email, password: pass });
+    if (error) {
+      const msg = error.message.includes('Invalid login')
+        ? 'Usuario o contraseña incorrectos.'
+        : error.message.includes('Email not confirmed')
+        ? 'El usuario no está habilitado. Contactá al administrador.'
+        : error.message;
+      showLoginError(msg);
       btn.disabled = false;
       btnText.textContent = 'Ingresar al sistema';
     }
-  } catch(e) {
-    console.error(e); btn.disabled = false; btnText.textContent = 'Ingresar al sistema'; showLoginError('Error del sistema. Intentá nuevamente.');
+    // If success, onAuthStateChange handles the transition
+  } catch (e) {
+    showLoginError('Error de conexión. Intentá nuevamente.');
+    btn.disabled = false;
+    btnText.textContent = 'Ingresar al sistema';
   }
 }
-function startSessionWatcher() {
-  setInterval(() => {
-    if (!isSessionValid()) {
-      sessionStorage.clear();
-      document.getElementById('app-container').style.display = 'none';
-      const ls = document.getElementById('login-screen');
-      ls.style.display = 'flex'; ls.style.opacity = '1';
-      document.getElementById('login-user').value = '';
-      document.getElementById('login-pass').value = '';
-      document.getElementById('login-error').classList.remove('show');
-      document.getElementById('login-btn').disabled = false;
-      document.getElementById('login-btn-text').textContent = 'Ingresar al sistema';
+
+function showApp(user) {
+  // Strip the internal domain for display purposes
+  currentUser = user.email.replace('@farmastock.local', '');
+
+  // Update sidebar
+  const nameEl    = document.getElementById('sb-username');
+  const avatarEl  = document.getElementById('sb-avatar-initials');
+  if (nameEl)   nameEl.textContent   = displayName;
+  const displayName = user.email.replace('@farmastock.local', '');
+  if (avatarEl) avatarEl.textContent = displayName.substring(0, 2).toUpperCase();
+
+  // Hide login, show app
+  const ls = document.getElementById('login-screen');
+  ls.style.transition = 'opacity .4s ease';
+  ls.style.opacity = '0';
+  setTimeout(() => {
+    ls.style.display = 'none';
+    document.getElementById('app-container').style.display = 'block';
+  }, 400);
+
+  // Add logout button to sidebar if not already present
+  if (!document.getElementById('logout-btn')) {
+    const footer = document.querySelector('.sb-footer');
+    if (footer) {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = `<button id="logout-btn" onclick="logoutUser()"
+        style="display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;background:none;border:none;
+               border-radius:var(--r);cursor:pointer;color:rgba(255,255,255,.35);font-size:12px;
+               font-family:var(--font);transition:all .15s ease;margin-top:6px"
+        onmouseover="this.style.background='rgba(230,57,70,.12)';this.style.color='rgba(240,100,110,.8)'"
+        onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,.35)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Cerrar sesión</span>
+      </button>`;
+      footer.appendChild(wrap);
     }
-  }, 60000);
-}
-function addLogoutButton() {
-  const footer = document.querySelector('.sb-footer');
-  if (footer && !document.getElementById('logout-btn')) {
-    const div = document.createElement('div');
-    div.innerHTML = `<button id="logout-btn" onclick="logoutUser()" style="display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;background:none;border:none;border-radius:var(--r);cursor:pointer;color:rgba(255,255,255,.35);font-size:12px;font-family:var(--font);transition:all .15s ease;margin-top:6px" onmouseover="this.style.background='rgba(230,57,70,.12)';this.style.color='rgba(240,100,110,.8)'" onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,.35)'">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      <span>Cerrar sesión</span>
-    </button>`;
-    footer.appendChild(div);
   }
+
+  initApp();
 }
-function logoutUser() {
-  showConfirm({ title:'Cerrar sesión', message:'¿Querés cerrar tu sesión actual?', okLabel:'Cerrar sesión', okClass:'btn-danger', type:'info' }).then(ok => {
-    if (!ok) return;
-    sessionStorage.removeItem(AUTH_CONFIG.SESSION_KEY);
-    sessionStorage.removeItem(AUTH_CONFIG.SESSION_EXP_KEY);
-    document.getElementById('app-container').style.display = 'none';
-    const ls = document.getElementById('login-screen');
-    ls.style.display='flex'; ls.style.opacity='1';
-    document.getElementById('login-user').value='';
-    document.getElementById('login-pass').value='';
-    document.getElementById('login-error').classList.remove('show');
-    document.getElementById('login-btn').disabled=false;
-    document.getElementById('login-btn-text').textContent='Ingresar al sistema';
-    updateAttemptDots(0);
+
+function showLogin() {
+  document.getElementById('app-container').style.display = 'none';
+  const ls = document.getElementById('login-screen');
+  ls.style.display = 'flex';
+  ls.style.opacity = '1';
+  document.getElementById('login-email').value  = '';
+  document.getElementById('login-pass').value  = '';
+  document.getElementById('login-btn').disabled = false;
+  document.getElementById('login-btn-text').textContent = 'Ingresar al sistema';
+  hideLoginError();
+}
+
+async function logoutUser() {
+  const ok = await showConfirm({
+    title: 'Cerrar sesión',
+    message: '¿Querés cerrar tu sesión actual?',
+    okLabel: 'Cerrar sesión',
+    okClass: 'btn-danger',
+    type: 'info'
   });
+  if (!ok) return;
+  await supabaseDB.auth.signOut();
+  // onAuthStateChange fires and calls showLogin()
 }
-(function checkInit() {
-  if (isLockedOut()) {
-    startLockoutTimer();
-    updateAttemptDots(Math.min(getStoredAttempts(), 5));
-    showLoginError(`Sistema bloqueado. Esperá ${Math.ceil(getLockoutRemaining()/60)} minutos.`);
+
+// ── Bootstrap: listen for session changes ──
+// This fires immediately with the current session (if any),
+// then on every login / logout event.
+supabaseDB.auth.onAuthStateChange((event, session) => {
+  if (session?.user) {
+    showApp(session.user);
+  } else {
+    showLogin();
   }
-})();
+});
 </script>
 </body>
-</html>
