@@ -2602,8 +2602,6 @@ function orderFromLowStock(id) {
 }
 
 function initOrderForm() {
-  if (!preserveOrderState) orderItems = [];
-  preserveOrderState = false;
   populateSupplierSelects();
   document.getElementById('o-prod-search').value = '';
   document.getElementById('o-prod-selected-id').value = '';
@@ -2636,10 +2634,7 @@ function initOrderForm() {
     if (existingWarn) existingWarn.remove();
   }
 
-  const low = products.filter(p => p.stock < p.min);
-  document.getElementById('order-sugg').innerHTML = low.length
-    ? `<strong>Sugerencia:</strong> hay ${low.length} producto(s) con stock bajo: ${low.slice(0,3).map(p=>p.name).join(', ')}${low.length>3?'…':''}.`
-    : '✓ Todo el stock está en nivel adecuado.';
+  renderOrderSugg();
   renderOrderItems();
 }
 
@@ -2667,6 +2662,39 @@ document.addEventListener('click', e => {
     dd.style.display = 'none';
   }
 });
+
+function renderOrderSugg() {
+  const suggEl = document.getElementById('order-sugg');
+  if (!suggEl) return;
+  const low = products.filter(p => p.stock < p.min && !orderItems.find(i => i.id === p.id))
+                      .sort((a,b) => (a.stock/a.min) - (b.stock/b.min));
+  if (!products.filter(p => p.stock < p.min).length) {
+    suggEl.innerHTML = '✓ Todo el stock está en nivel adecuado.';
+  } else if (!low.length) {
+    suggEl.innerHTML = '✓ Todos los productos con stock bajo ya están en la orden.';
+  } else {
+    const rows = low.map(p => `<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--mint-pale);gap:8px">
+      <span style="flex:1;font-weight:500;color:var(--text)">${p.name}</span>
+      <span style="white-space:nowrap;color:${p.stock===0?'var(--coral)':'var(--amber-dk)'};font-weight:700">${p.stock} / ${p.min}</span>
+      <span style="white-space:nowrap;font-size:11px;color:var(--text3)">déficit: ${p.min-p.stock}</span>
+      <button class="btn btn-green btn-xs" onclick="quickAddLowStockToOrder('${p.id}')" style="flex-shrink:0">+ Agregar</button>
+    </div>`).join('');
+    suggEl.innerHTML = `<div style="margin-bottom:6px"><strong>Sugerencia:</strong> ${low.length} producto(s) pendientes — stock actual / mínimo:</div>
+      <div style="max-height:220px;overflow-y:auto;padding-right:2px">${rows}</div>`;
+  }
+}
+
+function quickAddLowStockToOrder(pid) {
+  const p = products.find(x => x.id === pid);
+  if (!p) return;
+  const deficit = p.min - p.stock;
+  const qty = Math.max(deficit, 1);
+  const ex = orderItems.find(i => i.id === pid);
+  if (ex) ex.qty += qty;
+  else orderItems.push({ id: pid, name: p.name, qty });
+  renderOrderItems();
+  toast(`${p.name} agregado (${qty} unidades)`, 'success');
+}
 
 function addOrderItem() {
   const pid = document.getElementById('o-prod-selected-id').value;
@@ -2698,6 +2726,7 @@ function renderOrderItems() {
     </div>`;
   }).join('');
   document.getElementById('order-total').textContent = `${orderItems.reduce((a,i)=>a+i.qty,0)} unidades`;
+  renderOrderSugg();
 }
 
 async function submitOrder() {
