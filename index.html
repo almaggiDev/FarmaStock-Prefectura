@@ -1586,6 +1586,16 @@ textarea.form-input { resize: vertical; min-height: 72px; }
                 </div>
                 <div class="form-row">
                   <div class="form-group">
+                    <label class="form-label">Responsable</label>
+                    <input type="text" class="form-input" id="o-responsible" placeholder="Nombre del responsable">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Día de generación</label>
+                    <input type="date" class="form-input" id="o-gen-date" readonly style="background:var(--surface2);color:var(--text2);cursor:default">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
                     <label class="form-label">Fecha estimada de entrega</label>
                     <input type="date" class="form-input" id="o-date">
                   </div>
@@ -1675,7 +1685,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
                       style="width:14px;height:14px;cursor:pointer;accent-color:var(--forest-lt)"
                       onchange="toggleSelectAllOrders(this)">
                   </th>
-                  <th>Orden</th><th>Proveedor</th><th>Ítems</th>
+                  <th>Orden</th><th>Proveedor</th><th>Responsable</th><th>Recibido por</th><th>Ítems</th>
                   <th style="cursor:pointer;user-select:none" onclick="toggleOrdersSort()" title="Ordenar por fecha">
                     Fecha <span id="sort-arrow">↓</span>
                   </th>
@@ -1715,6 +1725,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
                 <option value="all">Todos los tipos</option>
                 <option value="entrada">Entradas</option>
                 <option value="salida">Salidas</option>
+                <option value="pedido">Pedidos generados</option>
               </select>
               <select class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-prod-filter" onchange="renderMovements()"></select>
               <input type="date" class="form-input" style="width:auto;padding:5px 10px;font-size:12px" id="mov-date-from" onchange="renderMovements()" placeholder="Desde">
@@ -1910,6 +1921,10 @@ textarea.form-input { resize: vertical; min-height: 72px; }
           <div style="opacity:.8">Se actualiza el stock del registro existente sin cambiar lote/vencimiento.</div>
         </div>
       </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label">Responsable de recepción</label>
+        <input type="text" class="form-input" id="recv-responsible" placeholder="Nombre de quien recibe el pedido">
+      </div>
       <div id="receive-items-body"></div>
     </div>
     <div class="modal-footer">
@@ -2089,18 +2104,19 @@ async function loadInitialData() {
 ════════════════════════════════════ */
 const fmt    = n => '$' + Math.round(n).toLocaleString('es-AR');
 const today  = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
-const nowISO = () => new Date().toISOString(); // full datetime for movements
+const nowISO = () => { const d = new Date(); const pad = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
 const fmtDatetime = iso => {
   if (!iso) return '—';
+  if (iso.length <= 10) return { date: fmtDateOnly(iso), time: '', full: fmtDateOnly(iso) };
   const d = new Date(iso);
-  if (isNaN(d)) return iso; // fallback for date-only strings
+  if (isNaN(d)) return { date: iso, time: '', full: iso };
   const date = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
   const time = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
   return { date, time, full: `${date} ${time}` };
 };
 const fmtDateOnly = iso => {
   if (!iso) return '—';
-  const d = new Date(iso);
+  const d = iso.length <= 10 ? new Date(iso + 'T12:00:00') : new Date(iso);
   if (isNaN(d)) return iso;
   return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 };
@@ -2606,6 +2622,8 @@ function initOrderForm() {
   document.getElementById('o-prod-search').value = '';
   document.getElementById('o-prod-selected-id').value = '';
   document.getElementById('o-prod-dropdown').style.display = 'none';
+  document.getElementById('o-gen-date').value = today();
+  document.getElementById('o-responsible').value = currentUser;
   const t = new Date(); t.setDate(t.getDate()+7);
   document.getElementById('o-date').value = t.toISOString().split('T')[0];
 
@@ -2738,13 +2756,36 @@ async function submitOrder() {
     supplier: document.getElementById('o-supplier').value,
     items: orderItems.map(i => ({...i})),
     total: orderItems.reduce((a,i) => a+i.qty, 0),
-    date: today(), status: 'pendiente',
+    date: today(),
+    delivery_date: document.getElementById('o-date').value,
+    responsible: document.getElementById('o-responsible').value,
+    status: 'pendiente',
     priority: document.getElementById('o-priority').value,
     notes: document.getElementById('o-notes').value,
   };
   const res = await supabaseDB.from('orders').insert([ord]).select();
   if (res.error) { toast('Error al crear orden', 'error'); return; }
   orders.unshift(res.data[0]);
+
+  const _now = nowISO();
+  const orderMovs = orderItems.map(item => ({
+    product_name: item.name,
+    type: 'pedido',
+    qty: item.qty,
+    reason: 'Orden de compra generada',
+    date: today(),
+    datetime: _now,
+    obs: `Orden ${hid} · Proveedor: ${ord.supplier}`,
+    responsible: ord.responsible,
+  }));
+  const movRes = await supabaseDB.from('movements').insert(orderMovs);
+  if (movRes.error) {
+    console.error('Error movimientos pedido:', movRes.error.message, movRes.error.code, movRes.error.details);
+    toast(`Error al registrar movimientos: ${movRes.error.message}`, 'error');
+    return;
+  }
+  orderMovs.forEach(m => movements.push(m));
+
   toast(`Orden ${hid} creada exitosamente`);
   orderItems = [];
   goPage('orders');
@@ -2792,7 +2833,7 @@ function renderOrders() {
   updateBulkBar();
 
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state">
       <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
       <p>Sin órdenes para este filtro</p>
@@ -2820,6 +2861,8 @@ function renderOrders() {
       </td>
       <td class="td-mono">${displayId}</td>
       <td style="font-weight:600">${o.supplier}</td>
+      <td class="td-muted">${o.responsible||'—'}</td>
+      <td class="td-muted">${o.status==='entregada' ? (o.recv_responsible||'—') : '<span style="color:var(--text3);font-size:11px">—</span>'}</td>
       <td class="td-muted">${itemCount} ítem${itemCount!==1?'s':''}</td>
       <td class="td-muted" style="font-size:12px">${dateDisplay}</td>
       <td><span class="badge ${statusBadge[o.status]}">${statusLabel[o.status]||o.status}</span></td>
@@ -2953,8 +2996,11 @@ function showOrderDetail(id) {
       <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Orden</span><span style="font-family:var(--mono);font-weight:600">${displayId}</span></div>
       <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Estado</span><span class="badge ${statusBadge[o.status]}">${o.status}</span></div>
       <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Proveedor</span><span style="font-weight:600">${o.supplier}</span></div>
-      <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Prioridad</span><span class="badge ${o.priority==='urgente'?'badge-coral':'badge-amber'}">${o.priority}</span></div>
-      <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Fecha</span>${o.date}</div>
+      <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Prioridad</span><span class="badge ${o.priority==='urgente'?'badge-coral':'badge-amber'}">${o.priority||'—'}</span></div>
+      <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Responsable</span><span style="font-weight:600">${o.responsible||'—'}</span></div>
+      <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Generada el</span>${fmtDateOnly(o.date)||o.date||'—'}</div>
+      <div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Entrega estimada</span>${o.delivery_date ? fmtDateOnly(o.delivery_date)||o.delivery_date : '—'}</div>
+      ${o.status==='entregada' ? `<div><span style="color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px">Recibido por</span><span style="font-weight:600">${o.recv_responsible||'—'}</span></div>` : ''}
     </div>
     <div class="section-label">Productos</div>`;
   (Array.isArray(o.items)?o.items:[]).forEach(item => {
@@ -3060,6 +3106,7 @@ function openReceiveModal(orderId) {
   });
 
   document.getElementById('receive-items-body').innerHTML = html;
+  document.getElementById('recv-responsible').value = currentUser;
   openModal('receive-modal');
 }
 
@@ -3075,11 +3122,12 @@ function onRecvLotChange(i, originalLot) {
 async function confirmReceiveOrder() {
   const o = orders.find(x => x.id === pendingReceiveOrderId);
   if (!o) return;
-  const displayId = o.order_serial || o.id;
-  const items     = Array.isArray(o.items) ? o.items : [];
-  const movsToPush = [];
-  let updatedCount = 0;
-  let createdCount = 0;
+  const displayId    = o.order_serial || o.id;
+  const items        = Array.isArray(o.items) ? o.items : [];
+  const recvResponsible = document.getElementById('recv-responsible').value.trim() || currentUser;
+  const movsToPush   = [];
+  let updatedCount   = 0;
+  let createdCount   = 0;
 
   for (let i = 0; i < items.length; i++) {
     const item        = items[i];
@@ -3109,7 +3157,7 @@ async function confirmReceiveOrder() {
         reason: 'Compra a proveedor',
         datetime: nowISO(),
         obs: `Orden ${displayId} · Lote: ${newLot||'—'}${newExpiry?' · Vto: '+newExpiry:''}`,
-        responsible: currentUser
+        responsible: recvResponsible
       });
 
     } else if (newLot && anyMatch) {
@@ -3139,7 +3187,7 @@ async function confirmReceiveOrder() {
         reason: 'Compra a proveedor — lote nuevo',
         datetime: nowISO(),
         obs: `Orden ${displayId} · Nuevo lote: ${newLot}${newExpiry?' · Vto: '+newExpiry:''}`,
-        responsible: currentUser
+        responsible: recvResponsible
       });
 
     } else if (anyMatch) {
@@ -3160,7 +3208,7 @@ async function confirmReceiveOrder() {
         reason: 'Compra a proveedor',
         datetime: nowISO(),
         obs: `Orden ${displayId}${newExpiry?' · Vto: '+newExpiry:''}`,
-        responsible: currentUser
+        responsible: recvResponsible
       });
 
     } else {
@@ -3184,14 +3232,15 @@ async function confirmReceiveOrder() {
         reason: 'Compra a proveedor — producto nuevo',
         datetime: nowISO(),
         obs: `Orden ${displayId}`,
-        responsible: currentUser
+        responsible: recvResponsible
       });
     }
   }
 
   // Mark order as delivered
-  await supabaseDB.from('orders').update({ status: 'entregada' }).eq('id', o.id);
+  await supabaseDB.from('orders').update({ status: 'entregada', recv_responsible: recvResponsible }).eq('id', o.id);
   o.status = 'entregada';
+  o.recv_responsible = recvResponsible;
 
   if (movsToPush.length) {
     await supabaseDB.from('movements').insert(movsToPush);
@@ -3512,42 +3561,51 @@ function renderMovements() {
     if (dateKey !== 'sin-fecha') {
       const d = new Date(dateKey + 'T12:00:00'); // noon to avoid TZ issues
       const todayStr = today();
-      const yesterdayStr = (() => { const y = new Date(); y.setDate(y.getDate()-1); return y.toISOString().substring(0,10); })();
+      const yesterdayStr = (() => { const y = new Date(); y.setDate(y.getDate()-1); return `${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,'0')}-${String(y.getDate()).padStart(2,'0')}`; })();
       if (dateKey === todayStr) dayLabel = 'Hoy';
       else if (dateKey === yesterdayStr) dayLabel = 'Ayer';
       else dayLabel = `${dayNames[d.getDay()]} ${d.getDate()} de ${monthNames[d.getMonth()]}`;
     }
 
-    const dayIn  = items.filter(m => m.type === 'entrada').reduce((a,m) => a+m.qty, 0);
-    const dayOut = items.filter(m => m.type === 'salida').reduce((a,m) => a+m.qty, 0);
+    const dayIn     = items.filter(m => m.type === 'entrada').reduce((a,m) => a+m.qty, 0);
+    const dayOut    = items.filter(m => m.type === 'salida').reduce((a,m) => a+m.qty, 0);
+    const dayPedido = items.filter(m => m.type === 'pedido').length;
 
     html += `
       <div style="padding:10px 20px 6px;background:var(--surface2);border-bottom:1px solid var(--border2);
                   display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:1">
         <span style="font-weight:700;font-size:12.5px;color:var(--text)">${dayLabel}</span>
         <span style="font-size:11px;color:var(--text3)">${items.length} movimiento${items.length!==1?'s':''}</span>
-        ${dayIn  ? `<span style="font-size:11px;color:var(--forest-lt);font-weight:600">+${dayIn} entradas</span>` : ''}
-        ${dayOut ? `<span style="font-size:11px;color:var(--coral);font-weight:600">-${dayOut} salidas</span>` : ''}
+        ${dayIn     ? `<span style="font-size:11px;color:var(--forest-lt);font-weight:600">+${dayIn} entradas</span>` : ''}
+        ${dayOut    ? `<span style="font-size:11px;color:var(--coral);font-weight:600">-${dayOut} salidas</span>` : ''}
+        ${dayPedido ? `<span style="font-size:11px;color:var(--sky);font-weight:600">${dayPedido} pedido${dayPedido!==1?'s':''}</span>` : ''}
       </div>`;
 
     items.forEach(m => {
-      const isIn  = m.type === 'entrada';
-      const dt    = fmtDatetime(m.datetime || m.date);
-      const time  = typeof dt === 'object' ? dt.time : '';
-      const resp  = m.responsible || '—';
+      const isIn    = m.type === 'entrada';
+      const isPedido = m.type === 'pedido';
+      const dt      = fmtDatetime(m.datetime || m.date);
+      const time    = typeof dt === 'object' ? dt.time : '';
+      const resp    = m.responsible || '—';
+      const svgPedido = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="12" y1="12" x2="12" y2="18"/></svg>`;
+      const iconBg    = isPedido ? 'var(--sky-pale)'  : isIn ? 'var(--mint-pale)'  : 'var(--coral-pale)';
+      const iconColor = isPedido ? 'var(--sky)'       : isIn ? 'var(--forest-lt)'  : 'var(--coral)';
+      const icon      = isPedido ? svgPedido          : isIn ? svgIn               : svgOut;
+      const qtyColor  = isPedido ? 'var(--sky)'       : isIn ? 'var(--forest-lt)'  : 'var(--coral)';
+      const qtyPrefix = isPedido ? '↗'                : isIn ? '+'                 : '-';
 
       html += `
         <div class="mov-row" style="padding:10px 20px;border-bottom:1px solid var(--border2)">
-          <div class="mov-icon" style="background:${isIn?'var(--mint-pale)':'var(--coral-pale)'};color:${isIn?'var(--forest-lt)':'var(--coral)'}">
-            ${isIn ? svgIn : svgOut}
+          <div class="mov-icon" style="background:${iconBg};color:${iconColor}">
+            ${icon}
           </div>
           <div class="mov-info" style="flex:1;min-width:0">
             <div class="mov-name">${m.product_name}</div>
             <div class="mov-sub">${m.reason}${m.obs ? ' · ' + m.obs : ''}</div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
-            <div class="mov-qty" style="font-size:14px;font-weight:700;color:${isIn?'var(--forest-lt)':'var(--coral)'}">
-              ${isIn?'+':'-'}${m.qty}
+            <div class="mov-qty" style="font-size:14px;font-weight:700;color:${qtyColor}">
+              ${qtyPrefix}${m.qty}
             </div>
             ${time ? `<div style="font-size:10.5px;color:var(--text3);font-family:var(--mono)">${time}</div>` : ''}
             <div style="display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--text3)">
