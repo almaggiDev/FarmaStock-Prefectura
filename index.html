@@ -488,12 +488,30 @@ body {
   white-space: nowrap;
   letter-spacing: -.01em;
 }
-.badge-green  { background: var(--mint-pale); color: #1B5E3B; }
-.badge-coral  { background: var(--coral-pale); color: #B71C1C; }
-.badge-amber  { background: var(--amber-pale); color: var(--amber-dk); }
-.badge-sky    { background: var(--sky-pale); color: #1565C0; }
-.badge-violet { background: var(--violet-pale); color: var(--violet); }
-.badge-gray   { background: var(--surface3); color: var(--text2); }
+.badge-green   { background: var(--mint-pale);    color: #1B5E3B; }
+.badge-coral   { background: var(--coral-pale);   color: #B71C1C; }
+.badge-amber   { background: var(--amber-pale);   color: var(--amber-dk); }
+.badge-sky     { background: var(--sky-pale);     color: #1565C0; }
+.badge-violet  { background: var(--violet-pale);  color: var(--violet); }
+.badge-gray    { background: var(--surface3);     color: var(--text2); }
+.badge-blue    { background: #DBEAFE; color: #1E40AF; }
+.badge-cyan    { background: #CFFAFE; color: #0E7490; }
+.badge-teal    { background: #CCFBF1; color: #0F766E; }
+.badge-emerald { background: #D1FAE5; color: #065F46; }
+.badge-lime    { background: #ECFCCB; color: #3F6212; }
+.badge-sage    { background: #ECFDF5; color: #047857; }
+.badge-forest  { background: #DCFCE7; color: #166534; }
+.badge-orange  { background: #FFEDD5; color: #C2410C; }
+.badge-yellow  { background: #FEF9C3; color: #854D0E; }
+.badge-brown   { background: #FEF3C7; color: #78350F; }
+.badge-pink    { background: #FCE7F3; color: #9D174D; }
+.badge-rose    { background: #FFE4E6; color: #BE123C; }
+.badge-red     { background: #FEE2E2; color: #991B1B; }
+.badge-indigo  { background: #E0E7FF; color: #3730A3; }
+.badge-purple  { background: #F3E8FF; color: #7E22CE; }
+.badge-fuchsia { background: #FDF4FF; color: #86198F; }
+.badge-slate   { background: #E2E8F0; color: #475569; }
+.badge-zinc    { background: #E4E4E7; color: #52525B; }
 
 /* ══════════════════════════════════════════
    TABLE
@@ -1369,14 +1387,6 @@ textarea.form-input { resize: vertical; min-height: 72px; }
         </svg>
         <span>Inventario</span>
       </button>
-      <button class="nav-item" data-page="lowstock">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        <span>Stock bajo</span>
-        <span class="nav-badge" id="low-badge">0</span>
-      </button>
       <button class="nav-item" data-page="categories">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <rect x="2" y="3" width="6" height="6" rx="1"/><rect x="9" y="3" width="6" height="6" rx="1"/>
@@ -1417,6 +1427,14 @@ textarea.form-input { resize: vertical; min-height: 72px; }
         </svg>
         <span>Movimientos</span>
       </button>
+      <button class="nav-item" data-page="lowstock">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Stock bajo</span>
+        <span class="nav-badge" id="low-badge">0</span>
+      </button>
       <button class="nav-item" data-page="expiry">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -1424,6 +1442,15 @@ textarea.form-input { resize: vertical; min-height: 72px; }
           <line x1="3" y1="10" x2="21" y2="10"/>
         </svg>
         <span>Vencimientos</span>
+        <span class="nav-badge" id="expiry-badge">0</span>
+      </button>
+      <button class="nav-item" data-page="alerts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span>Alertas</span>
+        <span class="nav-badge" id="alerts-badge">0</span>
       </button>
       <button class="nav-item" data-page="reports">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -1488,7 +1515,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
           <div class="card">
             <div class="card-header">
               <div><div class="card-title">Alertas activas</div></div>
-              <button class="btn btn-ghost btn-xs" onclick="goPage('lowstock')">Ver todas →</button>
+              <button class="btn btn-ghost btn-xs" onclick="goPage('alerts')">Ver todas →</button>
             </div>
             <div class="card-body" id="dash-alerts"></div>
           </div>
@@ -1526,7 +1553,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Producto</th><th>Laboratorio</th><th>Categoría</th><th>Lote</th>
+                  <th>Producto</th><th>Presentación</th><th>Categoría</th><th>Lote</th>
                   <th>Stock</th><th>Mínimo</th><th>Vencimiento</th>
                   <th>Proveedor</th><th>Acciones</th>
                 </tr>
@@ -1586,7 +1613,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">Responsable</label>
+                    <label class="form-label">Responsable *</label>
                     <input type="text" class="form-input" id="o-responsible" placeholder="Nombre del responsable">
                   </div>
                   <div class="form-group">
@@ -1753,13 +1780,19 @@ textarea.form-input { resize: vertical; min-height: 72px; }
         <div id="exp-groups"></div>
       </div>
 
+      <!-- ═══════════ ALERTS ═══════════ -->
+      <div class="page" id="page-alerts">
+        <div class="page-header"><h1>Alertas</h1><p>Stock bajo y productos próximos a vencer</p></div>
+        <div id="alerts-content"></div>
+      </div>
+
       <!-- ═══════════ REPORTS ═══════════ -->
       <div class="page" id="page-reports">
         <div class="page-header"><h1>Reportes y analytics</h1><p>Métricas del inventario y análisis de rendimiento</p></div>
         <div class="tabs-bar">
           <button class="tab-btn active" onclick="switchReport('stock',this)">Por categoría</button>
           <button class="tab-btn" onclick="switchReport('rotation',this)">Rotación</button>
-          <button class="tab-btn" onclick="switchReport('suppliers',this)">Por proveedor</button>
+          <button class="tab-btn" onclick="switchReport('suppliers',this)">Top bajas semana</button>
         </div>
         <div id="report-content"></div>
       </div>
@@ -1787,8 +1820,8 @@ textarea.form-input { resize: vertical; min-height: 72px; }
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Laboratorio *</label>
-          <input class="form-input" id="p-lab" placeholder="Ej: Roemmers">
+          <label class="form-label">Presentación *</label>
+          <input class="form-input" id="p-presentation" placeholder="Ej: Caja x40">
         </div>
         <div class="form-group" style="display:flex;flex-direction:column;">
           <div style="display:flex;justify-content:space-between">
@@ -1871,7 +1904,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Responsable</label>
+          <label class="form-label">Responsable *</label>
           <input class="form-input" id="adj-responsible" placeholder="Nombre del responsable">
         </div>
       </div>
@@ -1922,7 +1955,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
         </div>
       </div>
       <div class="form-group" style="margin-bottom:14px">
-        <label class="form-label">Responsable de recepción</label>
+        <label class="form-label">Responsable de recepción *</label>
         <input type="text" class="form-input" id="recv-responsible" placeholder="Nombre de quien recibe el pedido">
       </div>
       <div id="receive-items-body"></div>
@@ -2035,18 +2068,25 @@ try {
    DESIGN SYSTEM COLORS
 ════════════════════════════════════ */
 const catColors = {
-  'Analgésico':      { badge: 'badge-sky',    bar: '#2196F3' },
-  'Antibiótico':     { badge: 'badge-coral',  bar: '#E63946' },
-  'Antihipertensivo':{ badge: 'badge-violet', bar: '#7C3AED' },
-  'Antidiabético':   { badge: 'badge-amber',  bar: '#F4A261' },
-  'Antiinflamatorio':{ badge: 'badge-coral',  bar: '#D62839' },
-  'Vitaminas':       { badge: 'badge-green',  bar: '#52B788' },
-  'Dermatológico':   { badge: 'badge-green',  bar: '#74C69D' },
-  'Gastrointestinal':{ badge: 'badge-sky',    bar: '#2A9D8F' },
-  'Cardiovascular':  { badge: 'badge-coral',  bar: '#E63946' },
-  'Respiratorio':    { badge: 'badge-violet', bar: '#9B72CF' },
-  'Neurológico':     { badge: 'badge-amber',  bar: '#F4A261' },
-  'Oncológico':      { badge: 'badge-gray',   bar: '#7A9688' },
+  'Analgésico / Antiinflamatorio': { badge: 'badge-sky',     bar: '#1565C0' },
+  'Antibiótico':                   { badge: 'badge-red',     bar: '#991B1B' },
+  'Antifúngico':                   { badge: 'badge-purple',  bar: '#7E22CE' },
+  'Antihipertensivo':              { badge: 'badge-rose',    bar: '#BE123C' },
+  'Antidiabético':                 { badge: 'badge-orange',  bar: '#C2410C' },
+  'Antihistamínico':               { badge: 'badge-yellow',  bar: '#854D0E' },
+  'Broncodilatador':               { badge: 'badge-teal',    bar: '#0F766E' },
+  'Cardiovascular / Emergencia':   { badge: 'badge-coral',   bar: '#B71C1C' },
+  'Corticoide':                    { badge: 'badge-brown',   bar: '#78350F' },
+  'Dermatológico':                 { badge: 'badge-lime',    bar: '#3F6212' },
+  'Gastrointestinal':              { badge: 'badge-emerald', bar: '#065F46' },
+  'Insumo Médico':                 { badge: 'badge-slate',   bar: '#475569' },
+  'Neurológico':                   { badge: 'badge-indigo',  bar: '#3730A3' },
+  'Oftalmológico':                 { badge: 'badge-forest',  bar: '#166534' },
+  'Oncológico':                    { badge: 'badge-gray',    bar: '#546E7A' },
+  'Psicofármaco':                  { badge: 'badge-fuchsia', bar: '#86198F' },
+  'Respiratorio':                  { badge: 'badge-violet',  bar: '#7C3AED' },
+  'Venotónico':                    { badge: 'badge-sage',    bar: '#047857' },
+  'Vitamina / Suplemento':         { badge: 'badge-green',   bar: '#1B5E3B' },
 };
 
 /* ════════════════════════════════════
@@ -2083,7 +2123,7 @@ async function loadInitialData() {
       supabaseDB.from('orders').select('*')
     ]);
     if (pRes.data) products = pRes.data;
-    if (cRes.data && cRes.data.length > 0) categoriesList = cRes.data.map(c => c.name);
+    if (cRes.data && cRes.data.length > 0) categoriesList = cRes.data.map(c => c.name).sort((a,b) => a.localeCompare(b, 'es'));
     if (sRes.data) suppliers = sRes.data;
     if (mRes.data) movements = mRes.data;
     if (oRes.data) orders = oRes.data;
@@ -2134,8 +2174,9 @@ const rxLabel = rx => {
   if (rx === 'arch') return '<span class="rx-badge rx-arch">Arch</span>';
   return '';
 };
-const svgIn  = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-const svgOut = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+const svgIn     = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+const svgOut    = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+const svgPedido = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="12" y1="12" x2="12" y2="18"/></svg>`;
 
 /* ════════════════════════════════════
    TOAST
@@ -2227,7 +2268,7 @@ const pageTitles = {
   dashboard: 'Dashboard', inventory: 'Inventario', lowstock: 'Stock bajo',
   categories: 'Por categoría', 'new-order': 'Nueva orden', orders: 'Historial',
   suppliers: 'Proveedores', movements: 'Movimientos', expiry: 'Vencimientos',
-  reports: 'Reportes'
+  alerts: 'Alertas', reports: 'Reportes'
 };
 
 function goPage(name, clearSearch = true) {
@@ -2248,6 +2289,7 @@ function goPage(name, clearSearch = true) {
     suppliers:    renderSuppliers,
     movements:    renderMovements,
     expiry:       renderExpiry,
+    alerts:       renderAlerts,
     reports:      () => renderReport(reportMode)
   };
   if (renders[name]) renders[name]();
@@ -2296,8 +2338,8 @@ function renderDashboard() {
       <div class="stat-label">Productos</div><div class="stat-value green">${products.length}</div><div class="stat-sub">en inventario activo</div>
     </div>
     <div class="stat-card sky">
-      <div class="stat-icon sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div class="stat-label">Proveedores</div><div class="stat-value sky">${suppliers.length}</div><div class="stat-sub">registrados en el sistema</div>
+      <div class="stat-icon sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg></div>
+      <div class="stat-label">Órdenes pendientes</div><div class="stat-value sky">${pending}</div><div class="stat-sub">en espera de entrega</div>
     </div>
     <div class="stat-card amber">
       <div class="stat-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></div>
@@ -2312,9 +2354,9 @@ function renderDashboard() {
   const cats = {};
   products.forEach(p => cats[p.cat] = (cats[p.cat] || 0) + p.stock);
   const maxVal = Math.max(...Object.values(cats), 1);
-  document.getElementById('cat-chart').innerHTML = Object.entries(cats).slice(0,8).map(([c,n]) => {
+  document.getElementById('cat-chart').innerHTML = Object.entries(cats).sort(([a],[b]) => a.localeCompare(b, 'es')).map(([c,n]) => {
     const h = Math.max(6, Math.round(n / maxVal * 104));
-    return `<div class="bar-col"><div class="bar-val">${n}</div><div class="bar-block" style="height:${h}px;background:${(catColors[c]||{bar:'var(--mint)'}).bar}"></div><div class="bar-lbl">${c.substring(0,7)}</div></div>`;
+    return `<div class="bar-col"><div class="bar-val">${n}</div><div class="bar-block" style="height:${h}px;background:${(catColors[c]||{bar:'var(--mint)'}).bar}"></div><div class="bar-lbl">${c.substring(0,9)}</div></div>`;
   }).join('');
 
   // Alerts
@@ -2326,8 +2368,16 @@ function renderDashboard() {
 
   // Movements
   document.getElementById('dash-movs').innerHTML = [...movements].reverse().slice(0,5).map(m => {
-    const isIn = m.type === 'entrada';
-    return `<div class="mov-row"><div class="mov-icon" style="background:${isIn?'var(--mint-pale)':'var(--coral-pale)'};color:${isIn?'var(--forest-lt)':'var(--coral)'}">${isIn?svgIn:svgOut}</div><div class="mov-info"><div class="mov-name">${m.product_name}</div><div class="mov-sub">${m.reason} · ${m.date}</div></div><div class="mov-date"><div class="mov-qty" style="color:${isIn?'var(--forest-lt)':'var(--coral)'}">${isIn?'+':'-'}${m.qty}</div></div></div>`;
+    const isPedido  = m.type === 'pedido';
+    const isIn      = m.type === 'entrada';
+    const iconBg    = isPedido ? 'var(--sky-pale)'  : isIn ? 'var(--mint-pale)'  : 'var(--coral-pale)';
+    const iconColor = isPedido ? 'var(--sky)'       : isIn ? 'var(--forest-lt)'  : 'var(--coral)';
+    const icon      = isPedido ? svgPedido          : isIn ? svgIn               : svgOut;
+    const qtyColor  = isPedido ? 'var(--sky)'       : isIn ? 'var(--forest-lt)'  : 'var(--coral)';
+    const qtyPrefix = isPedido ? '↗'                : isIn ? '+'                 : '-';
+    const dateStr   = m.date || (m.datetime ? m.datetime.slice(0, 10) : '—');
+    const reasonStr = m.reason || '—';
+    return `<div class="mov-row"><div class="mov-icon" style="background:${iconBg};color:${iconColor}">${icon}</div><div class="mov-info"><div class="mov-name">${m.product_name}</div><div class="mov-sub">${reasonStr} · ${dateStr}</div></div><div class="mov-date"><div class="mov-qty" style="color:${qtyColor}">${qtyPrefix}${m.qty}</div></div></div>`;
   }).join('');
 
   // Pending orders
@@ -2341,7 +2391,7 @@ function renderDashboard() {
    INVENTORY
 ════════════════════════════════════ */
 function renderInventory(list, catFilter) {
-  const cats = [...new Set(products.map(p => p.cat))].sort();
+  const cats = [...new Set(products.map(p => p.cat))].sort((a,b) => a.localeCompare(b, 'es'));
   document.getElementById('inv-chips').innerHTML =
     `<button class="chip ${!catFilter?'active':''}" onclick="invCategoryFilter=null;renderInventory(products,null)">Todos (${products.length})</button>` +
     cats.map(c => {
@@ -2368,7 +2418,7 @@ function renderInventory(list, catFilter) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="td-name">${p.name} ${rxLabel(p.rx)}</td>
-      <td class="td-muted">${p.lab}</td>
+      <td class="td-muted">${p.presentation}</td>
       <td><span class="badge ${cat.badge}">${p.cat}</span></td>
       <td><span class="lot-tag">${p.lot||'—'}</span></td>
       <td><div class="stock-bar"><span style="font-weight:700">${p.stock}</span><div class="progress"><div class="progress-fill" style="width:${pct}%;background:${barColor}"></div></div></div></td>
@@ -2396,7 +2446,7 @@ function openNewProductModal() {
   populateSupplierSelects('');    // populates p-supplier, no pre-selection
   document.getElementById('product-modal-title').textContent = 'Nuevo producto';
   // Clear all fields
-  ['p-name','p-lab','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
+  ['p-name','p-presentation','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('p-rx').value      = 'no';
   openModal('product-modal');
 }
@@ -2410,7 +2460,7 @@ function editProduct(id) {
   editingProductId = id;
   document.getElementById('product-modal-title').textContent = 'Editar producto';
   document.getElementById('p-name').value    = p.name;
-  document.getElementById('p-lab').value     = p.lab;
+  document.getElementById('p-presentation').value = p.presentation;
   document.getElementById('p-cat').value     = p.cat;
   document.getElementById('p-stock').value   = p.stock;
   document.getElementById('p-min').value     = p.min;
@@ -2423,10 +2473,10 @@ function editProduct(id) {
 
 async function saveProduct() {
   const name = document.getElementById('p-name').value.trim();
-  const lab  = document.getElementById('p-lab').value.trim();
-  if (!name || !lab) { toast('Nombre y laboratorio son requeridos', 'error'); return; }
+  const presentation = document.getElementById('p-presentation').value.trim();
+  if (!name || !presentation) { toast('Nombre y presentación son requeridos', 'error'); return; }
   const data = {
-    name, lab,
+    name, presentation,
     cat:       document.getElementById('p-cat').value,
     stock:     parseInt(document.getElementById('p-stock').value) || 0,
     min_stock: parseInt(document.getElementById('p-min').value) || 0,
@@ -2453,7 +2503,7 @@ async function saveProduct() {
 
   editingProductId = null;
   document.getElementById('product-modal-title').textContent = 'Nuevo producto';
-  ['p-name','p-lab','p-stock','p-min','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
+  ['p-name','p-presentation','p-stock','p-min','p-expiry','p-lot'].forEach(id => document.getElementById(id).value = '');
   closeModal('product-modal');
   renderInventory(products, invCategoryFilter);
   renderDashboard();
@@ -2493,7 +2543,7 @@ function openAdjust(id) {
     <span style="color:var(--text2);font-size:12px">Stock actual: <strong style="color:var(--forest-lt)">${p.stock}</strong> u. &nbsp;·&nbsp; Mínimo: ${p.min} &nbsp;·&nbsp; Lote: <span class="lot-tag" style="vertical-align:middle">${p.lot||'—'}</span></span>`;
   document.getElementById('adj-qty').value = 1;
   document.getElementById('adj-obs').value = '';
-  document.getElementById('adj-responsible').value = currentUser;
+  document.getElementById('adj-responsible').value = '';
   openModal('adjust-modal');
 }
 
@@ -2503,7 +2553,8 @@ async function applyAdjust() {
   const qty         = parseInt(document.getElementById('adj-qty').value) || 0;
   const reason      = document.getElementById('adj-reason').value;
   const obs         = document.getElementById('adj-obs').value;
-  const responsible = document.getElementById('adj-responsible').value.trim() || currentUser;
+  const responsible = document.getElementById('adj-responsible').value.trim();
+  if (!responsible) { toast('El campo Responsable es obligatorio', 'error'); return; }
   if (qty <= 0) { toast('Ingresá una cantidad válida', 'error'); return; }
   let newStock = p.stock;
   if (type === 'entrada') newStock += qty;
@@ -2559,7 +2610,101 @@ function renderLowStock() {
 }
 
 function updateLowBadge() {
-  document.getElementById('low-badge').textContent = products.filter(p => p.stock < p.min).length;
+  const low = products.filter(p => p.stock < p.min).length;
+  const exp = products.filter(p => { const d = daysUntil(p.expiry); return d >= 0 && d <= 60; }).length;
+  document.getElementById('low-badge').textContent = low;
+  document.getElementById('expiry-badge').textContent = exp;
+  document.getElementById('alerts-badge').textContent = low + exp;
+}
+
+function renderAlerts() {
+  const lowItems = products.filter(p => p.stock < p.min).sort((a,b) => (a.stock/a.min) - (b.stock/b.min));
+  const expItems = products.filter(p => { const d = daysUntil(p.expiry); return d >= 0 && d <= 60; })
+                           .sort((a,b) => daysUntil(a.expiry) - daysUntil(b.expiry));
+  const total = lowItems.length + expItems.length;
+
+  const summaryBanner = total === 0
+    ? `<div class="alert alert-green" style="margin-bottom:18px">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <div><div class="alert-title">Sin alertas activas</div><div class="alert-body">Todos los productos están en niveles adecuados de stock y vencimiento.</div></div>
+       </div>`
+    : `<div class="stat-grid" style="margin-bottom:18px">
+        <div class="stat-card amber">
+          <div class="stat-label">Stock bajo</div>
+          <div class="stat-value amber">${lowItems.length}</div>
+          <div class="stat-sub">requieren reposición</div>
+        </div>
+        <div class="stat-card coral">
+          <div class="stat-label">Por vencer</div>
+          <div class="stat-value coral">${expItems.length}</div>
+          <div class="stat-sub">próximos 60 días</div>
+        </div>
+       </div>`;
+
+  const lowTable = lowItems.length ? `
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Producto</th><th>Categoría</th><th>Stock</th><th>Mínimo</th><th>Déficit</th></tr></thead>
+        <tbody>
+          ${lowItems.map(p => {
+            const cat = catColors[p.cat] || { badge:'badge-gray' };
+            const deficit = p.min - p.stock;
+            const pct = Math.min(100, Math.round(p.stock / p.min * 100));
+            return `<tr onclick="goPage('lowstock')" style="cursor:pointer" title="Ir a Stock bajo">
+              <td class="td-name">${p.name}</td>
+              <td><span class="badge ${cat.badge}">${p.cat}</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-weight:700;color:var(--amber-dk);min-width:28px">${p.stock}</span>
+                  <div class="progress" style="width:70px"><div class="progress-fill" style="width:${pct}%;background:var(--amber)"></div></div>
+                </div>
+              </td>
+              <td style="color:var(--text2)">${p.min}</td>
+              <td><span style="font-weight:700;color:var(--coral)">−${deficit}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>` : `<div class="empty-state" style="padding:24px">Sin productos con stock bajo</div>`;
+
+  const expTable = expItems.length ? `
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Producto</th><th>Categoría</th><th>Vencimiento</th><th>Días restantes</th><th>Estado</th></tr></thead>
+        <tbody>
+          ${expItems.map(p => {
+            const d = daysUntil(p.expiry);
+            const isCritical = d <= 30;
+            const cat = catColors[p.cat] || { badge:'badge-gray' };
+            const [y,mo,dy] = (p.expiry||'').split('-');
+            const expFmt = p.expiry ? `${dy}/${mo}/${y}` : '—';
+            return `<tr onclick="goPage('expiry')" style="cursor:pointer" title="Ir a Vencimientos">
+              <td class="td-name">${p.name}</td>
+              <td><span class="badge ${cat.badge}">${p.cat}</span></td>
+              <td style="font-family:var(--mono);color:var(--text2)">${expFmt}</td>
+              <td style="font-weight:700;color:${isCritical?'var(--coral)':'var(--amber-dk)'}">${d} días</td>
+              <td><span class="badge ${isCritical?'badge-coral':'badge-amber'}">${isCritical?'Crítico':'Por vencer'}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>` : `<div class="empty-state" style="padding:24px">Sin productos próximos a vencer</div>`;
+
+  document.getElementById('alerts-content').innerHTML = summaryBanner + `
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-header">
+        <div class="card-title">Stock bajo <span class="badge badge-amber" style="margin-left:6px">${lowItems.length}</span></div>
+        <button class="btn btn-ghost btn-xs" onclick="goPage('lowstock')">Ver sección →</button>
+      </div>
+      ${lowTable}
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Por vencer — próximos 60 días <span class="badge badge-coral" style="margin-left:6px">${expItems.length}</span></div>
+        <button class="btn btn-ghost btn-xs" onclick="goPage('expiry')">Ver sección →</button>
+      </div>
+      ${expTable}
+    </div>`;
 }
 
 /* ════════════════════════════════════
@@ -2569,7 +2714,7 @@ function renderCategories() {
   const cats = {};
   products.forEach(p => { if (!cats[p.cat]) cats[p.cat] = []; cats[p.cat].push(p); });
   let html = '';
-  for (const [cat, prods] of Object.entries(cats)) {
+  for (const [cat, prods] of Object.entries(cats).sort(([a],[b]) => a.localeCompare(b, 'es'))) {
     const c = catColors[cat] || { badge:'badge-gray' };
     const lowCount = prods.filter(p => p.stock < p.min).length;
     html += `
@@ -2623,7 +2768,7 @@ function initOrderForm() {
   document.getElementById('o-prod-selected-id').value = '';
   document.getElementById('o-prod-dropdown').style.display = 'none';
   document.getElementById('o-gen-date').value = today();
-  document.getElementById('o-responsible').value = currentUser;
+  document.getElementById('o-responsible').value = '';
   const t = new Date(); t.setDate(t.getDate()+7);
   document.getElementById('o-date').value = t.toISOString().split('T')[0];
 
@@ -2750,7 +2895,12 @@ function renderOrderItems() {
 
 async function submitOrder() {
   if (!orderItems.length) { toast('Agregá al menos un producto a la orden', 'warning'); return; }
-  const hid = `ORD-${String(orders.length+1).padStart(3,'0')}`;
+  if (!document.getElementById('o-responsible').value.trim()) { toast('El campo Responsable es obligatorio', 'error'); return; }
+  const maxSerial = orders.reduce((max, o) => {
+    const n = parseInt((o.order_serial || '').replace(/\D/g, '')) || 0;
+    return Math.max(max, n);
+  }, 0);
+  const hid = `ORD-${String(maxSerial+1).padStart(3,'0')}`;
   const ord = {
     order_serial: hid,
     supplier: document.getElementById('o-supplier').value,
@@ -3106,7 +3256,7 @@ function openReceiveModal(orderId) {
   });
 
   document.getElementById('receive-items-body').innerHTML = html;
-  document.getElementById('recv-responsible').value = currentUser;
+  document.getElementById('recv-responsible').value = '';
   openModal('receive-modal');
 }
 
@@ -3124,7 +3274,8 @@ async function confirmReceiveOrder() {
   if (!o) return;
   const displayId    = o.order_serial || o.id;
   const items        = Array.isArray(o.items) ? o.items : [];
-  const recvResponsible = document.getElementById('recv-responsible').value.trim() || currentUser;
+  const recvResponsible = document.getElementById('recv-responsible').value.trim();
+  if (!recvResponsible) { toast('El campo Responsable de recepción es obligatorio', 'error'); return; }
   const movsToPush   = [];
   let updatedCount   = 0;
   let createdCount   = 0;
@@ -3164,7 +3315,7 @@ async function confirmReceiveOrder() {
       // ── Different lot → create NEW product entry cloned from existing ──
       const newEntry = {
         name:      anyMatch.name,
-        lab:       anyMatch.lab,
+        presentation: anyMatch.presentation,
         cat:       anyMatch.cat,
         stock:     qtyReceived,
         min_stock: anyMatch.min_stock || anyMatch.min || 0,
@@ -3214,7 +3365,7 @@ async function confirmReceiveOrder() {
     } else {
       // ── Product not found at all → create from scratch ──
       const newEntry = {
-        name: item.name, lab: '', cat: categoriesList[0] || 'General',
+        name: item.name, presentation: '', cat: categoriesList[0] || 'General',
         stock: qtyReceived, min_stock: 10,
         expiry: newExpiry, lot: newLot, supplier: o.supplier || '', rx: 'no',
       };
@@ -3587,7 +3738,6 @@ function renderMovements() {
       const dt      = fmtDatetime(m.datetime || m.date);
       const time    = typeof dt === 'object' ? dt.time : '';
       const resp    = m.responsible || '—';
-      const svgPedido = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="12" y1="12" x2="12" y2="18"/></svg>`;
       const iconBg    = isPedido ? 'var(--sky-pale)'  : isIn ? 'var(--mint-pale)'  : 'var(--coral-pale)';
       const iconColor = isPedido ? 'var(--sky)'       : isIn ? 'var(--forest-lt)'  : 'var(--coral)';
       const icon      = isPedido ? svgPedido          : isIn ? svgIn               : svgOut;
@@ -3601,7 +3751,7 @@ function renderMovements() {
           </div>
           <div class="mov-info" style="flex:1;min-width:0">
             <div class="mov-name">${m.product_name}</div>
-            <div class="mov-sub">${m.reason}${m.obs ? ' · ' + m.obs : ''}</div>
+            <div class="mov-sub">${m.reason || '—'}${m.obs ? ' · ' + m.obs : ''}</div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
             <div class="mov-qty" style="font-size:14px;font-weight:700;color:${qtyColor}">
@@ -3885,6 +4035,24 @@ function switchReport(mode, btn) {
 
 function renderReport(mode) {
   const el = document.getElementById('report-content');
+
+  // Semana actual: lunes a domingo
+  const now = new Date();
+  const dow = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
+  monday.setHours(0,0,0,0);
+  const mondayStr = monday.toISOString().split('T')[0];
+  const sundayStr = new Date(monday.getTime() + 6*86400000).toISOString().split('T')[0];
+  const fmt = d => { const [y,mo,dy] = d.split('-'); return `${dy}/${mo}/${y}`; };
+  const weekLabel = `Semana: ${fmt(mondayStr)} — ${fmt(sundayStr)}`;
+
+  const weekMovs = movements.filter(m => (m.datetime||'').substring(0,10) >= mondayStr);
+  const weekExits = {};
+  weekMovs.filter(m => m.type === 'salida').forEach(m => {
+    weekExits[m.product_name] = (weekExits[m.product_name] || 0) + m.qty;
+  });
+
   if (mode === 'stock') {
     const cats = {};
     products.forEach(p => {
@@ -3895,10 +4063,14 @@ function renderReport(mode) {
     });
     const totalU   = products.reduce((a,p) => a + p.stock, 0);
     const maxUnits = Math.max(...Object.values(cats).map(c => c.units), 1);
+    const topEntry = Object.entries(weekExits).sort((a,b) => b[1]-a[1])[0];
+    const topName  = topEntry ? topEntry[0] : '—';
+    const topQty   = topEntry ? topEntry[1] : 0;
     el.innerHTML = `
+      <div style="text-align:right;font-size:12px;color:var(--text3);margin-bottom:10px">${weekLabel}</div>
       <div class="stat-grid" style="margin-bottom:16px">
-        <div class="stat-card green"><div class="stat-label">Total unidades</div><div class="stat-value green">${totalU}</div><div class="stat-sub">en inventario</div></div>
-        <div class="stat-card sky"><div class="stat-label">Categorías</div><div class="stat-value sky">${Object.keys(cats).length}</div><div class="stat-sub">activas</div></div>
+        <div class="stat-card green"><div class="stat-label">Total unidades</div><div class="stat-value green">${totalU}</div><div class="stat-sub">en inventario actual</div></div>
+        <div class="stat-card sky"><div class="stat-label">Mayor baja esta semana</div><div class="stat-value sky" style="font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${topName}">${topName}</div><div class="stat-sub">${topQty} u. egresadas</div></div>
         <div class="stat-card amber"><div class="stat-label">Bajo mínimo</div><div class="stat-value amber">${products.filter(p=>p.stock<p.min).length}</div><div class="stat-sub">productos</div></div>
         <div class="stat-card coral"><div class="stat-label">Sin stock</div><div class="stat-value coral">${products.filter(p=>p.stock===0).length}</div><div class="stat-sub">productos</div></div>
       </div>
@@ -3914,14 +4086,41 @@ function renderReport(mode) {
       }).join('') + '</div></div>';
 
   } else if (mode === 'rotation') {
-    const exits = {};
-    movements.filter(m => m.type === 'salida').forEach(m => exits[m.product_name] = (exits[m.product_name] || 0) + m.qty);
-    el.innerHTML = `<div class="card"><div class="table-wrap"><table class="data-table">
-      <thead><tr><th>Producto</th><th>Categoría</th><th>Stock</th><th>Salidas</th><th>Cobertura</th><th>Rotación</th></tr></thead>
-      <tbody>` +
+    el.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+        <div style="padding:12px 14px;background:var(--mint-faint);border:1px solid var(--mint-pale);border-radius:var(--r-md);font-size:12px;color:var(--forest-lt)">
+          <div style="font-weight:700;font-family:var(--font-display);margin-bottom:3px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:5px"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            Salidas semana
+          </div>
+          <div style="opacity:.85">Cantidad de unidades que egresaron del inventario durante la semana actual. Se reinicia cada lunes.</div>
+        </div>
+        <div style="padding:12px 14px;background:var(--sky-pale);border:1px solid var(--sky-lt);border-radius:var(--r-md);font-size:12px;color:#1565C0">
+          <div style="font-weight:700;font-family:var(--font-display);margin-bottom:3px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Cobertura estimada
+          </div>
+          <div style="opacity:.85">Días de stock disponibles al ritmo de consumo de esta semana. Útil para anticipar quiebres de stock antes de que ocurran.</div>
+        </div>
+        <div style="padding:12px 14px;background:var(--amber-pale);border:1px solid var(--amber);border-radius:var(--r-md);font-size:12px;color:var(--amber-dk)">
+          <div style="font-weight:700;font-family:var(--font-display);margin-bottom:3px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:5px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Rotación
+          </div>
+          <div style="opacity:.85"><strong>Alta</strong>: más de 5 u. · <strong>Media</strong>: entre 1 y 5 u. · <strong>Baja</strong>: sin salidas esta semana.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Rotación de productos</div>
+          <span style="font-size:12px;color:var(--text3)">${weekLabel}</span>
+        </div>
+        <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Producto</th><th>Categoría</th><th>Stock actual</th><th>Salidas semana</th><th>Cobertura</th><th>Rotación</th></tr></thead>
+        <tbody>` +
       products.map(p => {
-        const sal = exits[p.name] || 0;
-        const cov = sal > 0 ? Math.round(p.stock / sal * 30) : null;
+        const sal = weekExits[p.name] || 0;
+        const cov = sal > 0 ? Math.round(p.stock / sal * 7) : null;
         const rot = sal > 5 ? 'Alta' : sal > 0 ? 'Media' : 'Baja';
         const rc  = rot === 'Alta' ? 'badge-green' : rot === 'Media' ? 'badge-amber' : 'badge-coral';
         const cat = catColors[p.cat] || { badge: 'badge-gray' };
@@ -3936,25 +4135,28 @@ function renderReport(mode) {
       }).join('') + `</tbody></table></div></div>`;
 
   } else {
-    const byProv = {};
-    products.forEach(p => {
-      const k = p.supplier || '—';
-      if (!byProv[k]) byProv[k] = { prods: 0, units: 0, low: 0 };
-      byProv[k].prods++;
-      byProv[k].units += p.stock;
-      if (p.stock < p.min) byProv[k].low++;
-    });
-    el.innerHTML = `<div class="card"><div class="table-wrap"><table class="data-table">
-      <thead><tr><th>Proveedor</th><th>Productos</th><th>Unidades en stock</th><th>Stock bajo</th></tr></thead>
-      <tbody>` +
-      Object.entries(byProv).map(([pv, d]) =>
-        `<tr>
-          <td style="font-weight:600">${pv}</td>
-          <td>${d.prods}</td>
-          <td style="font-family:var(--mono)">${d.units}</td>
-          <td style="color:${d.low>0?'var(--amber-dk)':'var(--forest-lt)'};font-weight:700">${d.low}</td>
-        </tr>`
-      ).join('') + `</tbody></table></div></div>`;
+    const top15 = Object.entries(weekExits).sort((a,b) => b[1]-a[1]).slice(0,15);
+    el.innerHTML = `
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Top 15 productos con más bajas</div>
+          <span style="font-size:12px;color:var(--text3)">${weekLabel}</span>
+        </div>
+        <div class="table-wrap"><table class="data-table">
+          <thead><tr><th>#</th><th>Producto</th><th>Categoría</th><th>Unidades egresadas</th></tr></thead>
+          <tbody>` +
+      (top15.length ? top15.map(([name, qty], i) => {
+        const p       = products.find(x => x.name === name);
+        const cat     = p ? (catColors[p.cat] || { badge:'badge-gray' }) : { badge:'badge-gray' };
+        const catName = p ? p.cat : '—';
+        return `<tr>
+          <td style="font-weight:700;color:var(--text3);width:32px">${i+1}</td>
+          <td class="td-name">${name}</td>
+          <td><span class="badge ${cat.badge}">${catName}</span></td>
+          <td style="font-family:var(--mono);font-weight:700;color:var(--coral)">${qty} u.</td>
+        </tr>`;
+      }).join('') : `<tr><td colspan="4"><div class="empty-state" style="padding:20px">Sin salidas registradas esta semana</div></td></tr>`)
+      + `</tbody></table></div></div>`;
   }
 }
 
@@ -3964,7 +4166,7 @@ function renderReport(mode) {
 function globalSearch(q) {
   if (!document.getElementById('page-inventory').classList.contains('active')) goPage('inventory', false);
   if (!q) { renderInventory(products, null); return; }
-  const r = products.filter(p => [p.name,p.lab,p.cat,p.lot,p.supplier].join(' ').toLowerCase().includes(q.toLowerCase()));
+  const r = products.filter(p => [p.name,p.presentation,p.cat,p.lot,p.supplier].join(' ').toLowerCase().includes(q.toLowerCase()));
   invCategoryFilter = null;
   renderInventory(r, null);
 }
@@ -3973,8 +4175,8 @@ function globalSearch(q) {
    EXPORT CSV
 ════════════════════════════════════ */
 function exportCSV() {
-  const headers = ['Nombre','Laboratorio','Categoría','Stock','Mínimo','Vencimiento','Lote','Proveedor','Receta'];
-  const rows = products.map(p => [p.name,p.lab,p.cat,p.stock,p.min,p.expiry||'',p.lot||'',p.supplier||'',p.rx||''].map(v=>`"${v}"`).join(','));
+  const headers = ['Nombre','Presentación','Categoría','Stock','Mínimo','Vencimiento','Lote','Proveedor','Receta'];
+  const rows = products.map(p => [p.name,p.presentation,p.cat,p.stock,p.min,p.expiry||'',p.lot||'',p.supplier||'',p.rx||''].map(v=>`"${v}"`).join(','));
   const csv = [headers.join(','), ...rows].join('\n');
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
@@ -4005,6 +4207,7 @@ document.querySelectorAll('.modal-overlay').forEach(ov => {
    SALES
 ════════════════════════════════════ */
 function renderCategoryManager() {
+  categoriesList.sort((a,b) => a.localeCompare(b, 'es'));
   const select = document.getElementById('p-cat');
   if (select) {
     const cur = select.value;
